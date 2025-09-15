@@ -7,6 +7,7 @@ import {
 
 import { UI } from "./ui.js";
 import { Player } from "./player.js";
+import { RiotAccount } from "./riotAccount.js";
 
 const TANNER_NAME = "TannerennaT";
 const CONTAINER = "container";
@@ -72,7 +73,6 @@ class ArenaTracker {
           for (let i = 0; i < 6; i++) {
             itemIdList.push(player[`item${i}`]);
           }
-          console.log(itemIdList);
 
           winningPlayers.push(
             new Player(
@@ -95,9 +95,20 @@ class ArenaTracker {
     }
   }
 
+  async createNewAccount(riotId) {
+    const accountJson = await fetchSummoner(riotId);
+    const account = new RiotAccount(
+      accountJson.gameName,
+      accountJson.puuid,
+      accountJson.tagLine
+    );
+    return account;
+  }
+
   isFirstPlace(placement) {
     return placement === 1;
   }
 }
 
 new ArenaTracker().run();
+console.log(await new ArenaTracker().createNewAccount(TANNER_NAME));

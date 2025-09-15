@@ -73,7 +73,6 @@ export class UI {
 
       for (const item of player.items) {
         if (item) {
-          console.log(item);
           const itemImage = document.createElement(IMG);
 
           itemImage.className = AUGMENT;
