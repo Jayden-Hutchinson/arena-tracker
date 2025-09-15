@@ -1,5 +1,3 @@
-export const API_KEY = "RGAPI-d80ac3fc-53a4-4749-a8d6-6455699c4d13";
-
 export const RIOT = {
   TAG: "NA1",
   REGION: "americas",

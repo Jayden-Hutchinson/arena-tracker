@@ -1,4 +1,4 @@
-import { RIOT, API_KEY } from "./config.js";
+import { RIOT } from "./config.js";
 
 export async function fetchSummoner(name) {
   const url = `https://${RIOT.REGION}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${name}/${RIOT.TAG}?api_key=${API_KEY}`;
