@@ -18,6 +18,4 @@ export class Api {
     return this.fetchJson(`/match/data?matchId=${matchId}`);
   }
 
-  //   const augments = await fetchAugments();
-  //   const items = await fetchItems();
 }

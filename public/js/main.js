@@ -8,7 +8,9 @@ const DIV = "div";
 const MATCH_HISTORY_TITLE = "match-history-title";
 
 class Main {
-  constructor() {}
+  constructor() {
+    this.accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+  }
 
   async run() {
     console.log("Running app");
@@ -20,7 +22,8 @@ class Main {
 
     const account = await this.createAccount("TannerennaT", "NA1");
 
-    console.log(account);
+    console.log(this.accounts);
+
     const container = document.getElementById(CONTAINER);
     const matchHistoryUI = UI.createMatchHistory();
     container.appendChild(matchHistoryUI);
@@ -60,7 +63,6 @@ class Main {
           const itemIdList = [];
           player.augments = [];
           player.items = [];
-          console.log("player", player);
 
           for (let i = 1; i <= 6; i++) {
             augmentIdList.push(player[`playerAugment${i}`]);
@@ -88,22 +90,29 @@ class Main {
           );
         }
 
-        console.log(winningPlayers);
-
         const matchUI = UI.createMatch(match, winningPlayers);
         matchHistoryUI.appendChild(matchUI);
       }
     }
   }
 
-  async createAccount(username, tagline) {
-    const storedAccounts = localStorage.getItem("accounts") || "{}";
-    console.log(storedAccounts);
+  async createAccount(username, tagLine) {
+    const existingAccount = this.accounts.find(
+      (account) => account.gameName === username && account.tagLine === tagLine
+    );
 
-    const riotAccount = await Api.fetchRiotAccount(username, tagline);
+    if (existingAccount) {
+      console.log("account already exists");
+      return existingAccount;
+    }
+
+    const riotAccount = await Api.fetchRiotAccount(username, tagLine);
     const matchHistory = await Api.fetchMatchHistory(riotAccount.puuid);
 
     const account = new Account(riotAccount, matchHistory);
+
+    this.accounts.push(account);
+    localStorage.setItem("accounts", JSON.stringify(this.accounts));
     return account;
   }
 }

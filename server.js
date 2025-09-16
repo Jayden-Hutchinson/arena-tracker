@@ -77,7 +77,6 @@ app.get("/match/data", async (req, res) => {
 
   try {
     const matchUrl = `${RIOT_MATCH_BY_ID}${matchId}`;
-    console.log(matchUrl);
     const response = await fetch(matchUrl, {
       headers: {
         "X-Riot-Token": RIOT_API_KEY,
@@ -91,7 +90,6 @@ app.get("/match/data", async (req, res) => {
     }
 
     const matchData = await response.json();
-    console.log(matchData);
     res.json(matchData);
   } catch (err) {
     console.log(err);
