@@ -14,14 +14,12 @@ const AUGMENT = "augment";
 const PLAYER_NAME = "player-name";
 const PLAYER_KDA = "player-kda";
 const CHAMPION_NAME = "champion-name";
+const CHAMPION_IMAGE = "champion-image";
 
 export class UI {
   static createMatch(match, teamPlayers) {
     const element = document.createElement(LI);
     element.className = MATCH;
-
-    const teamInfo = document.createElement(DIV);
-    teamInfo.className = TEAM_INFO;
 
     for (const player of teamPlayers) {
       const playerInfo = document.createElement(DIV);
@@ -29,7 +27,7 @@ export class UI {
 
       const playerName = document.createElement(DIV);
       playerName.className = PLAYER_NAME;
-      playerName.textContent = player.riotId;
+      playerName.textContent = player.gameName;
 
       const playerKDA = document.createElement(DIV);
       playerKDA.className = PLAYER_KDA;
@@ -40,6 +38,7 @@ export class UI {
       championName.textContent = player.championName;
 
       const championImage = document.createElement(IMG);
+      championImage.className = CHAMPION_IMAGE;
       championImage.src = `${DDRAGON.IMG}${player.championName}.png`;
       championImage.alt = championName;
 
@@ -52,7 +51,6 @@ export class UI {
 
       playerInfo.appendChild(championImage);
       playerInfo.appendChild(names);
-      teamInfo.appendChild(playerInfo);
 
       const augmentGrid = document.createElement(DIV);
       augmentGrid.className = AUGMENTS;
@@ -83,23 +81,23 @@ export class UI {
 
       playerInfo.appendChild(augmentGrid);
       playerInfo.appendChild(itemGrid);
+      element.appendChild(playerInfo);
     }
 
-    const startTimeStamp = match.info.gameStartTimestamp;
-    const startTimeDate = new Date(startTimeStamp);
-    const date = document.createElement(DIV);
-    date.textContent = startTimeDate.toLocaleString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
+    // const startTimeStamp = match.info.gameStartTimestamp;
+    // const startTimeDate = new Date(startTimeStamp);
+    // const date = document.createElement(DIV);
+    // date.textContent = startTimeDate.toLocaleString("en-US", {
+    //   year: "numeric",
+    //   month: "2-digit",
+    //   day: "2-digit",
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    //   second: "2-digit",
+    //   hour12: true,
+    // });
 
     // element.appendChild(date);
-    element.appendChild(teamInfo);
     return element;
   }
 

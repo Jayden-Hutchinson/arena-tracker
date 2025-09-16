@@ -1,7 +1,7 @@
 :root {
   font-family: Arial, Helvetica, sans-serif;
   --augment-width: 10px;
-  --champion-width: 50px;
+  --champion-img-size: 80px;
 }
 
 body * {
@@ -33,32 +33,31 @@ body {
   background-color: black;
 }
 
-img {
-  width: 80px;
-  height: 80px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
 .match-history {
-  width: 600px;
+  width: 800px;
   flex-direction: column;
 }
 
 .match {
-  width: 100%;
-  padding: 20px;
+  flex-direction: column;
 
-  align-items: center;
-  border: solid 1px white;
+  width: 100%;
+  padding: 50px 0px;
+  gap: 40px;
+
+  justify-content: center;
+  border-bottom: solid 1px white;
 }
 
-.team-info {
-  flex-direction: column;
+.champion-image {
+  width: var(--champion-img-size);
+  height: var(--champion-img-size);
+  border-radius: 5px;
 }
 
 .player-info {
-  padding: 10px;
-  gap: 10px;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .player-kda {
@@ -71,6 +70,13 @@ img {
 .player-name {
   font-weight: bold;
   font-size: 16px;
+}
+
+.match-history-title {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
 }
 
 .champion-name {
@@ -90,6 +96,6 @@ img {
 }
 
 .augment {
-  width: 40px;
+  width: 30px;
   height: auto;
 }

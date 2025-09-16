@@ -1,6 +1,6 @@
 export class Player {
-  constructor(riotId, championName, kills, deaths, assists, augments, items) {
-    this.riotId = riotId;
+  constructor(gameName, championName, kills, deaths, assists, augments, items) {
+    this.gameName = gameName;
     this.championName = championName;
     this.kills = kills;
     this.deaths = deaths;
