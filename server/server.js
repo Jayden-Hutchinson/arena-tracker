@@ -1,27 +1,33 @@
-require("dotenv").config();
-const express = require("express");
-const app = require("./app"); // import routes from app.js
+import "dotenv/config"
+import express from "express"
+import { APP_ROUTES } from "../client/src/config.js";
+import { API_ROUTES } from "./routes/routes.js";
+
+const app = express();
+
+app.use(express.static("client"));
+app.use(express.static("global"));
 
 const PORT = process.env.PORT;
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
-const RIOT_ACCOUNTS_BY_NAME = process.env.RIOT_ACCOUNTS_BY_NAME;
-const RIOT_HISTORY_BY_PUUID = process.env.RIOT_HISTORY_BY_PUUID;
-const RIOT_MATCH_BY_ID = process.env.RIOT_MATCH_BY_ID;
 
-const ACCOUNT_ROUTE = "/account";
-const MATCH_HISTORY_ROUTE = "/account/history";
+app.get("/config", (req, res) => {
+  res.json({ APP_ROUTES })
+})
 
-app.get(ACCOUNT_ROUTE, async (req, res) => {
-  const { username, tagline } = req.query;
-  if (!username || !tagline) {
-    return res.status(400).json({ error: "username and tagline required" });
+
+app.get(APP_ROUTES.ACCOUNT, async (req, res) => {
+  const { username, tagLine } = req.query;
+  if (!username || !tagLine) {
+    return res.status(400).json({ error: "username and tagLine required" });
   }
 
   try {
     const encodedUsername = encodeURIComponent(username);
-    const encodedTagline = encodeURIComponent(tagline);
-    const accountNameUrl = `${RIOT_ACCOUNTS_BY_NAME}${encodedUsername}/${encodedTagline}`;
-    const response = await fetch(accountNameUrl, {
+    const encodedtagLine = encodeURIComponent(tagLine);
+    const url = `${API_ROUTES.RIOT.ACCOUNT_BY_NAME}${encodedUsername}/${encodedtagLine}`;
+    console.log(url)
+    const response = await fetch(url, {
       headers: {
         "X-Riot-Token": RIOT_API_KEY,
       },
@@ -41,14 +47,14 @@ app.get(ACCOUNT_ROUTE, async (req, res) => {
   }
 });
 
-app.get(MATCH_HISTORY_ROUTE, async (req, res) => {
+app.get(APP_ROUTES.MATCH_HISTORY, async (req, res) => {
   const { puuid } = req.query;
   if (!puuid) {
-    return res.status(400).json({ error: "username and tagline required" });
+    return res.status(400).json({ error: "username and tagLine required" });
   }
 
   try {
-    const matchHistoryUrl = `${RIOT_HISTORY_BY_PUUID}${puuid}/ids?start=0&count=30`;
+    const matchHistoryUrl = `${API_ROUTES.RIOT.MATCHES_BY_PUUID}${puuid}/ids?start=0&count=30`;
     const response = await fetch(matchHistoryUrl, {
       headers: {
         "X-Riot-Token": RIOT_API_KEY,
@@ -69,14 +75,15 @@ app.get(MATCH_HISTORY_ROUTE, async (req, res) => {
   }
 });
 
-app.get("/match/data", async (req, res) => {
+app.get(APP_ROUTES.MATCH, async (req, res) => {
   const { matchId } = req.query;
   if (!matchId) {
     return res.status(400).json({ error: "no match id" });
   }
 
   try {
-    const matchUrl = `${RIOT_MATCH_BY_ID}${matchId}`;
+    const matchUrl = `${API_ROUTES.RIOT.MATCH_BY_ID}${matchId}`;
+    console.log(matchUrl)
     const response = await fetch(matchUrl, {
       headers: {
         "X-Riot-Token": RIOT_API_KEY,

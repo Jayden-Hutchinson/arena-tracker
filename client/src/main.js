@@ -1,5 +1,5 @@
-import { Api } from "./api.js";
-import { Account } from "./account.js";
+import { Api } from "./api/api.js";
+import { AccountManager } from "./manager/accountManager.js";
 import { UI } from "./ui.js";
 import { Player } from "./player.js";
 
@@ -9,20 +9,22 @@ const MATCH_HISTORY_TITLE = "match-history-title";
 
 class Main {
   constructor() {
-    this.accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+    this.accountManager = new AccountManager()
   }
 
   async run() {
-    console.log("Running app");
+    console.log("app running...")
     const cachedMatches = localStorage.getItem("matches") || "{}";
 
+    console.log("fetching augment data...")
     const augments = await fetch(
       "https://raw.communitydragon.org/latest/cdragon/arena/en_us.json"
     ).then((res) => res.json());
 
-    const account = await this.createAccount("TannerennaT", "NA1");
 
-    console.log(this.accounts);
+    const account = await this.accountManager.createAccount("Ginger Comando", "na1");
+
+    console.log(this.accountManager.accounts);
 
     const container = document.getElementById(CONTAINER);
     const matchHistoryUI = UI.createMatchHistory();
@@ -53,8 +55,8 @@ class Main {
             a.puuid === playerStats.puuid
               ? -1
               : b.puuid === playerStats.puuid
-              ? 1
-              : 0
+                ? 1
+                : 0
           );
 
         const winningPlayers = [];
@@ -90,31 +92,12 @@ class Main {
           );
         }
 
-        const matchUI = UI.createMatch(match, winningPlayers);
+        const matchUI = UI.createMatch(winningPlayers);
         matchHistoryUI.appendChild(matchUI);
       }
     }
   }
 
-  async createAccount(username, tagLine) {
-    const existingAccount = this.accounts.find(
-      (account) => account.gameName === username && account.tagLine === tagLine
-    );
-
-    if (existingAccount) {
-      console.log("account already exists");
-      return existingAccount;
-    }
-
-    const riotAccount = await Api.fetchRiotAccount(username, tagLine);
-    const matchHistory = await Api.fetchMatchHistory(riotAccount.puuid);
-
-    const account = new Account(riotAccount, matchHistory);
-
-    this.accounts.push(account);
-    localStorage.setItem("accounts", JSON.stringify(this.accounts));
-    return account;
-  }
 }
 
 new Main().run();

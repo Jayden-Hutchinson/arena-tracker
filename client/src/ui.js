@@ -1,12 +1,20 @@
-import { COMMUNITY_DRAGON, DDRAGON } from "./config.js";
 const IMG = "img";
 const DIV = "div";
 const UL = "ul";
 const LI = "li";
 
+const DDRAGON_VERSION = "15.18.1"
+const DDRAGON = {
+  IMG: `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/champion/`,
+}
+const CDRAGON = {
+  AUGMENTS: "https://raw.communitydragon.org/latest/cdragon/arena/en_us.json",
+  AUGMENT_IMG:
+    "https://raw.communitydragon.org/latest/game/assets/ux/cherry/augments/icons/",
+}
+
 const MATCH_HISTORY = "match-history";
 const MATCH = "match";
-const TEAM_INFO = "team-info";
 const PLAYER_INFO = "player-info";
 const NAMES = "names";
 const AUGMENTS = "augments";
@@ -17,10 +25,11 @@ const CHAMPION_NAME = "champion-name";
 const CHAMPION_IMAGE = "champion-image";
 
 export class UI {
-  static createMatch(match, teamPlayers) {
+  static createMatch(teamPlayers) {
     const element = document.createElement(LI);
     element.className = MATCH;
 
+    console.log(teamPlayers)
     for (const player of teamPlayers) {
       const playerInfo = document.createElement(DIV);
       playerInfo.className = PLAYER_INFO;
@@ -62,9 +71,8 @@ export class UI {
         if (augment) {
           const augmentImage = document.createElement(IMG);
           augmentImage.className = AUGMENT;
-          augmentImage.src = `${
-            COMMUNITY_DRAGON.AUGMENT_IMG
-          }${augment.apiName.toLowerCase()}_large.png`;
+          augmentImage.src = `${CDRAGON.AUGMENT_IMG
+            }${augment.apiName.toLowerCase()}_large.png`;
           augmentGrid.appendChild(augmentImage);
         }
       }
