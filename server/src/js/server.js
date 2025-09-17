@@ -1,8 +1,8 @@
 import "dotenv/config";
 import express from "express";
-import { API_ROUTES } from "./routes/api_routes.js";
-import { APP_ROUTES } from "../../client/src/routes/app_routes.js";
-import { ApiManager } from "./api/apiManager.js";
+import { API_ROUTES } from "../routes/apiRoutes.js";
+import { APP_ROUTES } from "../../../client/src/routes/app_routes.js";
+import { ServerApi } from "../api/serverApi.js";
 
 const app = express();
 
@@ -52,7 +52,7 @@ app.get(APP_ROUTES.MATCH_HISTORY, async (req, res) => {
   if (!puuid) {
     return res.status(400).json({ error: "puuid required" });
   }
-  const matchHistory = await ApiManager.fetchMatchHistoryByPuuid(puuid);
+  const matchHistory = await ServerApi.fetchMatchHistoryByPuuid(puuid);
   console.log(matchHistory);
   res.json(matchHistory);
 });

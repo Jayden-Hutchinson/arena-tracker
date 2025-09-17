@@ -1,9 +1,9 @@
 import "dotenv/config";
-import { API_ROUTES } from "../routes/api_routes.js";
+import { API_ROUTES } from "../routes/apiRoutes.js";
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
-export class ApiManager {
+export class ServerApi {
   constructor() {}
 
   static async fetchJson(url) {
@@ -25,13 +25,13 @@ export class ApiManager {
   static async fetchMatchHistoryByPuuid(puuid) {
     try {
       const matchHistoryUrl = `${API_ROUTES.RIOT.MATCHES_BY_PUUID}${puuid}/ids?start=0&count=10`;
-      const matchIdList = await ApiManager.fetchJson(matchHistoryUrl);
+      const matchIdList = await ServerApi.fetchJson(matchHistoryUrl);
       console.log(matchIdList);
 
       const matches = [];
       for (const matchId of matchIdList) {
         const matchUrl = `${API_ROUTES.RIOT.MATCH_BY_ID}${matchId}`;
-        const response = await ApiManager.fetchJson(matchUrl);
+        const response = await ServerApi.fetchJson(matchUrl);
         matches.push(response);
       }
       console.log(matches);

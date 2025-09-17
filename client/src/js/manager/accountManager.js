@@ -1,5 +1,5 @@
 import { Account } from "../account.js";
-import { Api } from "../../api/api.js";
+import { ClientApi } from "../../api/clientApi.js";
 
 export class AccountManager {
   constructor() {

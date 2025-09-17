@@ -1,6 +1,6 @@
 import { APP_ROUTES } from "../routes/app_routes.js";
 
-export class Api {
+export class ClientApi {
   static async fetchJson(url) {
     console.log("Client Api", url);
     const response = await fetch(url);
