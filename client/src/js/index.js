@@ -12,10 +12,6 @@ class Main {
     this.accountManager = new AccountManager();
   }
 
-  async createAccount(username, tagLine) {
-    console.log(matchHistory);
-  }
-
   async run() {
     console.log("app running...");
     const cachedMatches = localStorage.getItem("matches") || "{}";
@@ -38,6 +34,7 @@ class Main {
     );
 
     console.log(account);
+    return;
 
     const container = document.getElementById(CONTAINER);
     const matchHistoryUI = UI.createMatchHistory();
