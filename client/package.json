@@ -1,7 +1,0 @@
-{
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build"
-    },
-    "proxy": "https://localhost:5000"
-}
