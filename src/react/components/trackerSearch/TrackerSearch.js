@@ -16,10 +16,10 @@ function TrackerSearch() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
-    const accountJson = ClientApi.fetchRiotAccount(
+    const accountJson = await ClientApi.fetchRiotAccount(
       formData.gameName,
       formData.tagLine
     );
