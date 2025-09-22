@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { ClientApi } from "../../../api/api/clientApi";
+
 function TrackerSearch() {
   const [formData, setFormData] = useState({
     gameName: "",
@@ -17,6 +19,12 @@ function TrackerSearch() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
+    const accountJson = ClientApi.fetchRiotAccount(
+      formData.gameName,
+      formData.tagLine
+    );
+
+    console.log(accountJson);
   };
 
   return (
