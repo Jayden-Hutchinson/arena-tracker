@@ -1,0 +1,18 @@
+.Tracker {
+  width: 600px;
+  height: fit-content;
+  min-height: 500px;
+  margin: 20px;
+
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+}
+
+.gameNameInput {
+  width: 250px;
+}
+
+.tagLineInput {
+  width: 80px;
+}
