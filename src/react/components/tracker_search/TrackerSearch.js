@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-import { ClientApi } from "../../../api/api/clientApi";
+import { ClientApi } from "../../../api/clientApi";
 
-function TrackerSearch() {
+function TrackerSearch({ onDataFetch }) {
   const [formData, setFormData] = useState({
     gameName: "",
     tagLine: "",
   });
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -18,13 +19,27 @@ function TrackerSearch() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
-    const accountJson = await ClientApi.fetchRiotAccount(
+
+    const account = await ClientApi.fetchRiotAccount(
       formData.gameName,
       formData.tagLine
     );
 
-    console.log(accountJson);
+    const summoner = await ClientApi.fetchSummoner(account.puuid);
+
+    const matchHistory = await ClientApi.fetchMatchHistory(account.puuid)
+
+    const trackerAccount = {
+      gameName: account.gameName,
+      profileIconId: summoner.profileIconId,
+      summonerLevel: summoner.summonerLevel,
+      matchHistory: matchHistory
+    }
+
+    console.log(trackerAccount)
+
+    onDataFetch(trackerAccount);
+
   };
 
   return (

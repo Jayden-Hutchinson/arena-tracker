@@ -1,14 +1,14 @@
 import "dotenv/config";
 import express from "express";
 import { API_ROUTES } from "./routes/apiRoutes.js";
-import { APP_ROUTES } from "../../client/routes/app_routes.js";
+import { APP_ROUTES } from "../../src/api/routes/app_routes.js";
 import { ServerApi } from "./api/serverApi.js";
 
 const app = express();
 
 app.use(express.static("public"));
 
-const PORT = process.env.PORT;
+const PORT = 5000;
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
 app.get("/config", (req, res) => {
@@ -38,8 +38,37 @@ app.get(APP_ROUTES.ACCOUNT, async (req, res) => {
         .json({ error: "account fetch by name failed" });
     }
 
-    const account = await response.json();
-    res.json(account);
+    const accountJson = await response.json();
+    res.json(accountJson);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "server error" });
+  }
+});
+app.get(APP_ROUTES.SUMMONER, async (req, res) => {
+  const { puuid } = req.query;
+  if (!puuid) {
+    return res.status(400).json({ error: "puuid required" });
+  }
+
+  try {
+    const encodedPuuid = encodeURIComponent(puuid)
+    const url = `${API_ROUTES.RIOT.SUMMONER_BY_PUUID}${encodedPuuid}`;
+    console.log(url);
+    const response = await fetch(url, {
+      headers: {
+        "X-Riot-Token": RIOT_API_KEY,
+      },
+    });
+
+    if (!response.ok) {
+      return res
+        .status(response.status)
+        .json({ error: "account fetch by name failed" });
+    }
+
+    const accountJson = await response.json();
+    res.json(accountJson);
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "server error" });

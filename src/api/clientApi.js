@@ -1,4 +1,4 @@
-import { APP_ROUTES } from "../routes/app_routes.js";
+import { APP_ROUTES } from "./routes/app_routes.js";
 
 export class ClientApi {
   static async fetchJson(url) {
@@ -15,12 +15,17 @@ export class ClientApi {
     return this.fetchJson(url);
   }
 
-  static async fetchMatches(puuid) {
+  static async fetchSummoner(puuid) {
+    const url = `${APP_ROUTES.SUMMONER}?puuid=${puuid}`;
+    return this.fetchJson(url);
+  }
+
+  static async fetchMatchHistory(puuid) {
     const url = `${APP_ROUTES.MATCH_HISTORY}?puuid=${puuid}`;
     return this.fetchJson(url);
   }
 
-  static async fetchMatch(matchId) {
+  static async fetchMatchData(matchId) {
     const url = `${APP_ROUTES.MATCH}?matchId=${matchId}`;
     return this.fetchJson(url);
   }

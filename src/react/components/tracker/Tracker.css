@@ -1,12 +1,12 @@
 .Tracker {
+  flex-direction: column;
   width: 600px;
   height: fit-content;
-  min-height: 500px;
   margin: 20px;
 
   justify-content: center;
   align-items: center;
-  background-color: grey;
+  color: white;
 }
 
 .gameNameInput {

@@ -8,6 +8,7 @@ export const RIOT = {
 
 export const APP_ROUTES = {
   ACCOUNT: "/account",
+  SUMMONER: "/account/summoner",
   MATCH_HISTORY: "/match/history",
   MATCH: "/match/data",
 };

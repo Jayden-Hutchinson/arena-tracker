@@ -4,7 +4,7 @@ import { API_ROUTES } from "../routes/apiRoutes.js";
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
 export class ServerApi {
-  constructor() {}
+  constructor() { }
 
   static async fetchJson(url) {
     console.log("ApiManager", url);
