@@ -1,4 +1,7 @@
 import { APP_ROUTES } from "./routes/app_routes.js";
+import { CDRAGON_ROUTES } from "./routes/cdragon_routes.js";
+
+let augmentsCache = null;
 
 export class ClientApi {
   static async fetchJson(url) {
@@ -28,5 +31,13 @@ export class ClientApi {
   static async fetchMatchData(matchId) {
     const url = `${APP_ROUTES.MATCH}?matchId=${matchId}`;
     return this.fetchJson(url);
+  }
+
+  static async fetchAugmentData() {
+    if (augmentsCache) return augmentsCache;
+    const url = `${CDRAGON_ROUTES.AUGMENTS}`;
+    const data = this.fetchJson(url);
+    augmentsCache = data;
+    return data;
   }
 }

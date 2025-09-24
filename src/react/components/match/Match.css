@@ -1,0 +1,25 @@
+.Match {
+  border: solid 1px white;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.items,
+.augments {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.game-names {
+  align-items: start;
+}
+
+.player-info {
+  align-items: center;
+}
+
+.champion-portrait {
+  width: 75px;
+  height: 75px;
+}

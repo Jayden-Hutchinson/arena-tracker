@@ -1,11 +1,11 @@
-function Player() {
+function Player({ player }) {
   return (
     <div className="Player">
-      <ChampionStats />
+      {/* <ChampionStats />
       <Augments />
       <Items />
       <KillDeathRatio />
-      <DamageDealt />
+      <DamageDealt /> */}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import MatchHistory from "../match_history/MatchHistory";
 import "./Tracker.css";
 
 function Tracker() {
+  const [status, setStatus] = useState("");
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(false);
 
