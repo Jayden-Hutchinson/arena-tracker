@@ -11,12 +11,9 @@ function Tracker() {
     <div className="Tracker">
       <TrackerSearch onDataFetch={setApiData} />
       {apiData && (
-        <div>
-          {/* <AccountProfile /> */}
-          <MatchHistory history={apiData.MatchHistory} />
-        </div>
+        <MatchHistory puuid={apiData.puuid} history={apiData.matchHistory} />
       )}
-    </div >
+    </div>
   );
 }
 

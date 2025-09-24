@@ -8,7 +8,6 @@ function TrackerSearch({ onDataFetch }) {
     tagLine: "",
   });
 
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -27,19 +26,19 @@ function TrackerSearch({ onDataFetch }) {
 
     const summoner = await ClientApi.fetchSummoner(account.puuid);
 
-    const matchHistory = await ClientApi.fetchMatchHistory(account.puuid)
+    const matchHistory = await ClientApi.fetchMatchHistory(account.puuid);
 
     const trackerAccount = {
       gameName: account.gameName,
+      puuid: account.puuid,
       profileIconId: summoner.profileIconId,
       summonerLevel: summoner.summonerLevel,
-      matchHistory: matchHistory
-    }
+      matchHistory: matchHistory,
+    };
 
-    console.log(trackerAccount)
+    console.log(trackerAccount);
 
     onDataFetch(trackerAccount);
-
   };
 
   return (
