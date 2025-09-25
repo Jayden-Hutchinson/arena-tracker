@@ -2,14 +2,18 @@ import "./Match.css";
 import { CDRAGON_ROUTES } from "../../../api/routes/cdragon_routes.js";
 import { DDRAGON } from "../../../api/routes/ddragon_routes.js";
 import { ClientApi } from "../../../api/clientApi.js";
+import { AugmentContext, ItemContext } from "../../../App.js"
+import { useContext } from "react";
 
 function Match({ puuid, data }) {
+  const augments = useContext(AugmentContext)
+  const items = useContext(ItemContext)
+
   const playerList = data.info.participants;
+  const player = playerList.find((player) => player.puuid == puuid);
+  console.log(player)
 
-  const playerIndex = getPlayerIndex(playerList, puuid);
-  const player = playerList[playerIndex];
-
-  const augmentIdLIst = [
+  const augmentIdList = [
     player.playerAugment1,
     player.playerAugment2,
     player.playerAugment3,
@@ -17,9 +21,19 @@ function Match({ puuid, data }) {
     player.playerAugment5,
     player.playerAugment6,
   ];
+  const itemIdList = [
+    player.item1,
+    player.item2,
+    player.item3,
+    player.item4,
+    player.item5,
+    player.item6,
+  ]
 
-  console.log(augments);
+  const playerAugments = augmentIdList.map((id) => augments.find((augment) => augment.id == id))
+  const playerItems = itemIdList.map((id) => items.find((item) => item.id == id))
 
+  console.log(items)
   return (
     <li className="Match">
       <img
@@ -32,23 +46,16 @@ function Match({ puuid, data }) {
         <div>{player.championName}</div>
       </div>
       <div className="augments">
-        <img
-          src={`${CDRAGON_ROUTES.AUGMENT_IMG}${player.playerAugment1}.png`}
-          alt="augment"
-        />
-        <div>Augment</div>
-        <div>Augment</div>
-        <div>Augment</div>
-        <div>Augment</div>
-        <div>Augment</div>
+        {playerAugments &&
+          playerAugments.map((augment) =>
+            augment?.iconLarge ? < img className="augment-img" src={`${CDRAGON_ROUTES.AUGMENT_IMG}${augment.iconLarge}`} alt={augment.apiName} /> : ""
+          )}
       </div>
       <div className="items">
-        <div>Item</div>
-        <div>Item</div>
-        <div>Item</div>
-        <div>Item</div>
-        <div>Item</div>
-        <div>Item</div>
+        {playerItems &&
+          playerItems.map((item) =>
+            item?.icon ? < img className="augment-img" src={`${CDRAGON_ROUTES.AUGMENT_IMG}${item.icon}`} alt={item.apiName} /> : ""
+          )}
       </div>
       <div>{`${player.kills}/${player.deaths}/${player.assists}`}</div>
       <div>Damage</div>

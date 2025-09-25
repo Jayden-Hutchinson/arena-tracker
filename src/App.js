@@ -4,25 +4,34 @@ import Tracker from "./react/components/tracker/Tracker.js";
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-const AugmentContext = createContext(null);
+export const AugmentContext = createContext(null);
+export const ItemContext = createContext(null);
 
 function App() {
   const [augments, setAugments] = useState(null);
+  const [items, setItems] = useState(null);
 
   useEffect(() => {
-    async function fetchAugments() {
-      const augmentData = await ClientApi.fetchAugmentData();
-      setAugments(augmentData);
+    async function fetchData() {
+      const [augmentData, itemData] = await Promise.all([
+        ClientApi.fetchAugmentData(),
+        ClientApi.fetchItemData()
+      ])
+      setAugments(augmentData.augments);
+      setItems(itemData.items);
     }
 
-    fetchAugments();
+    fetchData();
   }, []);
-  console.log(augments);
 
   return (
-    <div className="App">
-      <Tracker />
-    </div>
+    <AugmentContext.Provider value={augments}>
+      <ItemContext.Provider value={items}>
+        <div className="App">
+          <Tracker />
+        </div>
+      </ItemContext.Provider>
+    </AugmentContext.Provider>
   );
 }
 

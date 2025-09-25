@@ -11,6 +11,10 @@
   gap: 1rem;
 }
 
+.augment-img {
+  width: 40px;
+}
+
 .game-names {
   align-items: start;
 }
