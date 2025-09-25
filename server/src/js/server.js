@@ -3,6 +3,8 @@ import express from "express";
 import { API_ROUTES } from "../routes/apiRoutes.js";
 import { APP_ROUTES } from "../../../client/src/routes/app_routes.js";
 import { ServerApi } from "../api/serverApi.js";
+import { CDRAGON } from "../../../src/api/cdragon.js";
+import { DDRAGON } from "../../../src/api/ddragon.js";
 
 const app = express();
 
@@ -26,7 +28,6 @@ app.get(APP_ROUTES.ACCOUNT, async (req, res) => {
     const encodedUsername = encodeURIComponent(username);
     const encodedtagLine = encodeURIComponent(tagLine);
     const url = `${API_ROUTES.RIOT.ACCOUNT_BY_NAME}${encodedUsername}/${encodedtagLine}`;
-    console.log(url);
     const response = await fetch(url, {
       headers: {
         "X-Riot-Token": RIOT_API_KEY,
@@ -53,8 +54,18 @@ app.get(APP_ROUTES.MATCH_HISTORY, async (req, res) => {
     return res.status(400).json({ error: "puuid required" });
   }
   const matchHistory = await ServerApi.fetchMatchHistoryByPuuid(puuid);
-  console.log(matchHistory);
   res.json(matchHistory);
+});
+
+app.get(APP_ROUTES.AUGMENT_JSON, async (req, res) => {
+  console.log(CDRAGON.AUGMENT_JSON);
+  const augmentJson = await ServerApi.fetchItemJson(CDRAGON.AUGMENT_JSON);
+  res.json(augmentJson);
+});
+
+app.get(APP_ROUTES.ITEM_JSON, async (req, res) => {
+  const itemJson = await ServerApi.fetchJson(DDRAGON.ITEM_JSON);
+  res.json(itemJson);
 });
 
 // app.get(APP_ROUTES.MATCH, async (req, res) => {

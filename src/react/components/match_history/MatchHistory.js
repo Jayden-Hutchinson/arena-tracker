@@ -3,8 +3,6 @@ import "./MatchHistory.css";
 import Match from "../match/Match.js";
 
 function MatchHistory({ puuid, history = [] }) {
-  console.log(history);
-
   return (
     <div className="MatchHistory">
       {/* Load each match in match history */}

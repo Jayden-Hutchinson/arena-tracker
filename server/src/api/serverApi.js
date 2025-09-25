@@ -4,10 +4,10 @@ import { API_ROUTES } from "../routes/apiRoutes.js";
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
 export class ServerApi {
-  constructor() { }
+  constructor() {}
 
   static async fetchJson(url) {
-    console.log("ApiManager", url);
+    console.log(`Server Api Fetch: ${url}`);
     const response = await fetch(url, {
       headers: {
         "X-Riot-Token": RIOT_API_KEY,
@@ -15,9 +15,7 @@ export class ServerApi {
     });
 
     if (!response.ok) {
-      return response
-        .status(response.status)
-        .json({ error: `fetching match history by puuid failed ${url}` });
+      throw new Error(`Failed to fetch ${url}, status: ${response.status}`);
     }
     return response.json();
   }
@@ -26,7 +24,6 @@ export class ServerApi {
     try {
       const matchHistoryUrl = `${API_ROUTES.RIOT.MATCHES_BY_PUUID}${puuid}/ids?start=0&count=10`;
       const matchIdList = await ServerApi.fetchJson(matchHistoryUrl);
-      console.log(matchIdList);
 
       const matches = [];
       for (const matchId of matchIdList) {
@@ -34,7 +31,6 @@ export class ServerApi {
         const response = await ServerApi.fetchJson(matchUrl);
         matches.push(response);
       }
-      console.log(matches);
 
       return matches;
     } catch (err) {

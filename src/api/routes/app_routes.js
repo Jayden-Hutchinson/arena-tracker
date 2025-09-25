@@ -11,4 +11,6 @@ export const APP_ROUTES = {
   SUMMONER: "/account/summoner",
   MATCH_HISTORY: "/match/history",
   MATCH: "/match/data",
+  AUGMENT_JSON: "/augment/data/json",
+  ITEM_JSON: "/item/data/json",
 };

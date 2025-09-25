@@ -2,7 +2,7 @@ import { ClientApi } from "./api/clientApi.js";
 import "./App.css";
 import Tracker from "./react/components/tracker/Tracker.js";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AugmentContext = createContext(null);
 export const ItemContext = createContext(null);
@@ -15,14 +15,17 @@ function App() {
     async function fetchData() {
       const [augmentData, itemData] = await Promise.all([
         ClientApi.fetchAugmentData(),
-        ClientApi.fetchItemData()
-      ])
+        ClientApi.fetchItemData(),
+      ]);
       setAugments(augmentData.augments);
-      setItems(itemData.items);
+      setItems(itemData.data);
     }
 
     fetchData();
   }, []);
+
+  console.log(`Items:`, items);
+  console.log(`Augments:`, augments);
 
   return (
     <AugmentContext.Provider value={augments}>

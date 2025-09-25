@@ -1,15 +1,15 @@
 import { APP_ROUTES } from "./routes/app_routes.js";
-import { CDRAGON_ROUTES } from "./routes/cdragon_routes.js";
 
 let augmentsCache = null;
 let itemsCache = null;
 
 export class ClientApi {
   static async fetchJson(url) {
-    console.log("Client Api", url);
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      throw new Error(
+        `API error: ${response.status} when trying to fetch ${url} from the server`
+      );
     }
     return response.json();
   }
@@ -36,15 +36,14 @@ export class ClientApi {
 
   static async fetchAugmentData() {
     if (augmentsCache) return augmentsCache;
-    const url = `${CDRAGON_ROUTES.AUGMENTS}`;
-    const data = this.fetchJson(url);
+    const data = this.fetchJson(APP_ROUTES.AUGMENT_JSON);
     augmentsCache = data;
     return data;
   }
 
   static async fetchItemData() {
     if (itemsCache) return itemsCache;
-    const url = `${CDRAGON_ROUTES.ITEMS}`;
+    const url = `${APP_ROUTES.ITEM_JSON}`;
     const data = this.fetchJson(url);
     itemsCache = data;
     return data;

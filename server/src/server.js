@@ -3,6 +3,8 @@ import express from "express";
 import { API_ROUTES } from "./routes/apiRoutes.js";
 import { APP_ROUTES } from "../../src/api/routes/app_routes.js";
 import { ServerApi } from "./api/serverApi.js";
+import { DDRAGON } from "../../src/api/ddragon.js";
+import { CDRAGON } from "../../src/api/cdragon.js";
 
 const app = express();
 
@@ -52,7 +54,7 @@ app.get(APP_ROUTES.SUMMONER, async (req, res) => {
   }
 
   try {
-    const encodedPuuid = encodeURIComponent(puuid)
+    const encodedPuuid = encodeURIComponent(puuid);
     const url = `${API_ROUTES.RIOT.SUMMONER_BY_PUUID}${encodedPuuid}`;
     console.log(url);
     const response = await fetch(url, {
@@ -83,6 +85,21 @@ app.get(APP_ROUTES.MATCH_HISTORY, async (req, res) => {
   const matchHistory = await ServerApi.fetchMatchHistoryByPuuid(puuid);
   console.log(matchHistory);
   res.json(matchHistory);
+});
+
+app.get(APP_ROUTES.ITEM_JSON, async (req, res) => {
+  const itemJson = await ServerApi.fetchJson(DDRAGON.ITEM_JSON);
+  res.json(itemJson);
+});
+
+app.get(APP_ROUTES.AUGMENT_JSON, async (req, res) => {
+  try {
+    const augmentJson = await ServerApi.fetchJson(CDRAGON.AUGMENT_JSON);
+    res.json(augmentJson);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // app.get(APP_ROUTES.MATCH, async (req, res) => {
