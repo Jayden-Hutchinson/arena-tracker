@@ -1,0 +1,22 @@
+.Summoner {
+  justify-content: start;
+
+  width: 100%;
+  padding: 10px;
+}
+
+.summoner-icon {
+  width: 200px;
+  margin-right: 50px;
+}
+
+.summoner-info {
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+.summoner-name {
+  font-size: 32px;
+  font-weight: bold;
+}

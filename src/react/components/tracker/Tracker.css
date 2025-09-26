@@ -1,6 +1,6 @@
 .Tracker {
   flex-direction: column;
-  width: 600px;
+  width: fit-content;
   height: fit-content;
   margin: 20px;
 

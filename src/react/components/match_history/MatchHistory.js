@@ -7,23 +7,37 @@ function MatchHistory({ puuid, matchHistory = [] }) {
     isWin(data, puuid);
   });
 
-  console.log("wins", wins);
-  console.log("history", matchHistory);
-
   return (
     <div className="MatchHistory">
       {matchHistory && matchHistory.length > 0 ? (
-        matchHistory.map((match, index) => (
-          <Match key={index} puuid={puuid} data={match} />
-        ))
+        matchHistory.map((matchData, index) => {
+          const players = matchData.info.participants;
+          const player = players.find((p) => p.puuid === puuid);
+
+          console.log(player.playerSubteamId);
+
+          const teamMate = players.find(
+            (p) =>
+              p.playerSubteamId === player.playerSubteamId && p.puuid !== puuid
+          );
+
+          console.log(teamMate);
+
+          const team = [player, teamMate];
+          console.log(matchData);
+
+          return <Match key={index} team={team} data={matchData} />;
+        })
       ) : (
-        <p>Loading</p>
+        <p></p>
       )}
     </div>
   );
 }
 function isWin(data, puuid) {
-  const player = data.info.participants.find((player) => player.puuid == puuid);
+  const player = data.info.participants.find(
+    (player) => player.puuid === puuid
+  );
   return player.placement === 1;
 }
 

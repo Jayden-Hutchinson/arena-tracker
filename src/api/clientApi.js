@@ -1,4 +1,6 @@
-import { APP_ROUTES } from "./routes/app_routes.js";
+import { CDRAGON } from "./cdragon.js";
+import { DDRAGON } from "./ddragon.js";
+import { CLIENT_ROUTES } from "./routes/clientRoutes.js";
 
 let augmentsCache = null;
 let itemsCache = null;
@@ -15,35 +17,37 @@ export class ClientApi {
   }
 
   static async fetchRiotAccount(gameName, tagLine) {
-    const url = `${APP_ROUTES.ACCOUNT}?username=${gameName}&tagLine=${tagLine}`;
+    const url = CLIENT_ROUTES.SERVER.ACCOUNT_BY_GAME_NAME(gameName, tagLine);
+    console.log(url);
     return this.fetchJson(url);
   }
 
   static async fetchSummoner(puuid) {
-    const url = `${APP_ROUTES.SUMMONER}?puuid=${puuid}`;
+    const url = CLIENT_ROUTES.SERVER.SUMMONER_BY_PUUID(puuid);
     return this.fetchJson(url);
   }
 
   static async fetchMatchHistory(puuid) {
-    const url = `${APP_ROUTES.MATCH_HISTORY}?puuid=${puuid}`;
+    const url = CLIENT_ROUTES.SERVER.MATCH_HISTORY_BY_PUUID(puuid);
     return this.fetchJson(url);
   }
 
   static async fetchMatchData(matchId) {
-    const url = `${APP_ROUTES.MATCH}?matchId=${matchId}`;
+    const url = CLIENT_ROUTES.SERVER.MATCH_BY_ID(matchId);
     return this.fetchJson(url);
   }
 
   static async fetchAugmentData() {
     if (augmentsCache) return augmentsCache;
-    const data = this.fetchJson(APP_ROUTES.AUGMENT_JSON);
+    const url = CDRAGON.AUGMENT_JSON;
+    const data = this.fetchJson(url);
     augmentsCache = data;
     return data;
   }
 
   static async fetchItemData() {
     if (itemsCache) return itemsCache;
-    const url = `${APP_ROUTES.ITEM_JSON}`;
+    const url = DDRAGON.ITEM_JSON;
     const data = this.fetchJson(url);
     itemsCache = data;
     return data;

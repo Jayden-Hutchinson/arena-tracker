@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import TrackerSearch from "../tracker_search/TrackerSearch";
 import MatchHistory from "../match_history/MatchHistory";
+import Summoner from "../Summoner/Summoner.js";
 import { AugmentContext, ItemContext } from "../../../App.js";
 import "./Tracker.css";
 
@@ -14,8 +15,6 @@ function Tracker() {
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const puuid = "bhCte-xYzDzNtuF7Qx6DsjHdLPI9zJpJkg-77kL4V4w6Jxcg2FKtg__Up";
-
   // Call the api on load
   // !TO REMOVE BEFORE LAUNCH
   useEffect(() => {
@@ -24,11 +23,14 @@ function Tracker() {
       try {
         const account = await ClientApi.fetchRiotAccount("TannerennaT", "na1");
 
+        console.log(account);
         // Fetch summoner info + match history in parallel
+        setStatus("Fetching Match History");
         const [summoner, matchHistory] = await Promise.all([
           ClientApi.fetchSummoner(account.puuid),
           ClientApi.fetchMatchHistory(account.puuid),
         ]);
+        setStatus("found");
 
         const trackerAccount = {
           gameName: account.gameName,
@@ -38,11 +40,10 @@ function Tracker() {
           matchHistory,
         };
 
-        console.log(trackerAccount);
         setApiData(trackerAccount); // save it to state
       } catch (err) {
         console.error("Failed to fetch account data:", err);
-        setStatus("Error fetching data");
+        setStatus("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
@@ -54,10 +55,15 @@ function Tracker() {
   // <TrackerSearch onDataFetch={setApiData} />
   return (
     <div className="Tracker">
-      {apiData && (
-        <MatchHistory puuid={apiData.puuid} history={apiData.matchHistory} />
+      {apiData && <Summoner player={apiData} />}
+      {apiData ? (
+        <MatchHistory
+          puuid={apiData.puuid}
+          matchHistory={apiData.matchHistory}
+        />
+      ) : (
+        <span>{status}</span>
       )}
-      <MatchHistory puuid={puuid} />
     </div>
   );
 }

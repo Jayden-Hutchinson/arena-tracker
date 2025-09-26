@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { API_ROUTES } from "../routes/apiRoutes.js";
+import { SERVER_ROUTES } from "../routes/serverRoutes.js";
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
@@ -8,34 +8,46 @@ export class ServerApi {
 
   static async fetchJson(url) {
     console.log(`Server Api Fetch: ${url}`);
-    const response = await fetch(url, {
-      headers: {
-        "X-Riot-Token": RIOT_API_KEY,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${url}, status: ${response.status}`);
-    }
-    return response.json();
-  }
-
-  static async fetchMatchHistoryByPuuid(puuid) {
     try {
-      const matchHistoryUrl = `${API_ROUTES.RIOT.MATCHES_BY_PUUID}${puuid}/ids?start=0&count=50`;
-      const matchIdList = await ServerApi.fetchJson(matchHistoryUrl);
-
-      const matches = [];
-      for (const matchId of matchIdList) {
-        const matchUrl = `${API_ROUTES.RIOT.MATCH_BY_ID}${matchId}`;
-        const response = await ServerApi.fetchJson(matchUrl);
-        matches.push(response);
-      }
-
-      return matches;
+      const response = await fetch(url, {
+        headers: {
+          "X-Riot-Token": RIOT_API_KEY,
+        },
+      });
+      return response.json();
     } catch (err) {
       console.log(err);
       response.status(500).json({ error: "server error" });
     }
+  }
+
+  static async fetchRiotAccountByName(gameName, tagLine) {
+    const gameNameUri = encodeURIComponent(gameName);
+    const tagLineUri = encodeURIComponent(tagLine);
+
+    const url = `${SERVER_ROUTES.RIOT_API.ACCOUNT_BY_NAME}${gameNameUri}/${tagLineUri}`;
+
+    const riotAccountJson = await ServerApi.fetchJson(url);
+    return riotAccountJson;
+  }
+
+  static async fetchMatchHistoryByPuuid(puuid) {
+    const puuidUri = encodeURIComponent(puuid);
+    const url = `${SERVER_ROUTES.RIOT_API.MATCHES_BY_PUUID}${puuidUri}/ids?start=0&count=10`;
+
+    const matchIdList = await ServerApi.fetchJson(url);
+
+    const matches = [];
+    for (const matchId of matchIdList) {
+      const matchUrl = `${SERVER_ROUTES.RIOT_API.MATCH_BY_ID}${matchId}`;
+      const response = await ServerApi.fetchJson(matchUrl);
+      matches.push(response);
+    }
+    return matches;
+  }
+
+  static async fetchJsonData(item) {
+    const itemUri = encodeURIComponent(item);
+    const url = `${SERVER_ROUTES.DDRAGON.JSON_DATA}${itemUri}.json`;
   }
 }

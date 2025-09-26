@@ -1,10 +1,8 @@
 import "dotenv/config";
 import express from "express";
-import { API_ROUTES } from "./routes/apiRoutes.js";
-import { APP_ROUTES } from "../../src/api/routes/app_routes.js";
+import { SERVER_ROUTES } from "./routes/serverRoutes.js";
+import { URL } from "../../src/api/routes/clientRoutes.js";
 import { ServerApi } from "./api/serverApi.js";
-import { DDRAGON } from "../../src/api/ddragon.js";
-import { CDRAGON } from "../../src/api/cdragon.js";
 
 const app = express();
 
@@ -14,40 +12,22 @@ const PORT = 5000;
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
 app.get("/config", (req, res) => {
-  res.json({ APP_ROUTES });
+  res.json({ URL });
 });
 
-app.get(APP_ROUTES.ACCOUNT, async (req, res) => {
-  const { username, tagLine } = req.query;
-  if (!username || !tagLine) {
+app.get(URL.ACCOUNT_BY_GAME_NAME, async (req, res) => {
+  const { gameName, tagLine } = req.query;
+  if (!gameName || !tagLine) {
     return res.status(400).json({ error: "username and tagLine required" });
   }
 
-  try {
-    const encGameName = encodeURIComponent(username);
-    const encTagLine = encodeURIComponent(tagLine);
-    const url = `${API_ROUTES.RIOT.ACCOUNT_BY_NAME}${encGameName}/${encTagLine}`;
-    console.log(url);
-    const response = await fetch(url, {
-      headers: {
-        "X-Riot-Token": RIOT_API_KEY,
-      },
-    });
+  const accountJson = await ServerApi.fetchRiotAccountByName(gameName, tagLine);
 
-    if (!response.ok) {
-      return res
-        .status(response.status)
-        .json({ error: "account fetch by name failed" });
-    }
-
-    const accountJson = await response.json();
-    res.json(accountJson);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "server error" });
-  }
+  console.log(accountJson);
+  res.json(accountJson);
 });
-app.get(APP_ROUTES.SUMMONER, async (req, res) => {
+
+app.get(URL.SUMMONER_BY_PUUID, async (req, res) => {
   const { puuid } = req.query;
   if (!puuid) {
     return res.status(400).json({ error: "puuid required" });
@@ -55,7 +35,7 @@ app.get(APP_ROUTES.SUMMONER, async (req, res) => {
 
   try {
     const encodedPuuid = encodeURIComponent(puuid);
-    const url = `${API_ROUTES.RIOT.SUMMONER_BY_PUUID}${encodedPuuid}`;
+    const url = `${SERVER_ROUTES.RIOT_API.SUMMONER_BY_PUUID}${encodedPuuid}`;
     console.log(url);
     const response = await fetch(url, {
       headers: {
@@ -77,32 +57,25 @@ app.get(APP_ROUTES.SUMMONER, async (req, res) => {
   }
 });
 
-app.get(APP_ROUTES.MATCH_HISTORY, async (req, res) => {
+app.get(URL.MATCH_HISTORY_BY_PUUID, async (req, res) => {
   const { puuid } = req.query;
   if (!puuid) {
     return res.status(400).json({ error: "puuid required" });
   }
   const matchHistory = await ServerApi.fetchMatchHistoryByPuuid(puuid);
-  console.log(matchHistory);
   res.json(matchHistory);
 });
 
-app.get(APP_ROUTES.ITEM_JSON, async (req, res) => {
-  const itemJson = await ServerApi.fetchJson(DDRAGON.ITEM_JSON);
+app.get(URL.JSON_DATA, async (req, res) => {
+  const { item } = req.query;
+  if (!item) {
+    return res.status(400).json({ error: "item required" });
+  }
+  const itemJson = await ServerApi.fetchJsonData(item);
   res.json(itemJson);
 });
 
-app.get(APP_ROUTES.AUGMENT_JSON, async (req, res) => {
-  try {
-    const augmentJson = await ServerApi.fetchJson(CDRAGON.AUGMENT_JSON);
-    res.json(augmentJson);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// app.get(APP_ROUTES.MATCH, async (req, res) => {
+// app.get(URL.MATCH, async (req, res) => {
 //   const { matchId } = req.query;
 //   if (!matchId) {
 //     return res.status(400).json({ error: "no match id" });
