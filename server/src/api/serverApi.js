@@ -22,7 +22,7 @@ export class ServerApi {
 
   static async fetchMatchHistoryByPuuid(puuid) {
     try {
-      const matchHistoryUrl = `${API_ROUTES.RIOT.MATCHES_BY_PUUID}${puuid}/ids?start=0&count=10`;
+      const matchHistoryUrl = `${API_ROUTES.RIOT.MATCHES_BY_PUUID}${puuid}/ids?start=0&count=50`;
       const matchIdList = await ServerApi.fetchJson(matchHistoryUrl);
 
       const matches = [];

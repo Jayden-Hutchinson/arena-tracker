@@ -51,9 +51,9 @@ function Tracker() {
     fetchData();
   }, []);
 
+  // <TrackerSearch onDataFetch={setApiData} />
   return (
     <div className="Tracker">
-      <TrackerSearch onDataFetch={setApiData} />
       {apiData && (
         <MatchHistory puuid={apiData.puuid} history={apiData.matchHistory} />
       )}

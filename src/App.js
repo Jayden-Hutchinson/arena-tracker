@@ -24,9 +24,6 @@ function App() {
     fetchData();
   }, []);
 
-  console.log(`Items:`, items);
-  console.log(`Augments:`, augments);
-
   return (
     <AugmentContext.Provider value={augments}>
       <ItemContext.Provider value={items}>

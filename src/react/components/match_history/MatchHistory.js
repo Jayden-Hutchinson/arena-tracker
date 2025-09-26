@@ -2,20 +2,29 @@ import "./MatchHistory.css";
 
 import Match from "../match/Match.js";
 
-function MatchHistory({ puuid, history = [] }) {
+function MatchHistory({ puuid, matchHistory = [] }) {
+  const wins = matchHistory.filter((data) => {
+    isWin(data, puuid);
+  });
+
+  console.log("wins", wins);
+  console.log("history", matchHistory);
+
   return (
     <div className="MatchHistory">
-      {/* Load each match in match history */}
-      {history && history.length > 0 ? (
-        history.map((match, index) => (
+      {matchHistory && matchHistory.length > 0 ? (
+        matchHistory.map((match, index) => (
           <Match key={index} puuid={puuid} data={match} />
         ))
       ) : (
-        // waiting for match history
         <p>Loading</p>
       )}
     </div>
   );
+}
+function isWin(data, puuid) {
+  const player = data.info.participants.find((player) => player.puuid == puuid);
+  return player.placement === 1;
 }
 
 export default MatchHistory;

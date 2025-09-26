@@ -48,9 +48,10 @@ function Match({ puuid, data }) {
       </div>
       <div className="augments">
         {playerAugments &&
-          playerAugments.map((augment) =>
+          playerAugments.map((augment, index) =>
             augment?.iconLarge ? (
               <img
+                key={index}
                 className="augment-img"
                 src={CDRAGON.AUGMENT_IMAGE(augment.iconLarge)}
                 alt={augment.apiName}
@@ -63,11 +64,12 @@ function Match({ puuid, data }) {
       <div className="items">
         {playerItems &&
           playerItems.map((item) =>
-            item?.icon ? (
+            item?.image.full ? (
               <img
+                key={item.name}
                 className="augment-img"
-                src={DDRAGON.ITEM_IMAGE(item.icon)}
-                alt={item.apiName}
+                src={DDRAGON.ITEM_IMAGE(item.image.full)}
+                alt={item.name}
               />
             ) : (
               ""
@@ -75,7 +77,7 @@ function Match({ puuid, data }) {
           )}
       </div>
       <div>{`${player.kills}/${player.deaths}/${player.assists}`}</div>
-      <div>Damage</div>
+      <div>{player.totalDamageDealtToChampions}</div>
       {/* <Player />
       <Player />
       <ChampionStats />
