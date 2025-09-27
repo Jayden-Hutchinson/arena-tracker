@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import TrackerSearch from "../tracker_search/TrackerSearch";
+// import TrackerSearch from "../tracker_search/TrackerSearch";
 import MatchHistory from "../match_history/MatchHistory";
 import Summoner from "../Summoner/Summoner.js";
 import { AugmentContext, ItemContext } from "../../../App.js";
@@ -22,15 +22,11 @@ function Tracker() {
       setLoading(true);
       try {
         const account = await ClientApi.fetchRiotAccount("TannerennaT", "na1");
-
-        console.log(account);
-        // Fetch summoner info + match history in parallel
-        setStatus("Fetching Match History");
-        const [summoner, matchHistory] = await Promise.all([
-          ClientApi.fetchSummoner(account.puuid),
-          ClientApi.fetchMatchHistory(account.puuid),
-        ]);
-        setStatus("found");
+        const summoner = await ClientApi.fetchSummoner(
+          account.puuid,
+          setStatus
+        );
+        const matchHistory = await ClientApi.fetchMatchHistory(account.puuid);
 
         const trackerAccount = {
           gameName: account.gameName,

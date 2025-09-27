@@ -16,16 +16,19 @@ function Match({ team, data }) {
   const items = useContext(ItemContext);
   console.log(data);
 
-  console.log(team[0].kills + team[1].kills);
-  const teamKills = team[0].kills + team[1].kills;
-  const teamDeaths = team[0].deaths + team[1].deaths;
-  const teamAssists = team[0].assists + team[1].assists;
+  const teamTotalKills = team.reduce((sum, player) => sum + player.kills, 0);
+  const teamTotalDeaths = team.reduce((sum, player) => sum + player.deaths, 0);
+  const teamTotalAssists = team.reduce(
+    (sum, player) => sum + player.assists,
+    0
+  );
+
   return (
     <li className="Match">
       <div className="match-info">
         <div>Team</div>
         <div>
-          {teamKills}/{teamDeaths}/{teamAssists}
+          {teamTotalKills}/{teamTotalDeaths}/{teamTotalAssists}
         </div>
         <div>total Damage</div>
       </div>
@@ -42,12 +45,12 @@ function Match({ team, data }) {
           ];
 
           const itemIdList = [
+            player.item0,
             player.item1,
             player.item2,
             player.item3,
             player.item4,
             player.item5,
-            player.item6,
           ];
 
           const playerAugments = augmentIdList.map((id) =>
@@ -81,7 +84,7 @@ function Match({ team, data }) {
                         alt={augment.apiName}
                       />
                     ) : (
-                      <div className="augment-img"></div>
+                      <div key={index} className="augment-img"></div>
                     )
                   )}
               </div>

@@ -4,9 +4,13 @@ import Match from "../match/Match.js";
 
 function MatchHistory({ puuid, matchHistory = [] }) {
   const wins = matchHistory.filter((data) => {
-    isWin(data, puuid);
+    const player = data.info.participants.find(
+      (player) => player.puuid === puuid
+    );
+    return player.placement === 1;
   });
 
+  console.log(wins);
   return (
     <div className="MatchHistory">
       {matchHistory && matchHistory.length > 0 ? (
@@ -33,12 +37,6 @@ function MatchHistory({ puuid, matchHistory = [] }) {
       )}
     </div>
   );
-}
-function isWin(data, puuid) {
-  const player = data.info.participants.find(
-    (player) => player.puuid === puuid
-  );
-  return player.placement === 1;
 }
 
 export default MatchHistory;
