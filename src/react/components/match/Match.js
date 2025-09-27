@@ -11,10 +11,9 @@ const ARENA_TEAMS = {
   400: { name: "Murk Wolf", icon: "murkwolf.png" },
 };
 
-function Match({ team, data }) {
+function Match({ puuid, data }) {
   const augments = useContext(AugmentContext);
   const items = useContext(ItemContext);
-  console.log(data);
 
   const teamTotalKills = team.reduce((sum, player) => sum + player.kills, 0);
   const teamTotalDeaths = team.reduce((sum, player) => sum + player.deaths, 0);
@@ -22,6 +21,19 @@ function Match({ team, data }) {
     (sum, player) => sum + player.assists,
     0
   );
+  const players = data.info.participants;
+  const player = players.find((p) => p.puuid === puuid);
+
+  console.log(player.playerSubteamId);
+
+  const teamMate = players.find(
+    (p) => p.playerSubteamId === player.playerSubteamId && p.puuid !== puuid
+  );
+
+  console.log(teamMate);
+
+  const team = [player, teamMate];
+  console.log(data);
 
   return (
     <li className="Match">
