@@ -1,0 +1,14 @@
+:root {
+  --team-icon-size: 50px;
+}
+.TeamSummary {
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+  gap: 50px;
+}
+
+.team-icon {
+  width: var(--team-icon-size);
+  height: var(--team-icon-size);
+}

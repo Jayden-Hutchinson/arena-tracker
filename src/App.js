@@ -1,6 +1,9 @@
-import { ClientApi } from "./api/clientApi.js";
 import "./App.css";
+
+import { ClientApi } from "./api/clientApi.js";
 import Tracker from "./react/components/tracker/Tracker.js";
+import { RiotAccount } from "./react/classes/riot_account/RiotAccount.js";
+import { Summoner } from "./react/classes/summoner/Summoner.js";
 
 import { createContext, useEffect, useState } from "react";
 
@@ -10,16 +13,47 @@ export const ItemContext = createContext(null);
 function App() {
   const [augments, setAugments] = useState(null);
   const [items, setItems] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [account, setAccount] = useState(null);
 
+  // Call the api on load
+  // !TO REMOVE BEFORE LAUNCH
   useEffect(() => {
-    async function fetchData() {
-      const [augmentData, itemData] = await Promise.all([
-        ClientApi.fetchAugmentData(),
-        ClientApi.fetchItemData(),
-      ]);
+    const fetchData = async () => {
+      const augmentData = await ClientApi.fetchAugmentData();
+      const itemData = await ClientApi.fetchItemData();
+
+      const riotAccountData = await ClientApi.fetchRiotAccount(
+        "TannerennaT",
+        "na1",
+        setStatus
+      );
+      const riotAccount = new RiotAccount(riotAccountData);
+
+      const summonerData = await ClientApi.fetchSummoner(
+        riotAccount.puuid,
+        setStatus
+      );
+      console.log(summonerData);
+      const summoner = new Summoner(summonerData);
+
+      const matchHistory = await ClientApi.fetchMatchHistory(
+        riotAccount.puuid,
+        setStatus
+      );
+
+      const trackerAccount = {
+        gameName: riotAccount.gameName,
+        puuid: riotAccount.puuid,
+        profileIconId: summoner.profileIconId,
+        summonerLevel: summoner.summonerLevel,
+        matchHistory,
+      };
+
+      setAccount(trackerAccount); // save it to state
       setAugments(augmentData.augments);
       setItems(itemData.data);
-    }
+    };
 
     fetchData();
   }, []);
@@ -28,7 +62,7 @@ function App() {
     <AugmentContext.Provider value={augments}>
       <ItemContext.Provider value={items}>
         <div className="App">
-          <Tracker />
+          {account ? <Tracker account={account} /> : <div>hello</div>}
         </div>
       </ItemContext.Provider>
     </AugmentContext.Provider>

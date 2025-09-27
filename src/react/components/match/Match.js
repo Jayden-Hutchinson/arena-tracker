@@ -4,133 +4,29 @@ import { AugmentContext, ItemContext } from "../../../App.js";
 import { useContext } from "react";
 import { DDRAGON } from "../../../api/ddragon.js";
 
-const ARENA_TEAMS = {
-  100: { name: "Krug", icon: "krug.png" },
-  200: { name: "Gromp", icon: "gromp.png" },
-  300: { name: "Scuttle Crab", icon: "scuttle.png" },
-  400: { name: "Murk Wolf", icon: "murkwolf.png" },
-};
+import TeamSummary from "../team_summary/TeamSummary.js";
+import Player from "../player/Player.js";
 
-function Match({ puuid, data }) {
-  const augments = useContext(AugmentContext);
-  const items = useContext(ItemContext);
-
-  const teamTotalKills = team.reduce((sum, player) => sum + player.kills, 0);
-  const teamTotalDeaths = team.reduce((sum, player) => sum + player.deaths, 0);
-  const teamTotalAssists = team.reduce(
-    (sum, player) => sum + player.assists,
-    0
-  );
-  const players = data.info.participants;
-  const player = players.find((p) => p.puuid === puuid);
-
-  console.log(player.playerSubteamId);
-
-  const teamMate = players.find(
-    (p) => p.playerSubteamId === player.playerSubteamId && p.puuid !== puuid
-  );
-
-  console.log(teamMate);
-
-  const team = [player, teamMate];
-  console.log(data);
+function Match({ puuid, matchData }) {
+  const team = getTeam(puuid, matchData.info.participants);
+  console.log(team);
 
   return (
     <li className="Match">
-      <div className="match-info">
-        <div>Team</div>
-        <div>
-          {teamTotalKills}/{teamTotalDeaths}/{teamTotalAssists}
-        </div>
-        <div>total Damage</div>
-      </div>
-
+      <TeamSummary team={team} />
       {team &&
         team.map((player, index) => {
-          const augmentIdList = [
-            player.playerAugment1,
-            player.playerAugment2,
-            player.playerAugment3,
-            player.playerAugment4,
-            player.playerAugment5,
-            player.playerAugment6,
-          ];
-
-          const itemIdList = [
-            player.item0,
-            player.item1,
-            player.item2,
-            player.item3,
-            player.item4,
-            player.item5,
-          ];
-
-          const playerAugments = augmentIdList.map((id) =>
-            augments.find((augment) => augment.id == id)
-          );
-
-          const playerItems = itemIdList.map((id) => items[id]);
-
-          return (
-            <div key={index} className="player-display">
-              <img
-                key={player.championName}
-                className="champion-portrait"
-                src={DDRAGON.CHAMPION_IMAGE(player.championName)}
-                alt={player.championName}
-              />
-
-              <div className="game-names">
-                <strong>{player.riotIdGameName}</strong>
-                <div>{player.championName}</div>
-              </div>
-
-              <div className="augments">
-                {playerAugments &&
-                  playerAugments.map((augment, index) =>
-                    augment?.iconLarge ? (
-                      <img
-                        key={index}
-                        className="augment-img"
-                        src={CDRAGON.AUGMENT_IMAGE(augment.iconLarge)}
-                        alt={augment.apiName}
-                      />
-                    ) : (
-                      <div key={index} className="augment-img"></div>
-                    )
-                  )}
-              </div>
-
-              <div className="items">
-                {playerItems &&
-                  playerItems.map((item) =>
-                    item?.image.full ? (
-                      <img
-                        key={item.name}
-                        className="augment-img"
-                        src={DDRAGON.ITEM_IMAGE(item.image.full)}
-                        alt={item.name}
-                      />
-                    ) : (
-                      <div className="augment-img"></div>
-                    )
-                  )}
-              </div>
-
-              <div>{`${player.kills}/${player.deaths}/${player.assists}`}</div>
-
-              <div>{player.totalDamageDealtToChampions}</div>
-            </div>
-          );
+          return <Player key={index} player={player} />;
         })}
-      {/* <Player />
-      <Player />
-      <ChampionStats />
-      <Augments />
-      <Items />
-      <DamageDealt /> */}
     </li>
   );
+}
+function getTeam(puuid, players) {
+  const player = players.find((p) => p.puuid === puuid);
+  const teamMate = players.find(
+    (p) => p.playerSubteamId === player.playerSubteamId && p.puuid !== puuid
+  );
+  return [player, teamMate];
 }
 
 export default Match;

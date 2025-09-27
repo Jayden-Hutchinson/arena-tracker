@@ -10,12 +10,12 @@ function MatchHistory({ puuid, matchHistory = [] }) {
     return player.placement === 1;
   });
 
-  console.log(wins);
+  console.log(matchHistory);
   return (
     <div className="MatchHistory">
       {matchHistory && matchHistory.length > 0 ? (
         matchHistory.map((matchData, index) => {
-          return <Match key={index} puuid={puuid} data={matchData} />;
+          return <Match key={index} puuid={puuid} matchData={matchData} />;
         })
       ) : (
         <p></p>

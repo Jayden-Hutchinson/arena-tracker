@@ -7,27 +7,28 @@ let itemsCache = null;
 
 export class ClientApi {
   static async fetchJson(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(
-        `API error: ${response.status} when trying to fetch ${url} from the server`
-      );
+    try {
+      const response = await fetch(url);
+      return response.json();
+    } catch (err) {
+      console.log(err);
     }
-    return response.json();
   }
 
-  static async fetchRiotAccount(gameName, tagLine) {
+  static async fetchRiotAccount(gameName, tagLine, setStatus) {
+    setStatus("getting riot account");
     const url = CLIENT_ROUTES.SERVER.ACCOUNT_BY_GAME_NAME(gameName, tagLine);
-    console.log(url);
     return this.fetchJson(url);
   }
 
-  static async fetchSummoner(puuid) {
+  static async fetchSummoner(puuid, setStatus) {
+    setStatus("getting summoner account");
     const url = CLIENT_ROUTES.SERVER.SUMMONER_BY_PUUID(puuid);
     return this.fetchJson(url);
   }
 
-  static async fetchMatchHistory(puuid) {
+  static async fetchMatchHistory(puuid, setStatus) {
+    setStatus("getting match history");
     const url = CLIENT_ROUTES.SERVER.MATCH_HISTORY_BY_PUUID(puuid);
     return this.fetchJson(url);
   }

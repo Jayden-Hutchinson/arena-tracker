@@ -1,52 +1,13 @@
-:root {
-  --champion-portrait-size: 130px;
-  --item-img-size: 50px;
-}
 
 .Match {
   width: 100%;
   flex-direction: column;
+  gap: 20px;
 
-  border: solid 1px grey;
+  border-bottom: solid 2px grey;
+  padding: 20px 0px;
 }
 
 .match-info {
   height: 100px;
-}
-
-.player-display {
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-}
-
-.items,
-.augments {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.augment-img {
-  height: var(--item-img-size);
-  width: var(--item-img-size);
-  border: solid 2px darkgoldenrod;
-  border-radius: 2px;
-}
-
-.game-names {
-  width: 200px;
-  height: 100px;
-
-  justify-content: start;
-  align-items: start;
-}
-
-.player-info {
-  align-items: center;
-}
-
-.champion-portrait {
-  width: var(--champion-portrait-size);
-  height: var(--champion-portrait-size);
 }
