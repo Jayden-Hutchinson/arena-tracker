@@ -5,9 +5,15 @@
 * {
   box-sizing: border-box;
 }
+
 body * {
   display: flex;
   justify-content: center;
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
 }
 
 body {

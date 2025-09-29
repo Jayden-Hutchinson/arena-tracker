@@ -1,23 +1,34 @@
 import "./Match.css";
-import { CDRAGON } from "../../../api/cdragon.js";
-import { AugmentContext, ItemContext } from "../../../App.js";
-import { useContext } from "react";
-import { DDRAGON } from "../../../api/ddragon.js";
+
+import { useState } from "react";
 
 import TeamSummary from "../team_summary/TeamSummary.js";
 import Player from "../player/Player.js";
+import { DDRAGON } from "../../../api/ddragon.js";
 
 function Match({ puuid, matchData }) {
+  const [expanded, setExpanded] = useState(false);
   const team = getTeam(puuid, matchData.info.participants);
-  console.log(team);
+  const handleClick = () => setExpanded(!expanded);
 
   return (
-    <li className="Match">
-      <TeamSummary team={team} />
-      {team &&
+    <li onClick={handleClick} className="Match">
+      {team && expanded ? (
         team.map((player, index) => {
+          <TeamSummary team={team} />;
           return <Player key={index} player={player} />;
-        })}
+        })
+      ) : (
+        <div className="GameBanner">
+          <img
+            key={team[0].championName}
+            className="champion-portrait"
+            src={DDRAGON.CHAMPION_IMAGE(team[0].championName)}
+            alt={team[0].championName}
+          />
+          <strong>{team[0].championName}</strong>
+        </div>
+      )}
     </li>
   );
 }

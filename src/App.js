@@ -23,33 +23,40 @@ function App() {
       const augmentData = await ClientApi.fetchAugmentData();
       const itemData = await ClientApi.fetchItemData();
 
+      const gameName = "TannerennaT";
+      const tagLine = "na1";
       const riotAccountData = await ClientApi.fetchRiotAccount(
-        "TannerennaT",
-        "na1",
+        gameName,
+        tagLine,
         setStatus
       );
       const riotAccount = new RiotAccount(riotAccountData);
 
-      const summonerData = await ClientApi.fetchSummoner(
-        riotAccount.puuid,
-        setStatus
-      );
-      console.log(summonerData);
-      const summoner = new Summoner(summonerData);
+      let trackerAccount = JSON.parse(localStorage.getItem(riotAccount.puuid));
 
-      const matchHistory = await ClientApi.fetchMatchHistory(
-        riotAccount.puuid,
-        setStatus
-      );
+      if (!trackerAccount) {
+        const summonerData = await ClientApi.fetchSummoner(
+          riotAccount.puuid,
+          setStatus
+        );
+        const summoner = new Summoner(summonerData);
 
-      const trackerAccount = {
-        gameName: riotAccount.gameName,
-        puuid: riotAccount.puuid,
-        profileIconId: summoner.profileIconId,
-        summonerLevel: summoner.summonerLevel,
-        matchHistory,
-      };
+        const matchHistory = await ClientApi.fetchMatchHistory(
+          riotAccount.puuid,
+          setStatus
+        );
 
+        trackerAccount = {
+          gameName: riotAccount.gameName,
+          puuid: riotAccount.puuid,
+          profileIconId: summoner.profileIconId,
+          summonerLevel: summoner.summonerLevel,
+          matchHistory,
+        };
+        localStorage.setItem(riotAccount.puuid, JSON.stringify(trackerAccount));
+      }
+
+      console.log("Tracker Account:", trackerAccount);
       setAccount(trackerAccount); // save it to state
       setAugments(augmentData.augments);
       setItems(itemData.data);
@@ -61,9 +68,7 @@ function App() {
   return (
     <AugmentContext.Provider value={augments}>
       <ItemContext.Provider value={items}>
-        <div className="App">
-          {account ? <Tracker account={account} /> : <div>hello</div>}
-        </div>
+        <div className="App">{account && <Tracker account={account} />}</div>
       </ItemContext.Provider>
     </AugmentContext.Provider>
   );
