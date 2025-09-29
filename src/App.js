@@ -32,29 +32,24 @@ function App() {
       );
       const riotAccount = new RiotAccount(riotAccountData);
 
-      let trackerAccount = JSON.parse(localStorage.getItem(riotAccount.puuid));
+      const summonerData = await ClientApi.fetchSummoner(
+        riotAccount.puuid,
+        setStatus
+      );
+      const summoner = new Summoner(summonerData);
 
-      if (!trackerAccount) {
-        const summonerData = await ClientApi.fetchSummoner(
-          riotAccount.puuid,
-          setStatus
-        );
-        const summoner = new Summoner(summonerData);
+      const matchHistory = await ClientApi.fetchMatchHistory(
+        riotAccount.puuid,
+        setStatus
+      );
 
-        const matchHistory = await ClientApi.fetchMatchHistory(
-          riotAccount.puuid,
-          setStatus
-        );
-
-        trackerAccount = {
-          gameName: riotAccount.gameName,
-          puuid: riotAccount.puuid,
-          profileIconId: summoner.profileIconId,
-          summonerLevel: summoner.summonerLevel,
-          matchHistory,
-        };
-        localStorage.setItem(riotAccount.puuid, JSON.stringify(trackerAccount));
-      }
+      const trackerAccount = {
+        gameName: riotAccount.gameName,
+        puuid: riotAccount.puuid,
+        profileIconId: summoner.profileIconId,
+        summonerLevel: summoner.summonerLevel,
+        matchHistory,
+      };
 
       console.log("Tracker Account:", trackerAccount);
       setAccount(trackerAccount); // save it to state

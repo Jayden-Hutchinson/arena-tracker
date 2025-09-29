@@ -1,5 +1,8 @@
 import "dotenv/config";
 
+import { RIOT } from "../../../src/constants.js"
+
+
 class RateLimit {
   constructor(numRequests, timeSpan) {
     this.numRequests = numRequests;
@@ -17,14 +20,14 @@ export class RiotApi {
 
   static routes = {
     accountByPuuid: (puuid) =>
-      `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${puuid}`,
-    summonerByPuuid:
-      "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/",
-    matchesByPuuid:
-      "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/",
+      `https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}`,
+    summonerByPuuid: (puuid) =>
+      `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`,
+    matchesByPuuid: (puuid) =>
+      `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=100`,
     accountByGameName: (gameName, tagLine) =>
       `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
-    matchById: "https://americas.api.riotgames.com/lol/match/v5/matches/",
+    matchById: (matchId) => `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}`,
   };
 
   static async fetchJson(url) {
@@ -37,66 +40,32 @@ export class RiotApi {
       });
       return response.json();
     } catch (err) {
-      console.log(err);
       response.status(500).json({ error: "Riot Api Server Error" });
     }
   }
 
-  static async fetchByPuuid(route, puuid) {
-    console.log(route);
-    let url = this.routes[route];
-    console.log(url);
-    return await this.fetchJson(url);
-  }
-
-  static async fetchAccountByGameName({ gameName, tagLine }) {
-    if (!gameName || !tagLine) {
-      return res.status(400).json({ error: "username and tagLine required" });
+  static async fetchByPuuid(route, { puuid }) {
+    if (!route, !puuid) {
+      return res.status(400).json({ error: "route and puuid required" })
     }
-    gameName = encodeURIComponent(gameName);
-    tagLine = encodeURIComponent(tagLine);
-    const url = this.routes.accountByGameName(gameName, tagLine);
-    console.log(url);
-    const riotAccountJson = await this.fetchJson(url);
-    return riotAccountJson;
+    let url = this.routes[route](puuid);
+    const response = await this.fetchJson(url)
+    return response
   }
 
-  static async fetchSummonerByPuuid(puuid) {
+  static async fetchMatchesByPuuid({ puuid }) {
     if (!puuid) {
-      return res.status(400).json({ error: "puuid required" });
     }
-    const encodedPuuid = encodeURIComponent(puuid);
-    const url = `${SERVER_ROUTES.RIOT_API.SUMMONER_BY_PUUID}${encodedPuuid}`;
-    const summonerJson = await this.fetchJson(url);
-    return summonerJson;
-  }
 
-  static async fetchAccountByPuuid(puuid) {
-    if (!gameName || !tagLine) {
-      return res.status(400).json({ error: "username and tagLine required" });
-    }
-    const gameNameUri = encodeURIComponent(gameName);
-    const tagLineUri = encodeURIComponent(tagLine);
-    const url = `${SERVER_ROUTES.RIOT_API.ACCOUNT_BY_NAME}${gameNameUri}/${tagLineUri}`;
-    const riotAccountJson = await this.fetchJson(url);
-    return riotAccountJson;
-  }
-
-  static async fetchMatchesByPuuid(puuid) {
-    if (!puuid) {
-      return res.status(400).json({ error: "puuid required" });
-    }
-    const puuidUri = encodeURIComponent(puuid);
     const count = 100;
-
     let start = 0;
     let allMatchIds = [];
     while (true) {
-      const url = `${SERVER_ROUTES.RIOT_API.MATCHES_BY_PUUID}${puuidUri}/ids?startTime=${RIOT.ARENA_SEASON_START}&queue=${RIOT.ARENA_QUEUE_ID}&start=${start}&count=${count}`;
-      const matchIdList = await this.fetchJson(url);
-      console.log(puuid);
-      console.log(matchIdList);
+      const url = `${this.routes.matchesByPuuid(puuid)}/ids?startTime=${RIOT.ARENA_SEASON_START}&queue=${RIOT.ARENA_QUEUE_ID}&start=${start}&count=${count}`;
 
+      const matchIdList = await this.fetchJson(url);
+
+      console.log(matchIdList)
       if (!matchIdList || matchIdList.length === 0) {
         break;
       }
@@ -106,13 +75,40 @@ export class RiotApi {
     }
     return allMatchIds;
   }
+  static sleep(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
+
+  static async fetchAccountByGameName({ gameName, tagLine }) {
+    if (!gameName || !tagLine) {
+    }
+    const url = this.routes.accountByGameName(gameName, tagLine);
+    const riotAccountJson = await this.fetchJson(url);
+    return riotAccountJson;
+  }
+
+  static async fetchSummonerByPuuid(puuid) {
+    if (!puuid) {
+    }
+    const url = this.routes.summonerByPuuid(puuid);
+    const summonerJson = await this.fetchJson(url);
+    return summonerJson;
+  }
+
+  static async fetchAccountByPuuid(puuid) {
+    if (!gameName || !tagLine) {
+    }
+    const url = this.routes.accountByPuuid(puuid)
+    const riotAccountJson = await this.fetchJson(url);
+    return riotAccountJson;
+  }
+
 
   static async fetchMatchById({ matchId }) {
     if (!matchId) {
-      return res.status(400).json({ error: "mathId required" });
     }
     matchId = encodeURI(matchId);
-    const url = `${this.routes.matchById}${matchId}`;
+    const url = this.routes.matchById(matchId);
     const response = await this.fetchJson(url);
     return response;
   }

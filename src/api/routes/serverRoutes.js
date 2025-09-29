@@ -6,7 +6,7 @@ export const SERVER_ROUTES = {
   SUMMONER_BY_PUUID: (puuid = null) =>
     puuid ? `/summoner?puuid=${puuid}` : "/summoner",
 
-  MATCH_HISTORY_BY_PUUID: (puuid = null) =>
+  MATCHES_BY_PUUID: (puuid = null) =>
     puuid ? `/account/history?puuid=${puuid}` : "/account/history",
   MATCH_BY_ID: (id = null) =>
     id ? `/match/data?matchId=${id}` : "/match/data",

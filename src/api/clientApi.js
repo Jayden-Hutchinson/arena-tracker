@@ -29,12 +29,13 @@ export class ClientApi {
 
   static async fetchMatchHistory(puuid, setStatus) {
     setStatus("fetching match history");
-    const serverRoute = SERVER_ROUTES.MATCH_HISTORY_BY_PUUID(puuid);
+    const serverRoute = SERVER_ROUTES.MATCHES_BY_PUUID(puuid);
     return this.fetchServer(serverRoute);
   }
 
   static async fetchMatchData(matchId) {
     const serverRoute = SERVER_ROUTES.MATCH_BY_ID(matchId);
+    console.log("HERE", serverRoute)
     return this.fetchServer(serverRoute);
   }
 

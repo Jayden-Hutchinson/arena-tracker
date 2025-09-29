@@ -7,7 +7,4 @@ export class ServerApi {
     const url = `${SERVER_ROUTES.DDRAGON.JSON_DATA}${itemUri}.json`;
   }
 
-  static sleep(ms) {
-    return new Promise((res) => setTimeout(res, ms));
-  }
 }
