@@ -4,56 +4,58 @@ import { useEffect, useState } from "react";
 import Match from "../match/Match.js";
 import { ClientApi } from "../../../api/clientApi.js";
 
-function MatchHistory({ puuid, matchHistory = [] }) {
+function MatchHistory({ account }) {
   const [status, setStatus] = useState(null);
   const [matchHistoryData, setMatchHistoryData] = useState([]);
   const [loadedMatches, setLoadedMatches] = useState(0);
-  // const wins = matchHistory.filter((data) => {
-  //   const player = data.info.participants.find(
-  //     (player) => player.puuid === puuid
-  //   );
-  //   return player.placement === 1;
-  // });
-  const handleLoadMore = () => {};
 
   useEffect(() => {
     async function fetchMatchData() {
-      if (matchHistory.length === 0) {
+      if (account.matchHistory.length === 0) {
         return;
       }
 
       const data = [];
       const startTime = Date.now();
-      for (const [index, matchId] of matchHistory.entries()) {
-        setStatus(`Loading ${matchHistory.length} matches: ${index + 1}`);
-        const start = Date.now();
-        const matchData = await ClientApi.fetchMatchData(matchId);
-        const fetchDuration = Date.now() - start;
-        const totalTime = (Date.now() - startTime) / 1000;
-        console.log(
-          `Match Request ${index}: ${fetchDuration}ms, Total Time: ${totalTime.toFixed(
-            2
-          )}s`
-        );
+      let index = 0;
 
-        if (matchData) {
-          const player = matchData.info.participants.find(
-            (player) => player.puuid === puuid
+      for (const matchId of Object.keys(account.matchHistory)) {
+        index++;
+
+        if (!account.matchHistory[matchId]) {
+          setStatus(`Loading ${account.matchHistory.length} matches: ${index}`);
+
+          const start = Date.now();
+          const matchData = await ClientApi.fetchMatchData(matchId);
+
+          const fetchDuration = Date.now() - start;
+          const totalTime = (Date.now() - startTime) / 1000;
+          console.log(
+            `Match Request ${index}: ${fetchDuration}ms, Total Time: ${totalTime.toFixed(
+              2
+            )}s`
           );
+          account.matchHistory[matchId] = matchData;
+          if (matchData) {
+            const player = matchData.info.participants.find(
+              (player) => player.puuid === account.puuid
+            );
 
-          if (player.placement === 1) {
-            data.push(matchData);
-            setMatchHistoryData(data);
+            if (player.placement === 1) {
+              data.push(matchData);
+              setMatchHistoryData(data);
+            }
+            setLoadedMatches((prev) => prev++);
+            localStorage.setItem(account.gameName, JSON.stringify(account));
           }
-          setLoadedMatches((prev) => prev++);
+          const sleepDuration = 1200 - fetchDuration;
+          await sleep(sleepDuration);
         }
-        const sleepDuration = 1200 - fetchDuration;
-        await sleep(sleepDuration);
       }
 
       const grouped = data.reduce((acc, matchData) => {
         const player = matchData.info.participants.find(
-          (player) => player.puuid === puuid
+          (player) => player.puuid === account.puuid
         );
         const key = player.championName;
         if (!acc[key]) {
@@ -78,7 +80,7 @@ function MatchHistory({ puuid, matchHistory = [] }) {
       setMatchHistoryData(oldestWinsPerChamp);
     }
     fetchMatchData();
-  }, [matchHistory]);
+  }, [account.matchHistory]);
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -90,7 +92,7 @@ function MatchHistory({ puuid, matchHistory = [] }) {
       <div>{status}</div>
       {matchHistoryData && matchHistoryData.length > 0 ? (
         matchHistoryData.map((matchData, index) => {
-          return <Match key={index} puuid={puuid} matchData={matchData} />;
+          return <Match key={index} account={account} matchData={matchData} />;
         })
       ) : (
         <p>{status}</p>

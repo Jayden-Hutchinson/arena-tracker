@@ -6,9 +6,9 @@ import TeamSummary from "../team_summary/TeamSummary.js";
 import Player from "../player/Player.js";
 import { DDRAGON } from "../../../api/ddragon.js";
 
-function Match({ puuid, matchData }) {
+function Match({ account, matchData }) {
   const [expanded, setExpanded] = useState(false);
-  const team = getTeam(puuid, matchData.info.participants);
+  const team = getTeam(account.puuid, matchData.info.participants);
   const handleClick = () => setExpanded(!expanded);
 
   return (

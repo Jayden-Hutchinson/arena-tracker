@@ -12,19 +12,18 @@ app.use(express.static("public"));
 const PORT = 5000;
 
 app.get(SERVER_ROUTES.ACCOUNT_BY_GAME_NAME(), async (req, res) => {
-  console.log("Server Request:", req.url)
   const accountJson = await RiotApi.fetchAccountByGameName(req.query);
   res.json(accountJson);
 });
 
 app.get(SERVER_ROUTES.SUMMONER_BY_PUUID(), async (req, res) => {
-  console.log("Server Request:", req.url)
-  const summonerJson = await RiotApi.fetchByPuuid("summonerByPuuid", req.query);
+  const summonerJson = await RiotApi.fetchSummonerByPuuid(req.query);
   res.json(summonerJson);
 });
 
 app.get(SERVER_ROUTES.MATCHES_BY_PUUID(), async (req, res) => {
-  const response = await RiotApi.fetchMatchesByPuuid(req.query);
+  const response = await RiotApi.fetchMatchHistoryByPuuid(req.query);
+  console.log(response);
   res.send(response);
 });
 
@@ -34,7 +33,6 @@ app.get(SERVER_ROUTES.MATCH_BY_ID(), async (req, res) => {
 });
 
 app.get(SERVER_ROUTES.JSON_DATA(), async (req, res) => {
-  console.log("Server Request:", req.url)
   const { item } = req.query;
   if (!item) {
     return res.status(400).json({ error: "item required" });

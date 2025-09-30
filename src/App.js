@@ -25,36 +25,44 @@ function App() {
 
       const gameName = "TannerennaT";
       const tagLine = "na1";
-      const riotAccountData = await ClientApi.fetchRiotAccount(
-        gameName,
-        tagLine,
-        setStatus
-      );
-      const riotAccount = new RiotAccount(riotAccountData);
+      let trackerAccount = JSON.parse(localStorage.getItem(gameName));
 
-      const summonerData = await ClientApi.fetchSummoner(
-        riotAccount.puuid,
-        setStatus
-      );
-      const summoner = new Summoner(summonerData);
+      if (!trackerAccount) {
+        console.log("no account");
+        const riotAccountData = await ClientApi.fetchRiotAccount(
+          gameName,
+          tagLine
+        );
 
-      const matchHistory = await ClientApi.fetchMatchHistory(
-        riotAccount.puuid,
-        setStatus
-      );
+        const riotAccount = new RiotAccount(riotAccountData);
 
-      const trackerAccount = {
-        gameName: riotAccount.gameName,
-        puuid: riotAccount.puuid,
-        profileIconId: summoner.profileIconId,
-        summonerLevel: summoner.summonerLevel,
-        matchHistory,
-      };
+        const summonerData = await ClientApi.fetchSummoner(
+          riotAccount.puuid,
+          setStatus
+        );
+        const summoner = new Summoner(summonerData);
 
+        const matchHistory = await ClientApi.fetchMatchHistory(
+          riotAccount.puuid,
+          setStatus
+        );
+
+        trackerAccount = {
+          gameName: riotAccount.gameName,
+          puuid: riotAccount.puuid,
+          profileIconId: summoner.profileIconId,
+          summonerLevel: summoner.summonerLevel,
+          matchHistory,
+        };
+      }
       console.log("Tracker Account:", trackerAccount);
       setAccount(trackerAccount); // save it to state
       setAugments(augmentData.augments);
       setItems(itemData.data);
+      localStorage.setItem(
+        trackerAccount.gameName,
+        JSON.stringify(trackerAccount)
+      );
     };
 
     fetchData();
