@@ -4,65 +4,41 @@ import { useEffect, useState } from "react";
 import Match from "../match/Match.js";
 import { ClientApi } from "../../../api/clientApi.js";
 
-function MatchHistory({ account }) {
-  const [status, setStatus] = useState(null);
-  const [matchHistoryData, setMatchHistoryData] = useState([]);
-  const [loadedMatches, setLoadedMatches] = useState(0);
+function MatchHistory({ puuid, matchIds }) {
+  const [matches, setMatches] = useState([]);
+  const [matchLoadCount, setMatchLoadCount] = useState(0);
 
   useEffect(() => {
     async function fetchMatchData() {
-      if (account.matchHistory.length === 0) {
+      if (matchIds.length === 0) {
         return;
       }
 
-      const data = [];
-      const startTime = Date.now();
-      let index = 0;
+      const matches = [];
+      for (const matchId of matchIds) {
+        const start = Date.now();
+        const match = await ClientApi.fetchMatchData(matchId);
 
-      for (const matchId of Object.keys(account.matchHistory)) {
-        index++;
+        const fetchDuration = Date.now() - start;
 
-        if (!account.matchHistory[matchId]) {
-          setStatus(`Loading ${account.matchHistory.length} matches: ${index}`);
-
-          const start = Date.now();
-          const matchData = await ClientApi.fetchMatchData(matchId);
-
-          const fetchDuration = Date.now() - start;
-          const totalTime = (Date.now() - startTime) / 1000;
-          console.log(
-            `Match Request ${index}: ${fetchDuration}ms, Total Time: ${totalTime.toFixed(
-              2
-            )}s`
-          );
-          account.matchHistory[matchId] = matchData;
-          if (matchData) {
-            const player = matchData.info.participants.find(
-              (player) => player.puuid === account.puuid
-            );
-
-            if (player.placement === 1) {
-              data.push(matchData);
-              setMatchHistoryData(data);
-            }
-            setLoadedMatches((prev) => prev++);
-            localStorage.setItem(account.gameName, JSON.stringify(account));
-          }
-          const sleepDuration = 1200 - fetchDuration;
-          await sleep(sleepDuration);
+        if (match && isWin(match)) {
+          matches.push(match);
+          setMatches(matches);
+          setMatchLoadCount((prev) => prev++);
         }
+        const sleepDuration = 1200 - fetchDuration;
+        await sleep(sleepDuration);
       }
 
-      const grouped = data.reduce((acc, matchData) => {
+      const grouped = matches.reduce((acc, matchData) => {
         const player = matchData.info.participants.find(
-          (player) => player.puuid === account.puuid
+          (player) => player.puuid === puuid
         );
-        const key = player.championName;
-        if (!acc[key]) {
-          acc[key] = [];
+        const championName = player.championName;
+        if (!acc[championName]) {
+          acc[championName] = [];
         }
-        console.log(key);
-        acc[key].push(matchData);
+        acc[championName].push(matchData);
         return acc;
       }, {});
 
@@ -77,10 +53,17 @@ function MatchHistory({ account }) {
         );
       }
 
-      setMatchHistoryData(oldestWinsPerChamp);
+      setMatches(oldestWinsPerChamp);
     }
     fetchMatchData();
-  }, [account.matchHistory]);
+  }, [matchIds]);
+
+  function isWin(match) {
+    const player = match.info.participants.find(
+      (player) => player.puuid === puuid
+    );
+    return player.placement === 1;
+  }
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -88,16 +71,14 @@ function MatchHistory({ account }) {
 
   return (
     <div className="MatchHistory">
-      <div>{`Won with ${matchHistoryData.length} Champions`}</div>
-      <div>{status}</div>
-      {matchHistoryData && matchHistoryData.length > 0 ? (
-        matchHistoryData.map((matchData, index) => {
-          return <Match key={index} account={account} matchData={matchData} />;
-        })
-      ) : (
-        <p>{status}</p>
-      )}
-      <div>Load More</div>
+      <div>{`Won with ${matches.length} Champions`}</div>
+      {matches &&
+        matches.map((matchData, index) => {
+          return <Match key={index} puuid={puuid} matchData={matchData} />;
+        })}
+      <div>
+        loading match {matchLoadCount} of {matchIds.length}
+      </div>
     </div>
   );
 }

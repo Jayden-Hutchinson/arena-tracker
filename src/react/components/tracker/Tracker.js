@@ -9,7 +9,11 @@ function Tracker({ account }) {
   return (
     <div className="Tracker">
       {account && <Summoner player={account} />}
-      {account ? <MatchHistory account={account} /> : <span></span>}
+      {account ? (
+        <MatchHistory puuid={account.puuid} matchIds={account.matchIds} />
+      ) : (
+        <span></span>
+      )}
     </div>
   );
 }

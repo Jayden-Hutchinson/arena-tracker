@@ -23,14 +23,19 @@ export class RiotApi {
   static arenaQueueId = 1700;
 
   static routes = {
-    accountByPuuid: (puuid) =>
+    account: (puuid) =>
       `https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}`,
-    summonerByPuuid: (puuid) =>
+    summoner: (puuid) =>
       `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`,
-    matchHistoyrByPuuid: (puuid, start, count) =>
+    matches: (puuid, start, count) =>
       `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?startTime=${this.arenaSeasonStartTime}&queue=${this.arenaQueueId}&start=${start}&count=${count}`,
-    accountByGameName: (gameName, tagLine) =>
-      `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
+
+    account: {
+      gameName: (gameName, tagLine) =>
+        `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
+      puuid: (puuid) =>
+        `https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}`,
+    },
     matchById: (matchId) =>
       `https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}`,
   };
@@ -56,63 +61,37 @@ export class RiotApi {
     }
   }
 
-  static async fetchMatchHistoryByPuuid({ puuid }) {
-    if (!puuid) {
-      throw new Error(
-        "RiotApi.fetchMatchHistoryByPuuid() required gameName and tagLine"
-      );
-    }
-
-    let start = 0;
-    const count = 100;
-    let matchHistory = [];
+  static async fetchMatchesByPuuid(puuid, start = 0, count = 100) {
+    let matches = [];
     while (true) {
-      const url = this.routes.matchHistoyrByPuuid(puuid, start, count);
+      const url = this.routes.matches(puuid, start, count);
 
       const matchIdList = await this.fetchJson(url);
       if (!matchIdList || matchIdList.length === 0) {
         break;
       }
-      matchHistory = matchHistory.concat(matchIdList);
+      matches = matches.concat(matchIdList);
       start += count;
     }
-    console.log(matchHistory);
-    return matchHistory.reduce((acc, v) => {
-      acc[v] = null;
-      return acc;
-    }, {});
+    return matches;
   }
 
-  static async fetchAccountByGameName({ gameName, tagLine }) {
-    if (!gameName || !tagLine) {
-      throw new Error(
-        "RiotApi.fetchAccountByGameName() requires gameName and tagLine"
-      );
-    }
-    const url = this.routes.accountByGameName(gameName, tagLine);
+  static async fetchAccountByGameName(gameName, tagLine) {
+    const url = this.routes.account.gameName(gameName, tagLine);
     return this.fetchJson(url);
   }
 
-  static async fetchSummonerByPuuid({ puuid }) {
-    if (!puuid) {
-      throw new Error("RiotApi.fetchSummonerByPuuid() requires puuid");
-    }
-    const url = this.routes.summonerByPuuid(puuid);
+  static async fetchSummonerByPuuid(puuid) {
+    const url = this.routes.summoner(puuid);
     return this.fetchJson(url);
   }
 
   static async fetchAccountByPuuid(puuid) {
-    if (!puuid) {
-      throw new Error("RiotApi.fetchAccountByPuuid() requires puuid");
-    }
-    const url = this.routes.accountByPuuid(puuid);
+    const url = this.routes.account.puuid(puuid);
     return this.fetchJson(url);
   }
 
-  static async fetchMatchById({ matchId }) {
-    if (!matchId) {
-      throw new Error("RiotApi.fetchMatchById() requires matchId");
-    }
+  static async fetchMatchById(matchId) {
     const url = this.routes.matchById(matchId);
     return this.fetchJson(url);
   }

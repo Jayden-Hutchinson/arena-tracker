@@ -10,10 +10,22 @@ import { createContext, useEffect, useState } from "react";
 export const AugmentContext = createContext(null);
 export const ItemContext = createContext(null);
 
+async function getTrackerData(gameName, tagLine) {
+  const account = await ClientApi.fetchRiotAccount(gameName, tagLine);
+  const summoner = await ClientApi.fetchSummoner(account.puuid);
+  const matchIds = await ClientApi.fetchMatchHistory(account.puuid);
+  return {
+    gameName: account.gameName,
+    puuid: account.puuid,
+    profileIconId: summoner.profileIconId,
+    summonerLevel: summoner.summonerLevel,
+    matchIds: matchIds,
+  };
+}
+
 function App() {
   const [augments, setAugments] = useState(null);
   const [items, setItems] = useState(null);
-  const [status, setStatus] = useState(null);
   const [account, setAccount] = useState(null);
 
   // Call the api on load
@@ -25,44 +37,17 @@ function App() {
 
       const gameName = "TannerennaT";
       const tagLine = "na1";
-      let trackerAccount = JSON.parse(localStorage.getItem(gameName));
 
-      if (!trackerAccount) {
-        console.log("no account");
-        const riotAccountData = await ClientApi.fetchRiotAccount(
-          gameName,
-          tagLine
-        );
-
-        const riotAccount = new RiotAccount(riotAccountData);
-
-        const summonerData = await ClientApi.fetchSummoner(
-          riotAccount.puuid,
-          setStatus
-        );
-        const summoner = new Summoner(summonerData);
-
-        const matchHistory = await ClientApi.fetchMatchHistory(
-          riotAccount.puuid,
-          setStatus
-        );
-
-        trackerAccount = {
-          gameName: riotAccount.gameName,
-          puuid: riotAccount.puuid,
-          profileIconId: summoner.profileIconId,
-          summonerLevel: summoner.summonerLevel,
-          matchHistory,
-        };
+      let account = JSON.parse(localStorage.getItem(gameName));
+      if (!account) {
+        account = await getTrackerData(gameName, tagLine);
       }
-      console.log("Tracker Account:", trackerAccount);
-      setAccount(trackerAccount); // save it to state
+
+      setAccount(account);
       setAugments(augmentData.augments);
       setItems(itemData.data);
-      localStorage.setItem(
-        trackerAccount.gameName,
-        JSON.stringify(trackerAccount)
-      );
+
+      localStorage.setItem(account.puuid, JSON.stringify(account));
     };
 
     fetchData();

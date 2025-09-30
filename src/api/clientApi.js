@@ -1,14 +1,15 @@
 import { CDRAGON } from "./cdragon.js";
 import { DDRAGON } from "./ddragon.js";
-import { SERVER_ROUTES } from "./routes/serverRoutes.js";
+import { URL } from "./routes/serverRoutes.js";
 
 let augmentsCache = null;
 let itemsCache = null;
 
 export class ClientApi {
-  static async fetchServer(serverRoute) {
+  static async fetchServer(url) {
     try {
-      const response = await fetch(serverRoute);
+      console.log("Client Request", url);
+      const response = await fetch(url);
       return response.json();
     } catch (err) {
       console.log(err);
@@ -16,37 +17,37 @@ export class ClientApi {
   }
 
   static async fetchRiotAccount(gameName, tagLine) {
-    const serverRoute = SERVER_ROUTES.ACCOUNT_BY_GAME_NAME(gameName, tagLine);
-    return this.fetchServer(serverRoute);
+    const url = URL.account(gameName, tagLine);
+    return this.fetchServer(url);
   }
 
   static async fetchSummoner(puuid) {
-    const serverRoute = SERVER_ROUTES.SUMMONER_BY_PUUID(puuid);
-    return this.fetchServer(serverRoute);
+    const url = URL.summoner(puuid);
+    return this.fetchServer(url);
   }
 
   static async fetchMatchHistory(puuid) {
-    const serverRoute = SERVER_ROUTES.MATCHES_BY_PUUID(puuid);
-    return this.fetchServer(serverRoute);
+    const url = URL.matches(puuid);
+    return this.fetchServer(url);
   }
 
   static async fetchMatchData(matchId) {
-    const serverRoute = SERVER_ROUTES.MATCH_BY_ID(matchId);
-    return this.fetchServer(serverRoute);
+    const url = URL.match(matchId);
+    return this.fetchServer(url);
   }
 
   static async fetchAugmentData() {
     if (augmentsCache) return augmentsCache;
-    const serverRoute = CDRAGON.AUGMENT_JSON;
-    const data = this.fetchServer(serverRoute);
+    const url = CDRAGON.AUGMENT_JSON;
+    const data = this.fetchServer(url);
     augmentsCache = data;
     return data;
   }
 
   static async fetchItemData() {
     if (itemsCache) return itemsCache;
-    const serverRoute = DDRAGON.ITEM_JSON;
-    const data = this.fetchServer(serverRoute);
+    const url = DDRAGON.ITEM_JSON;
+    const data = this.fetchServer(url);
     itemsCache = data;
     return data;
   }
