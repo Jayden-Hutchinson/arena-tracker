@@ -8,6 +8,19 @@ import { createContext, useEffect, useState } from "react";
 export const AugmentContext = createContext(null);
 export const ItemContext = createContext(null);
 
+async function getTrackerData(gameName, tagLine) {
+  const account = await ClientApi.fetchRiotAccount(gameName, tagLine);
+  const summoner = await ClientApi.fetchSummoner(account.puuid);
+  const matchIds = await ClientApi.fetchMatchHistory(account.puuid);
+  return {
+    gameName: account.gameName,
+    puuid: account.puuid,
+    profileIconId: summoner.profileIconId,
+    summonerLevel: summoner.summonerLevel,
+    matchIds: matchIds,
+  };
+}
+
 function App() {
   const [augments, setAugments] = useState(null);
   const [items, setItems] = useState(null);
@@ -23,25 +36,16 @@ function App() {
       const gameName = "TannerennaT";
       const tagLine = "na1";
 
-      try {
-        const riotAccount = await ClientApi.fetchRiotAccount(gameName, tagLine);
-        const summoner = await ClientApi.fetchSummoner(riotAccount.puuid,);
-        const matches = await ClientApi.fetchMatchHistory(riotAccount.puuid,);
-        const account = {
-          gameName: riotAccount.gameName,
-          puuid: riotAccount.puuid,
-          profileIconId: summoner.profileIconId,
-          summonerLevel: summoner.summonerLevel,
-          matchHistory: matches,
-        };
-
-        console.log("Tracker Account:", account);
-        setAccount(account); // save it to state
-        setAugments(augmentData.augments);
-        setItems(itemData.data);
-      } catch (error) {
-        console.log(error);
+      let account = JSON.parse(localStorage.getItem(gameName));
+      if (!account) {
+        account = await getTrackerData(gameName, tagLine);
       }
+
+      setAccount(account);
+      setAugments(augmentData.augments);
+      setItems(itemData.data);
+
+      localStorage.setItem(account.puuid, JSON.stringify(account));
     };
 
     fetchData();

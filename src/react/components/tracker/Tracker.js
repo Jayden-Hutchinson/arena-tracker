@@ -9,10 +9,7 @@ function Tracker({ account }) {
     <div className="Tracker">
       {account && <Summoner player={account} />}
       {account ? (
-        <MatchHistory
-          puuid={account.puuid}
-          matchHistory={account.matchHistory}
-        />
+        <MatchHistory puuid={account.puuid} matchIds={account.matchIds} />
       ) : (
         <span></span>
       )}

@@ -1,8 +1,7 @@
 import "dotenv/config";
 import express from "express";
 
-import { SERVER_ROUTES } from "../../src/api/routes/serverRoutes.js";
-import { ServerApi } from "./api/serverApi.js";
+import { URL } from "../../src/api/routes/serverRoutes.js";
 import { RiotApi } from "./api/RiotApi.js";
 
 const app = express();
@@ -11,7 +10,7 @@ app.use(express.static("public"));
 
 const PORT = 5000;
 
-app.get(SERVER_ROUTES.ACCOUNT_BY_GAME_NAME(), async (req, res) => {
+app.get(URL.account(), async (req, res) => {
   const { gameName, tagLine } = req.query
   try {
     const accountJson = await RiotApi.fetchAccountByGameName(gameName, tagLine);
@@ -21,7 +20,7 @@ app.get(SERVER_ROUTES.ACCOUNT_BY_GAME_NAME(), async (req, res) => {
   }
 });
 
-app.get(SERVER_ROUTES.SUMMONER_BY_PUUID(), async (req, res) => {
+app.get(URL.summoner(), async (req, res) => {
   const { puuid } = req.query;
   try {
     const summonerJson = await RiotApi.fetchSummonerByPuuid(puuid);
@@ -31,7 +30,7 @@ app.get(SERVER_ROUTES.SUMMONER_BY_PUUID(), async (req, res) => {
   }
 });
 
-app.get(SERVER_ROUTES.MATCHES_BY_PUUID(), async (req, res) => {
+app.get(URL.matches(), async (req, res) => {
   const { puuid } = req.query;
   try {
     const response = await RiotApi.fetchMatchesByPuuid(puuid);
@@ -41,21 +40,11 @@ app.get(SERVER_ROUTES.MATCHES_BY_PUUID(), async (req, res) => {
   }
 });
 
-app.get(SERVER_ROUTES.MATCH_BY_ID(), async (req, res) => {
+app.get(URL.match(), async (req, res) => {
   const { matchId } = req.query;
   try {
     const response = await RiotApi.fetchMatchById(matchId);
     res.json(response);
-  } catch (error) {
-    console.log(error.message);
-  }
-});
-
-app.get(SERVER_ROUTES.JSON_DATA(), async (req, res) => {
-  const { item } = req.query;
-  try {
-    const itemJson = await ServerApi.fetchJsonData(item);
-    res.json(itemJson);
   } catch (error) {
     console.log(error.message);
   }
