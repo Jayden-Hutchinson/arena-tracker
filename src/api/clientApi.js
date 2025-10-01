@@ -7,12 +7,22 @@ let itemsCache = null;
 
 export class ClientApi {
   static async fetchServer(url) {
-    const response = await fetch(url);
-    return response.json();
+    try {
+      const response = await fetch(url);
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error("error");
+      }
+
+      return response.json();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   static async fetchRiotAccount(gameName, tagLine) {
-   const url = URL.account(gameName, tagLine);
+    const url = URL.account(gameName, tagLine);
     return this.fetchServer(url);
   }
 

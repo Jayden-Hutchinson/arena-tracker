@@ -11,13 +11,9 @@ app.use(express.static("public"));
 const PORT = 5000;
 
 app.get(URL.account(), async (req, res) => {
-  const { gameName, tagLine } = req.query
-  try {
-    const accountJson = await RiotApi.fetchAccountByGameName(gameName, tagLine);
-    res.json(accountJson);
-  } catch (error) {
-    console.log(error.message);
-  }
+  const { gameName, tagLine } = req.query;
+  const account = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+  res.send(account);
 });
 
 app.get(URL.summoner(), async (req, res) => {
@@ -32,12 +28,9 @@ app.get(URL.summoner(), async (req, res) => {
 
 app.get(URL.matches(), async (req, res) => {
   const { puuid } = req.query;
-  try {
-    const response = await RiotApi.fetchMatchesByPuuid(puuid);
-    res.send(response);
-  } catch (error) {
-    console.log(error.message);
-  }
+  const response = await RiotApi.fetchMatchesByPuuid(puuid);
+  const data = await response.json();
+  res.json(data);
 });
 
 app.get(URL.match(), async (req, res) => {

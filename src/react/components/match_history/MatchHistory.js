@@ -18,14 +18,14 @@ function MatchHistory({ puuid, matchIds }) {
       for (const matchId of matchIds) {
         const start = Date.now();
         const match = await ClientApi.fetchMatchData(matchId);
-
-        console.log(match)
         const fetchDuration = Date.now() - start;
+        console.log(match);
 
         if (match && isWin(match)) {
           matches.push(match);
           setMatches(matches);
         }
+
         setMatchLoadCount((prev) => prev++);
         const sleepDuration = 1200 - fetchDuration;
         await sleep(sleepDuration);
@@ -59,6 +59,7 @@ function MatchHistory({ puuid, matchIds }) {
     fetchMatchData();
   }, [matchIds]);
 
+  console.log(matchIds);
   function isWin(match) {
     const player = match.info.participants.find(
       (player) => player.puuid === puuid

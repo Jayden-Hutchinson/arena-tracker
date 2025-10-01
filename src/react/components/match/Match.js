@@ -8,6 +8,7 @@ import { DDRAGON } from "../../../api/ddragon.js";
 
 function Match(puuid, matchData) {
   const [expanded, setExpanded] = useState(false);
+  console.log(matchData)
   const team = getTeam(puuid, matchData.info.participants);
   const handleClick = () => setExpanded(!expanded);
 

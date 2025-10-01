@@ -12,6 +12,7 @@ async function getTrackerData(gameName, tagLine) {
   const account = await ClientApi.fetchRiotAccount(gameName, tagLine);
   const summoner = await ClientApi.fetchSummoner(account.puuid);
   const matchIds = await ClientApi.fetchMatchHistory(account.puuid);
+
   return {
     gameName: account.gameName,
     puuid: account.puuid,
