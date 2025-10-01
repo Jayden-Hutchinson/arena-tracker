@@ -8,28 +8,28 @@ import { DDRAGON } from "../../../api/ddragon.js";
 
 function Match(puuid, matchData) {
   const [expanded, setExpanded] = useState(false);
-  console.log(matchData)
-  const team = getTeam(puuid, matchData.info.participants);
+  const team = matchData ? getTeam(puuid, matchData.info.participants) : null;
+  console.log(team);
   const handleClick = () => setExpanded(!expanded);
 
   return (
     <li onClick={handleClick} className="Match">
-      {team && expanded ? (
+      {team &&
+        matchData &&
+        expanded &&
         team.map((player, index) => {
           <TeamSummary team={team} />;
-          return <Player key={index} player={player} />;
-        })
-      ) : (
-        <div className="GameBanner">
-          <img
-            key={team[0].championName}
-            className="champion-portrait"
-            src={DDRAGON.CHAMPION_IMAGE(team[0].championName)}
-            alt={team[0].championName}
-          />
-          <strong>{team[0].championName}</strong>
-        </div>
-      )}
+          <Player key={index} player={player} />;
+          <div className="GameBanner">
+            <img
+              key={team[0].championName}
+              className="champion-portrait"
+              src={DDRAGON.CHAMPION_IMAGE(team[0].championName)}
+              alt={team[0].championName}
+            />
+            <strong>{team[0].championName}</strong>
+          </div>;
+        })}
     </li>
   );
 }

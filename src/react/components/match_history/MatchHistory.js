@@ -19,7 +19,6 @@ function MatchHistory({ puuid, matchIds }) {
         const start = Date.now();
         const match = await ClientApi.fetchMatchData(matchId);
         const fetchDuration = Date.now() - start;
-        console.log(match);
 
         if (match && isWin(match)) {
           matches.push(match);
@@ -59,7 +58,6 @@ function MatchHistory({ puuid, matchIds }) {
     fetchMatchData();
   }, [matchIds]);
 
-  console.log(matchIds);
   function isWin(match) {
     const player = match.info.participants.find(
       (player) => player.puuid === puuid
@@ -76,6 +74,7 @@ function MatchHistory({ puuid, matchIds }) {
       <div>{`Won with ${matches.length} Champions`}</div>
       {matches &&
         matches.map((matchData, index) => {
+          console.log(index, matchData);
           return <Match key={index} puuid={puuid} matchData={matchData} />;
         })}
       <div>

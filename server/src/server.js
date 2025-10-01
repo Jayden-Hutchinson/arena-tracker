@@ -12,32 +12,36 @@ const PORT = 5000;
 
 app.get(URL.account(), async (req, res) => {
   const { gameName, tagLine } = req.query;
-  const account = await RiotApi.fetchAccountByGameName(gameName, tagLine);
-  res.send(account);
+  try {
+    const account = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+    return res.json(account);
+  } catch (err) {
+    console.log(err);
+    return res.status(err.status).json(err.message);
+  }
 });
 
 app.get(URL.summoner(), async (req, res) => {
   const { puuid } = req.query;
   try {
-    const summonerJson = await RiotApi.fetchSummonerByPuuid(puuid);
-    res.json(summonerJson);
-  } catch (error) {
-    console.log(error.message);
+    const summoner = await RiotApi.fetchSummonerByPuuid(puuid);
+    return res.json(summoner);
+  } catch (err) {
+    console.log(err);
   }
 });
 
 app.get(URL.matches(), async (req, res) => {
-  const { puuid } = req.query;
-  const response = await RiotApi.fetchMatchesByPuuid(puuid);
-  const data = await response.json();
-  res.json(data);
+  const puuid = req.query;
+  const matches = await RiotApi.fetchMatchesByPuuid(puuid);
+  return res.json(matches);
 });
 
 app.get(URL.match(), async (req, res) => {
   const { matchId } = req.query;
   try {
-    const response = await RiotApi.fetchMatchById(matchId);
-    res.json(response);
+    const match = await RiotApi.fetchMatchById(matchId);
+    res.json(match);
   } catch (error) {
     console.log(error.message);
   }

@@ -8,14 +8,14 @@ let itemsCache = null;
 export class ClientApi {
   static async fetchServer(url) {
     try {
-      const response = await fetch(url);
-      console.log(response);
+      const res = await fetch(url);
+      const data = await res.json();
 
-      if (!response.ok) {
-        throw new Error("error");
+      if (!res.ok) {
+        console.log(url);
       }
 
-      return response.json();
+      return data;
     } catch (err) {
       console.log(err);
     }
@@ -23,12 +23,12 @@ export class ClientApi {
 
   static async fetchRiotAccount(gameName, tagLine) {
     const url = URL.account(gameName, tagLine);
-    return this.fetchServer(url);
+    return await this.fetchServer(url);
   }
 
   static async fetchSummoner(puuid) {
     const url = URL.summoner(puuid);
-    return this.fetchServer(url);
+    return await this.fetchServer(url);
   }
 
   static async fetchMatchHistory(puuid) {
