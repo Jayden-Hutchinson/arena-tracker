@@ -12,35 +12,53 @@ app.use(express.static("public"));
 const PORT = 5000;
 
 app.get(SERVER_ROUTES.ACCOUNT_BY_GAME_NAME(), async (req, res) => {
-  console.log("Server Request:", req.url)
-  const accountJson = await RiotApi.fetchAccountByGameName(req.query);
-  res.json(accountJson);
+  const { gameName, tagLine } = req.query
+  try {
+    const accountJson = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+    res.json(accountJson);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 app.get(SERVER_ROUTES.SUMMONER_BY_PUUID(), async (req, res) => {
-  console.log("Server Request:", req.url)
-  const summonerJson = await RiotApi.fetchByPuuid("summonerByPuuid", req.query);
-  res.json(summonerJson);
+  const { puuid } = req.query;
+  try {
+    const summonerJson = await RiotApi.fetchSummonerByPuuid(puuid);
+    res.json(summonerJson);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 app.get(SERVER_ROUTES.MATCHES_BY_PUUID(), async (req, res) => {
-  const response = await RiotApi.fetchMatchesByPuuid(req.query);
-  res.send(response);
+  const { puuid } = req.query;
+  try {
+    const response = await RiotApi.fetchMatchesByPuuid(puuid);
+    res.send(response);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 app.get(SERVER_ROUTES.MATCH_BY_ID(), async (req, res) => {
-  const response = await RiotApi.fetchMatchById(req.query);
-  res.json(response);
+  const { matchId } = req.query;
+  try {
+    const response = await RiotApi.fetchMatchById(matchId);
+    res.json(response);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 app.get(SERVER_ROUTES.JSON_DATA(), async (req, res) => {
-  console.log("Server Request:", req.url)
   const { item } = req.query;
-  if (!item) {
-    return res.status(400).json({ error: "item required" });
+  try {
+    const itemJson = await ServerApi.fetchJsonData(item);
+    res.json(itemJson);
+  } catch (error) {
+    console.log(error.message);
   }
-  const itemJson = await ServerApi.fetchJsonData(item);
-  res.json(itemJson);
 });
 
 app.listen(PORT, () => {

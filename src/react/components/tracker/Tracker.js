@@ -1,5 +1,4 @@
 // import TrackerSearch from "../tracker_search/TrackerSearch";
-import { useState } from "react";
 import MatchHistory from "../match_history/MatchHistory.js";
 import Summoner from "../Summoner/Summoner.js";
 import "./Tracker.css";

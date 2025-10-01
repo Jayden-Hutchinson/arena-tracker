@@ -16,26 +16,22 @@ export class ClientApi {
   }
 
   static async fetchRiotAccount(gameName, tagLine, setStatus) {
-    setStatus("getting riot account");
     const serverRoute = SERVER_ROUTES.ACCOUNT_BY_GAME_NAME(gameName, tagLine);
     return this.fetchServer(serverRoute);
   }
 
   static async fetchSummoner(puuid, setStatus) {
-    setStatus("fetching summoner account");
     const serverRoute = SERVER_ROUTES.SUMMONER_BY_PUUID(puuid);
     return this.fetchServer(serverRoute);
   }
 
   static async fetchMatchHistory(puuid, setStatus) {
-    setStatus("fetching match history");
     const serverRoute = SERVER_ROUTES.MATCHES_BY_PUUID(puuid);
     return this.fetchServer(serverRoute);
   }
 
   static async fetchMatchData(matchId) {
     const serverRoute = SERVER_ROUTES.MATCH_BY_ID(matchId);
-    console.log("HERE", serverRoute)
     return this.fetchServer(serverRoute);
   }
 
