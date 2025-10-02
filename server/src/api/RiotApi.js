@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { API_ROUTE } from "./ApiRoutes";
 
 class RateLimit {
   constructor(numRequests, timeSpan) {
@@ -8,64 +9,6 @@ class RateLimit {
 }
 
 export class RiotApi {
-  static baseUrl = {
-    platform: `https://na1.api.riotgames.com`,
-    regional: `https://americas.api.riotgames.com`,
-  };
-
-  static routes = {
-    account: (puuid) =>
-      `${this.baseUrl.regional}/riot/account/v1/accounts/by-puuid/${puuid}`,
-    summoner: {
-      byPuuid: (puuid) => {
-        const url = new URL(
-          `/lol/summoner/v4/summoners/by-puuid/${puuid}`,
-          this.baseUrl.platform
-        );
-        return url;
-      },
-    },
-    match: {
-      byPuuid: (
-        params = {
-          puuid,
-          start: 0,
-          count: 100,
-          queue: 1700,
-          startTime: null,
-        }
-      ) => {
-        const url = new URL(
-          `/lol/match/v5/matches/by-puuid/${params.puuid}/ids?`,
-          this.baseUrl.regional
-        );
-        Object.entries(params).forEach(([key, value]) => {
-          url.searchParams.append(key, value);
-        });
-        return url;
-      },
-      byMatchId: (matchId) => {
-        const url = new URL(
-          `/lol/match/v5/matches/${matchId}`,
-          this.baseUrl.regional
-        );
-        return url;
-      },
-    },
-
-    account: {
-      byGameName: (gameName, tagLine) => {
-        const url = new URL(
-          `/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
-          this.baseUrl.regional
-        );
-        return url;
-      },
-      byPuuid: (puuid) =>
-        `https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}`,
-    },
-  };
-
   static apiKey = process.env.RIOT_API_KEY;
 
   static rateLimits = {
@@ -77,7 +20,7 @@ export class RiotApi {
   static arenaQueueId = 1700;
 
   static async fetch(url) {
-    console.log("Riot Api Request:", url.pathname);
+    console.log("Riot Api Request:", url);
     const res = await fetch(url, {
       headers: {
         "X-Riot-Token": this.apiKey,
@@ -87,17 +30,17 @@ export class RiotApi {
   }
 
   static async fetchAccountByPuuid(puuid) {
-    const url = this.routes.account.byPuuid(puuid);
+    const url = API_ROUTE.RIOT.ACCOUNT.BY_PUUID(puuid);
     return this.fetch(url);
   }
 
   static async fetchAccountByGameName(gameName, tagLine) {
-    const url = this.routes.account.byGameName(gameName, tagLine);
+    const url = API_ROUTE.RIOT.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
     return this.fetch(url);
   }
 
   static async fetchSummonerByPuuid(puuid) {
-    const url = this.routes.summoner.byPuuid(puuid);
+    const url = API_ROUTE.RIOT.SUMMONER.BY_PUUID(puuid);
     return this.fetch(url);
   }
 
@@ -108,7 +51,7 @@ export class RiotApi {
     queue = this.arenaQueueId,
     startTime = this.arenaSeasonStartTime,
   }) {
-    const url = this.routes.match.byPuuid({
+    const url = API_ROUTE.RIOT.MATCH.BY_PUUID({
       puuid,
       start,
       count,
@@ -119,7 +62,7 @@ export class RiotApi {
   }
 
   static async fetchMatchById(matchId) {
-    const url = this.routes.match.byMatchId(matchId);
+    const url = API_ROUTE.RIOT.MATCH.BY_ID(matchId);
     return this.fetch(url);
   }
 

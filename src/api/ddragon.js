@@ -5,8 +5,8 @@ export const DDRAGON = {
   ITEM_JSON: `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/item.json`,
 
   // Images
-  CHAMPION_IMAGE: (championName) =>
-    `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${championName}.png`,
+  CHAMPION_IMAGE: (championImage) =>
+    `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${championImage}`,
 
   ITEM_IMAGE: (itemImage) =>
     `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${itemImage}`,

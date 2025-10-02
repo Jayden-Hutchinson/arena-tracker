@@ -4,26 +4,21 @@ import { useEffect, useState } from "react";
 import Match from "../match/Match.js";
 import { ClientApi } from "../../../api/clientApi.js";
 
-function MatchHistory({ puuid, matchIds }) {
+function MatchHistory({ puuid }) {
   const [matches, setMatches] = useState([]);
   const [matchLoadCount, setMatchLoadCount] = useState(0);
 
   useEffect(() => {
     async function fetchMatchData() {
-      if (matchIds.length === 0) {
-        return;
-      }
-
       const matches = [];
+      const matchIds = await ClientApi.fetchMatchHistory(puuid)
       for (const matchId of matchIds) {
         const start = Date.now();
         const match = await ClientApi.fetchMatchData(matchId);
         const fetchDuration = Date.now() - start;
 
-        if (match && isWin(match)) {
-          matches.push(match);
-          setMatches(matches);
-        }
+        matches.push(match);
+        setMatches(matches);
 
         setMatchLoadCount((prev) => prev++);
         const sleepDuration = 1200 - fetchDuration;
@@ -56,7 +51,7 @@ function MatchHistory({ puuid, matchIds }) {
       setMatches(oldestWinsPerChamp);
     }
     fetchMatchData();
-  }, [matchIds]);
+  }, []);
 
   function isWin(match) {
     const player = match.info.participants.find(
@@ -78,7 +73,7 @@ function MatchHistory({ puuid, matchIds }) {
           return <Match key={index} puuid={puuid} matchData={matchData} />;
         })}
       <div>
-        loading match {matchLoadCount} of {matchIds.length}
+        loading match {matchLoadCount} of {length}
       </div>
     </div>
   );
