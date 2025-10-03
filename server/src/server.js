@@ -32,13 +32,15 @@ app.get(URL.matches(), async (req, res) => {
     const matches = await RiotApi.fetchMatchesByPuuid(puuid);
     return res.json(matches);
   } catch (err) {
+    console.log(err);
+
     if (err.status && err.body) {
       return res.status(err.status).json(err.body);
     }
 
     return res
       .status(500)
-      .json({ error: err.message || "Internal Server Error" });
+      .json({ error: err.message || "ME: Internal Server Error" });
   }
 });
 

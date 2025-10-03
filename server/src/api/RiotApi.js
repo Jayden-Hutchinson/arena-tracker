@@ -21,7 +21,6 @@ export class RiotApi {
 
   static async fetch(url) {
     console.log("Riot Api Request:", url);
-    await this.sleep(1200);
     const res = await fetch(url, {
       headers: {
         "X-Riot-Token": this.apiKey,
@@ -81,7 +80,4 @@ export class RiotApi {
     return this.fetch(url);
   }
 
-  static async sleep(ms) {
-    return new Promise((res) => setTimeout(res, ms));
-  }
 }

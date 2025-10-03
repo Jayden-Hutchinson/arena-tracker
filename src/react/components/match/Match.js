@@ -1,30 +1,25 @@
-import "./Match.css";
-
 import { useEffect, useState } from "react";
-
+import { DDRAGON } from "../../../api/ddragon.js";
 import TeamSummary from "../team_summary/TeamSummary.js";
 import Player from "../player/Player.js";
-import { DDRAGON } from "../../../api/ddragon.js";
-import { ClientApi } from "../../../api/clientApi.js";
 
-function Match(puuid, matchId) {
+import "./Match.css";
+
+function Match({ puuid, matchData }) {
   const [team, setTeam] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const handleClick = () => setExpanded((prev) => !prev);
 
   useEffect(() => {
-    async function getMatchData() {
-      const matchData = await ClientApi.fetchMatchData(matchId);
-      const team = getTeam(puuid, matchData.info.participants);
-      setTeam(team);
-    }
-    getMatchData();
+    const team = getTeam(puuid, matchData.info.participants);
+    console.log(team);
+    setTeam(team);
   }, []);
 
   return (
     <li onClick={handleClick} className="Match">
-      {team &&
-        expanded &&
+      {matchData &&
+        team &&
         team.map((player, index) => {
           <TeamSummary team={team} />;
           <Player key={index} player={player} />;

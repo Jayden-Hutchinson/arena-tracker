@@ -34,12 +34,18 @@ export const API_ROUTE = {
       BY_PUUID: (puuid) => `${ENDPOINT.RIOT.SUMMONERS}/by-puuid/${puuid}`,
     },
     MATCH: {
-      BY_PUUID: (puuid, start, count, queue, startTime) => {
+      BY_PUUID: (
+        puuid,
+        start = null,
+        count = null,
+        queue = null,
+        startTime = null
+      ) => {
         const url = new URL(`${ENDPOINT.RIOT.MATCHES}/by-puuid/${puuid}/ids?`);
-        if (start) url.searchParams.append("start", start);
-        if (count) url.searchParams.append("count", count);
-        if (queue) url.searchParams.append("queue", queue);
-        if (startTime) url.searchParams.append("startTime", startTime);
+        if (start != null) url.searchParams.append("start", start);
+        if (count != null) url.searchParams.append("count", count);
+        if (queue != null) url.searchParams.append("queue", queue);
+        if (startTime != null) url.searchParams.append("startTime", startTime);
         return url.href;
       },
       BY_ID: (matchId) => `${ENDPOINT.RIOT.MATCHES}/${matchId}`,
