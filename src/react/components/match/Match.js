@@ -15,7 +15,7 @@ function Match(puuid, matchId) {
   useEffect(() => {
     async function getMatchData() {
       const matchData = await ClientApi.fetchMatchData(matchId);
-      const team = matchData.getTeam(puuid, matchData.info.participants);
+      const team = getTeam(puuid, matchData.info.participants);
       setTeam(team);
     }
     getMatchData();
@@ -41,6 +41,7 @@ function Match(puuid, matchId) {
     </li>
   );
 }
+
 function getTeam(puuid, players) {
   const player = players.find((p) => p.puuid === puuid);
   const teamMate = players.find(

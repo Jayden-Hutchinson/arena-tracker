@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { API_ROUTE } from "./ApiRoutes";
+import { API_ROUTE } from "./ApiRoutes.js";
 
 class RateLimit {
   constructor(numRequests, timeSpan) {
@@ -21,11 +21,26 @@ export class RiotApi {
 
   static async fetch(url) {
     console.log("Riot Api Request:", url);
+    await this.sleep(1200);
     const res = await fetch(url, {
       headers: {
         "X-Riot-Token": this.apiKey,
       },
     });
+
+    if (!res.ok) {
+      let body;
+      try {
+        body = await res.json();
+      } catch {
+        body = { message: res.statusText };
+      }
+      const err = new Error(res.statusText);
+      err.status = res.status;
+      err.body = body;
+      throw err;
+    }
+
     return res.json();
   }
 
@@ -44,20 +59,20 @@ export class RiotApi {
     return this.fetch(url);
   }
 
-  static async fetchMatchesByPuuid({
+  static async fetchMatchesByPuuid(
     puuid,
     start = 0,
     count = 100,
     queue = this.arenaQueueId,
-    startTime = this.arenaSeasonStartTime,
-  }) {
-    const url = API_ROUTE.RIOT.MATCH.BY_PUUID({
+    startTime = this.arenaSeasonStartTime
+  ) {
+    const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
       puuid,
       start,
       count,
       queue,
-      startTime,
-    });
+      startTime
+    );
     return this.fetch(url);
   }
 

@@ -11,7 +11,7 @@ export const ItemContext = createContext(null);
 function App() {
   const [augments, setAugments] = useState(null);
   const [items, setItems] = useState(null);
-  const [summoner, setSummoner] = useState(null)
+  const [summoner, setSummoner] = useState(null);
 
   const gameName = "TannerennaT";
   const tagLine = "na1";
@@ -23,7 +23,7 @@ function App() {
       const account = await ClientApi.fetchRiotAccount(gameName, tagLine);
       const summoner = await ClientApi.fetchSummoner(account.puuid);
 
-      setSummoner(summoner)
+      setSummoner(summoner);
       setAugments(augmentData.augments);
       setItems(itemData.data);
     };
@@ -33,9 +33,7 @@ function App() {
   return (
     <AugmentContext.Provider value={augments}>
       <ItemContext.Provider value={items}>
-        <div className="App">
-          {summoner && <Tracker summoner={summoner} />}
-        </div>
+        <div className="App">{summoner && <Tracker summoner={summoner} />}</div>
       </ItemContext.Provider>
     </AugmentContext.Provider>
   );
