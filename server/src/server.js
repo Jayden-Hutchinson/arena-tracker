@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 
-import { URL } from "../../src/api/routes/serverRoutes.js";
+import { URL } from "../../src/routes/serverRoutes.js";
 import { RiotApi } from "./api/RiotApi.js";
 
 const app = express();

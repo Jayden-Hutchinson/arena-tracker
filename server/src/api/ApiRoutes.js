@@ -54,7 +54,7 @@ export const API_ROUTE = {
 
   DDRAGON: {
     CHAMPION: {
-      IMG: (championPng) => `${ENDPOINT.DDRAGON.CHAMPION}/${championPng}`,
+      IMG: (championName) => `${ENDPOINT.DDRAGON.CHAMPION}/${championName}.png`,
     },
     ITEM: {
       IMG: (itemPng) => `${ENDPOINT.DDRAGON.ITEM}/${itemPng}`,

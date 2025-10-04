@@ -1,12 +1,16 @@
 import MatchHistory from "../match_history/MatchHistory.js";
-import Summoner from "../Summoner/Summoner.js";
+import Summoner from "../summoner/Summoner.js";
 import "./Tracker.css";
 
 function Tracker({ summoner }) {
   return (
     <div className="Tracker">
-      {summoner && <Summoner player={summoner} />}
-      {summoner ? <MatchHistory puuid={summoner.puuid} /> : <span></span>}
+      {summoner && (
+        <>
+          <Summoner player={summoner} />
+          <MatchHistory puuid={summoner.puuid} />
+        </>
+      )}
     </div>
   );
 }

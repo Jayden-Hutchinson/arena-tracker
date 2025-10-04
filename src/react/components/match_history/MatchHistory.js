@@ -24,12 +24,16 @@ function MatchHistory({ puuid }) {
     getMatchIds();
   }, []);
   return (
-    <div className="MatchHistory">
+    <ul className="MatchHistory">
       {matches &&
         matches.map((matchData, index) => {
-          return <Match key={index} puuid={puuid} matchData={matchData} />;
+          return (
+            <div className="match-container">
+              <Match key={index} puuid={puuid} matchData={matchData} />
+            </div>
+          );
         })}
-    </div>
+    </ul>
   );
 }
 

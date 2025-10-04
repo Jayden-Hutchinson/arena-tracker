@@ -1,6 +1,6 @@
 import { CDRAGON } from "./cdragon.js";
 import { DDRAGON } from "./ddragon.js";
-import { URL } from "./routes/serverRoutes.js";
+import { URL } from "../routes/serverRoutes.js";
 
 let augmentsCache = null;
 let itemsCache = null;

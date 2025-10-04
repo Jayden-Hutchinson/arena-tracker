@@ -6,6 +6,8 @@ class RateLimit {
     this.numRequests = numRequests;
     this.timeSpan = timeSpan;
   }
+
+  check() {}
 }
 
 export class RiotApi {
@@ -21,6 +23,9 @@ export class RiotApi {
 
   static async fetch(url) {
     console.log("Riot Api Request:", url);
+    // for (const limit of this.rateLimits.entries()) {
+    //   limit.check();
+    // }
     const res = await fetch(url, {
       headers: {
         "X-Riot-Token": this.apiKey,
@@ -79,5 +84,4 @@ export class RiotApi {
     const url = API_ROUTE.RIOT.MATCH.BY_ID(matchId);
     return this.fetch(url);
   }
-
 }

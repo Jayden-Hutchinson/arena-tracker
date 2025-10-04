@@ -3,6 +3,6 @@ export const CDRAGON = {
 
   AUGMENT_IMAGE: (augmentImage) =>
     `https://raw.communitydragon.org/latest/game/${augmentImage}`,
-  TEAM_ICON: (teamIcon) =>
+  TEAM_LOGO: (teamIcon) =>
     `https://raw.communitydragon.org/latest/game/assets/ux/cherry/teamicons/team${teamIcon}`,
 };
