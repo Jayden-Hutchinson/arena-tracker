@@ -1,7 +1,7 @@
 :root {
   --team-icon-size: 50px;
 }
-.TeamSummary {
+.TeamInfo {
   width: 100%;
   justify-content: start;
   align-items: center;

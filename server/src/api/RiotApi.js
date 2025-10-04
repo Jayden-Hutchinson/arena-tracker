@@ -31,6 +31,7 @@ export class RiotApi {
         "X-Riot-Token": this.apiKey,
       },
     });
+    console.log(res);
 
     if (!res.ok) {
       let body;
