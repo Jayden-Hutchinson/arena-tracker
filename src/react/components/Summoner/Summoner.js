@@ -13,7 +13,7 @@ function Summoner({ summoner }) {
         <div className="summoner-name">{summoner.gameName}</div>
         <div className="summoner-level">Level: {summoner.level}</div>
         <div className="games-played">
-          Games Played: {summoner.matchHistory.length}
+          Games Played: {summoner.matchIds.length}
         </div>
         <div className="placements">
           <div>1sts:</div>

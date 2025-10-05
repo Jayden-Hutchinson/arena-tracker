@@ -3,8 +3,6 @@ import { FaChevronRight } from "react-icons/fa";
 import ChampionPortrait from "../../champion_portrait/ChampionPortrait";
 
 function MatchBanner({ matchInfo, expanded }) {
-  console.log(matchInfo);
-
   return (
     <div className="MatchBanner">
       <div className="chevron-wrapper">

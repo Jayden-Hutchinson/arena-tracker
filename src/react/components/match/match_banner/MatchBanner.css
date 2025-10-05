@@ -2,7 +2,8 @@
   box-sizing: content-box;
   height: 80px;
 
-  padding-right: 25px;
+  padding: 5px 0px;
+  padding-right: 50px;
 
   flex-direction: row;
   align-items: center;
@@ -21,6 +22,7 @@
 }
 
 .chevron {
+  margin-right: 20px;
   width: 50px;
   transition: transform 0.2s ease-in-out;
 }

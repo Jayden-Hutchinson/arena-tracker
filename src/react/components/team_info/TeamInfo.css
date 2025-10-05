@@ -1,14 +1,17 @@
 :root {
-  --team-icon-size: 50px;
-}
-.TeamInfo {
-  width: 100%;
-  justify-content: start;
-  align-items: center;
-  gap: 50px;
+  --team-icon-size: 35px;
 }
 
-.team-icon {
+.TeamInfo {
+  justify-content: start;
+  align-items: center;
+
+  padding: 20px 50px;
+  width: 100%;
+  gap: 20px;
+}
+
+.TeamLogo {
   width: var(--team-icon-size);
   height: var(--team-icon-size);
 }

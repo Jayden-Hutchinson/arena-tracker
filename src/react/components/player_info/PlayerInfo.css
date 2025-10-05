@@ -1,9 +1,22 @@
 .PlayerInfo {
   justify-content: space-between;
   align-items: center;
+
+  padding: 10px 50px;
 }
 
 .player-names {
   flex-direction: column;
   align-items: start;
+}
+
+.game-name {
+  font-size: 16px;
+  font-weight: 300;
+  color: lightblue;
+}
+
+.champion-name {
+  font-weight: 200;
+  font-size: 14px;
 }

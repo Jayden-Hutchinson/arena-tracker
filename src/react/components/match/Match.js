@@ -6,41 +6,10 @@ import MatchBanner from "./match_banner/MatchBanner.js";
 
 import "./Match.css";
 
-class MatchInfo {
-  constructor(puuid, { info }) {
-    this.team = this.getTeam(puuid, info);
-    this.duration = this.getMatchDuration(info);
-    this.date = this.getDate(info);
-  }
-
-  getDate(info) {
-    const date = new Date(info.gameCreation);
-    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-  }
-
-  getMatchDuration(info) {
-    const totalSeconds = info.gameDuration;
-    const seconds = totalSeconds % 60;
-    const minutes = Math.floor(totalSeconds / 60);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  }
-
-  getTeam(puuid, info) {
-    const players = info.participants;
-    const player = players.find((p) => p.puuid === puuid);
-    const teamMate = players.find(
-      (p) => p.playerSubteamId === player.playerSubteamId && p.puuid !== puuid
-    );
-
-    const team = [player, teamMate];
-    return { id: player.teamId, players: team };
-  }
-}
-
-function Match({ puuid, matchData }) {
+function Match({ matchInfo }) {
   const [expanded, setExpanded] = useState(false);
 
-  const matchInfo = new MatchInfo(puuid, matchData);
+  console.log(matchInfo);
   const handleClick = () => setExpanded((prev) => !prev);
 
   return (

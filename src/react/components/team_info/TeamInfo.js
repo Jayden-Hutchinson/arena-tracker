@@ -10,7 +10,6 @@ import "./TeamInfo.css";
 //     );
 
 function TeamInfo({ team }) {
-  console.log(team);
   const teamData = {
     kills: team.players.reduce((sum, player) => sum + player.kills, 0),
     deaths: team.players.reduce((sum, player) => sum + player.deaths, 0),

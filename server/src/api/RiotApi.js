@@ -71,14 +71,26 @@ export class RiotApi {
     queue = this.arenaQueueId,
     startTime = this.arenaSeasonStartTime
   ) {
-    const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
-      puuid,
-      start,
-      count,
-      queue,
-      startTime
-    );
-    return this.fetch(url);
+    let allMatchIds = [];
+    while (true) {
+      const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
+        puuid,
+        start,
+        count,
+        queue,
+        startTime
+      );
+      const res = await this.fetch(url);
+      allMatchIds.push(...res);
+      console.log(allMatchIds.length, allMatchIds);
+
+      if (res.length === 0) {
+        break;
+      }
+
+      start += count;
+    }
+    return allMatchIds;
   }
 
   static async fetchMatchById(matchId) {
