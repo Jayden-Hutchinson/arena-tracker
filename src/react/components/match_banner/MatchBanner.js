@@ -1,6 +1,6 @@
 import "./MatchBanner.css";
 import { FaChevronRight } from "react-icons/fa";
-import ChampionPortrait from "../../champion_portrait/ChampionPortrait";
+import ChampionPortrait from "../champion_portrait/ChampionPortrait";
 
 function MatchBanner({ matchInfo, expanded }) {
   return (

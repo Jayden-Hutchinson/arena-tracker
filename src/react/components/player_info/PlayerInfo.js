@@ -1,40 +1,49 @@
 import ChampionPortrait from "../champion_portrait/ChampionPortrait";
-import Augments from "../augments/Augments";
 
 import "./PlayerInfo.css";
 
-function PlayerInfo({ player }) {
-  const playerInfo = {
-    championName: player.championName,
-    gameName: player.riotIdGameName,
-    augments: [
+class PlayerData {
+  constructor(player) {
+    console.log(player);
+    this.championName = player.championName;
+    this.gameName = player.riotIdGameName;
+
+    this.augments = [
       player.playerAugment1,
       player.playerAugment2,
       player.playerAugment3,
       player.playerAugment4,
       player.playerAugment5,
       player.playerAugment6,
-    ],
+    ];
 
-    items: [
+    this.items = [
       player.item0,
       player.item1,
       player.item2,
       player.item3,
       player.item4,
       player.item5,
-    ],
-    kda: [player.kills, player.deaths, player.assists],
-    damage: player.damageDealtToChampions,
-  };
+    ];
+
+    this.kda = [player.kills, player.deaths, player.assists];
+
+    this.damage = player.damageDealtToChampions;
+  }
+}
+
+function PlayerInfo({ player }) {
+  console.log(player);
+  const playerData = new PlayerData(player);
+  console.log(playerData);
 
   return (
     <div className="PlayerInfo">
       <div>
-        <ChampionPortrait championName={playerInfo.championName} />
+        <ChampionPortrait championName={playerData.championName} />
         <div className="player-names">
-          <div className="game-name">{playerInfo.gameName}</div>
-          <div className="champion-name">{playerInfo.championName}</div>
+          <div className="game-name">{playerData.gameName}</div>
+          <div className="champion-name">{playerData.championName}</div>
         </div>
       </div>
 

@@ -1,8 +1,7 @@
 .PlayerInfo {
   justify-content: space-between;
   align-items: center;
-
-  padding: 10px 50px;
+  margin-bottom: 20px;
 }
 
 .player-names {

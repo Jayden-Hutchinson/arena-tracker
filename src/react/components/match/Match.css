@@ -21,19 +21,6 @@
   pointer-events: hover;
 }
 
-.match-data {
-  flex-direction: column;
-  justify-content: end;
-
-  height: 0px;
-
-  overflow: hidden;
-  transition: height 300ms ease-in-out;
-}
-
-.match-data.open {
-  height: 275px;
-}
 
 .match-players {
   flex-direction: column;

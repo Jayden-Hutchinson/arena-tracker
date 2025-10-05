@@ -1,17 +1,32 @@
 :root {
-  --team-icon-size: 35px;
-}
-
-.TeamInfo {
-  justify-content: start;
-  align-items: center;
-
-  padding: 20px 50px;
-  width: 100%;
-  gap: 20px;
+  --team-logo-size: 35px;
 }
 
 .TeamLogo {
-  width: var(--team-icon-size);
-  height: var(--team-icon-size);
+  width: var(--team-logo-size);
+  height: var(--team-logo-size);
+}
+
+/* .TeamInfo {
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  width: 100%;
+  gap: 20px;
+} */
+
+.TeamInfo {
+  flex-direction: column;
+  justify-content: end;
+
+  height: 0px;
+  padding: 00px 50px;
+
+  overflow: hidden;
+  transition: height 300ms ease-in-out;
+}
+
+.TeamInfo.open {
+  height: 235px;
 }
