@@ -4,7 +4,6 @@ import Augments from "../augments/Augments";
 import "./PlayerInfo.css";
 
 function PlayerInfo({ player }) {
-  console.log(player);
   const playerInfo = {
     championName: player.championName,
     gameName: player.riotIdGameName,
@@ -16,9 +15,18 @@ function PlayerInfo({ player }) {
       player.playerAugment5,
       player.playerAugment6,
     ],
-  };
 
-  console.log(playerInfo);
+    items: [
+      player.item0,
+      player.item1,
+      player.item2,
+      player.item3,
+      player.item4,
+      player.item5,
+    ],
+    kda: [player.kills, player.deaths, player.assists],
+    damage: player.damageDealtToChampions,
+  };
 
   return (
     <div className="PlayerInfo">
@@ -30,7 +38,14 @@ function PlayerInfo({ player }) {
         </div>
       </div>
 
-      <Augments augments={player.augments} />
+      <div>augments</div>
+      <div>items</div>
+      <div>kda</div>
+      <div>damage</div>
+      {/* <Augments augments={player.augments} />
+      <Items items={player.items} />
+      <Kda kda={player.kda} />
+      <Damage damage={player.damage} /> */}
     </div>
   );
 }

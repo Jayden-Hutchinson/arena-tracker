@@ -4,7 +4,7 @@ import Match from "../match/Match.js";
 import { useEffect, useState } from "react";
 import { ClientApi } from "../../../api/clientApi.js";
 
-function MatchHistory({ puuid }) {
+function MatchHistory({ puuid, matchHistory }) {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
@@ -13,9 +13,7 @@ function MatchHistory({ puuid }) {
     }
 
     async function getMatchIds() {
-      const matchIds = await ClientApi.fetchMatchHistory(puuid);
-
-      for (const id of matchIds) {
+      for (const id of matchHistory) {
         const matchData = await ClientApi.fetchMatchData(id);
         await sleep(1200);
         setMatches((prev) => [...prev, matchData]);
@@ -27,11 +25,7 @@ function MatchHistory({ puuid }) {
     <ul className="MatchHistory">
       {matches &&
         matches.map((matchData, index) => {
-          return (
-            <div className="match-container">
-              <Match key={index} puuid={puuid} matchData={matchData} />
-            </div>
-          );
+          return <Match key={index} puuid={puuid} matchData={matchData} />;
         })}
     </ul>
   );

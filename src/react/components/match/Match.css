@@ -1,57 +1,43 @@
 .ChampionInfo {
   align-items: center;
   justify-content: start;
-  border: solid 2px transparent;
-  transition: opacity 0.8s ease;
-}
+  pointer-events: none;
 
-.ChampionInfo:hover {
-  border-color: gold;
+  position: relative;
+  transition: left 1000ms ease, opacity 1000ms ease;
+  opacity: 1;
+  left: 0px;
 }
 
 .ChampionInfo.open {
   opacity: 0;
+  left: 100px;
 }
 
 .Match {
   width: 100%;
   flex-direction: column;
-  /* gap: 20px; */
+  color: rgba(255, 255, 255, 0.5);
 
   border-bottom: solid 1px rgba(255, 255, 255, 0.1);
   pointer-events: hover;
-  transition: height 0.5s ease;
-}
-
-.match-header {
-  height: 80px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
 }
 
 .match-data {
-  max-height: 0px;
+  height: 0px;
+  padding: 0px 50px;
   flex-direction: column;
-  transition: max-height 0.8s ease;
   justify-content: end;
   overflow: hidden;
+
+  transition: height 500ms linear;
+}
+
+.match-data.open {
+  height: 224px;
 }
 
 .match-players {
   flex-direction: column;
   height: fit-content;
-}
-
-.match-data.open {
-  max-height: 305px;
-}
-
-.chevron {
-  width: 50px;
-  transition: transform 0.2s ease-in-out;
-}
-
-.chevron.open {
-  transform: rotate(90deg);
 }

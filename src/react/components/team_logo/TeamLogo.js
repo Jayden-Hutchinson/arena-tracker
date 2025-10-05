@@ -9,7 +9,12 @@ const ARENA_TEAMS = {
 
 function TeamLogo({ teamId }) {
   const teamData = ARENA_TEAMS[teamId];
-  return <img className="TeamLogo" src={CDRAGON.TEAM_LOGO(teamData.logo)} />;
+  return (
+    <>
+      <img className="TeamLogo" src={CDRAGON.TEAM_LOGO(teamData.logo)} />
+      <div>{teamData.name}</div>
+    </>
+  );
 }
 
 export default TeamLogo;
