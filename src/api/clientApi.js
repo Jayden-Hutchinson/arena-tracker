@@ -7,9 +7,13 @@ let itemsCache = null;
 
 export class ClientApi {
   static async fetchServer(url) {
-    const data = await fetch(url).then((res) => res.json());
-    console.log("Server responded with:", data);
-    return data;
+    try {
+      const data = await fetch(url).then((res) => res.json());
+      console.log("Server responded with:", data);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   static async fetchRiotAccount(gameName, tagLine) {

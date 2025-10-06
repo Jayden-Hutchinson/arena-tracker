@@ -1,5 +1,7 @@
 import { CDRAGON } from "../../../api/cdragon";
 
+import "./TeamLogo.css";
+
 const ARENA_TEAMS = {
   100: { name: "Krug", logo: "krugs.png" },
   200: { name: "Gromp", logo: "gromp.png" },
@@ -10,10 +12,10 @@ const ARENA_TEAMS = {
 function TeamLogo({ teamId }) {
   const teamData = ARENA_TEAMS[teamId];
   return (
-    <>
-      <img className="TeamLogo" src={CDRAGON.TEAM_LOGO(teamData.logo)} />
-      <div>{teamData.name}</div>
-    </>
+    <div className="TeamLogo">
+      <img className="team-logo" src={CDRAGON.TEAM_LOGO(teamData.logo)} />
+      <div className="team-name">{teamData.name}</div>
+    </div>
   );
 }
 

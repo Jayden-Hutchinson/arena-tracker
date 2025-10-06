@@ -31,7 +31,6 @@ export class RiotApi {
         "X-Riot-Token": this.apiKey,
       },
     });
-    console.log(res);
 
     if (!res.ok) {
       let body;
@@ -82,7 +81,6 @@ export class RiotApi {
       );
       const res = await this.fetch(url);
       allMatchIds.push(...res);
-      console.log(allMatchIds.length, allMatchIds);
 
       if (res.length === 0) {
         break;

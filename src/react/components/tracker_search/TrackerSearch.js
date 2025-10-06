@@ -36,8 +36,6 @@ function TrackerSearch({ onDataFetch }) {
       matchHistory: matchHistory,
     };
 
-    console.log(trackerAccount);
-
     onDataFetch(trackerAccount);
   };
 

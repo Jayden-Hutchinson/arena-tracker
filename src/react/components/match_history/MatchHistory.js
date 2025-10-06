@@ -45,6 +45,9 @@ class MatchInfo {
 }
 function MatchHistory({ puuid, matchIds }) {
   const [matches, setMatches] = useState([]);
+  const [wins, setWins] = useState([]);
+  const [status, setStatus] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function sleep(ms) {
@@ -52,21 +55,41 @@ function MatchHistory({ puuid, matchIds }) {
     }
 
     async function getMatchIds() {
-      for (const id of matchIds) {
+      setLoading(true);
+      const wins = [];
+      for (const [index, id] of matchIds.entries()) {
+        setStatus(`Loading: ${index} / ${matchIds.length}`);
+        const fetchStart = Date.now();
         const matchData = await ClientApi.fetchMatchData(id);
-        console.log(matchData);
-        await sleep(1200);
-        setMatches((prev) => [...prev, new MatchInfo(puuid, matchData)]);
+        const fetchDuration = Date.now() - fetchStart;
+        const sleepMs = 1400 - fetchDuration;
+        console.log(sleepMs);
+
+        const matchInfo = new MatchInfo(puuid, matchData);
+
+        if (matchInfo.getPlacement() === 1) {
+          wins.push(matchInfo);
+          setWins((prev) => [...prev, matchInfo]);
+        }
+        await sleep(sleepMs);
+        setMatches((prev) => [...prev, matchInfo]);
       }
+      setLoading(false);
+      // setWins(wins);
     }
     getMatchIds();
   }, []);
+
   return (
     <ul className="MatchHistory">
-      {matches &&
-        matches.map((matchInfo, index) => {
+      {loading ? (
+        <div>{status}</div>
+      ) : (
+        matches &&
+        wins.map((matchInfo, index) => {
           return <Match key={index} puuid={puuid} matchInfo={matchInfo} />;
-        })}
+        })
+      )}
     </ul>
   );
 }

@@ -3,39 +3,48 @@ import ChampionPortrait from "../champion_portrait/ChampionPortrait";
 import "./PlayerInfo.css";
 
 class PlayerData {
-  constructor(player) {
-    console.log(player);
-    this.championName = player.championName;
-    this.gameName = player.riotIdGameName;
-
+  constructor({
+    championName,
+    riotIdGameName,
+    playerAugment1,
+    playerAugment2,
+    playerAugment3,
+    playerAugment4,
+    playerAugment5,
+    playerAugment6,
+    item0,
+    item1,
+    item2,
+    item3,
+    item4,
+    item5,
+    kills,
+    deaths,
+    assists,
+    totalDamageDealtToChampions,
+  }) {
+    this.championName = championName;
+    this.gameName = riotIdGameName;
     this.augments = [
-      player.playerAugment1,
-      player.playerAugment2,
-      player.playerAugment3,
-      player.playerAugment4,
-      player.playerAugment5,
-      player.playerAugment6,
+      playerAugment1,
+      playerAugment2,
+      playerAugment3,
+      playerAugment4,
+      playerAugment5,
+      playerAugment6,
     ];
-
-    this.items = [
-      player.item0,
-      player.item1,
-      player.item2,
-      player.item3,
-      player.item4,
-      player.item5,
-    ];
-
-    this.kda = [player.kills, player.deaths, player.assists];
-
-    this.damage = player.damageDealtToChampions;
+    this.items = [item0, item1, item2, item3, item4, item5];
+    this.kda = {
+      kills: kills,
+      deaths: deaths,
+      assists: assists,
+    };
+    this.damage = totalDamageDealtToChampions;
   }
 }
 
 function PlayerInfo({ player }) {
-  console.log(player);
   const playerData = new PlayerData(player);
-  console.log(playerData);
 
   return (
     <div className="PlayerInfo">
@@ -49,8 +58,8 @@ function PlayerInfo({ player }) {
 
       <div>augments</div>
       <div>items</div>
-      <div>kda</div>
-      <div>damage</div>
+      <div>{playerData.kda.kills}</div>
+      <div>{playerData.damage}</div>
       {/* <Augments augments={player.augments} />
       <Items items={player.items} />
       <Kda kda={player.kda} />

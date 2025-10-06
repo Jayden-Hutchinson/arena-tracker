@@ -1,5 +1,6 @@
-import "./TeamStats.css";
 import TeamLogo from "../team_logo/TeamLogo";
+
+import "./TeamStats.css";
 
 function TeamStats({ team }) {
   const players = team.players;
@@ -15,9 +16,11 @@ function TeamStats({ team }) {
   return (
     <div className="TeamStats">
       <TeamLogo teamId={team.id} />
-      <div>{teamStats.kills}</div>
-      <div>{teamStats.deaths}</div>
-      <div>{teamStats.assists}</div>
+      <div>
+        <div>{teamStats.kills}/</div>
+        <div>{teamStats.deaths}/</div>
+        <div>{teamStats.assists}</div>
+      </div>
       <div>{teamStats.damage}</div>
     </div>
   );

@@ -1,0 +1,13 @@
+:root {
+  --team-logo-size: 45px;
+}
+
+.TeamLogo {
+  align-items: center;
+  gap: 1rem;
+}
+
+.team-logo {
+  width: var(--team-logo-size);
+  height: var(--team-logo-size);
+}

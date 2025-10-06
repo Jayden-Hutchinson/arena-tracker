@@ -2,7 +2,6 @@ import PlayerInfo from "../player_info/PlayerInfo.js";
 import "./Players.css"
 
 function Players({ players }) {
-  console.log(players);
   return (
     players && (
       <div className="Players">
