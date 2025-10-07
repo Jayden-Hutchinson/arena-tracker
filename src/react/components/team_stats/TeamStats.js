@@ -1,5 +1,3 @@
-import TeamLogo from "../team_logo/TeamLogo";
-
 import "./TeamStats.css";
 
 function TeamStats({ team }) {
@@ -15,7 +13,6 @@ function TeamStats({ team }) {
   };
   return (
     <div className="TeamStats">
-      <TeamLogo teamId={team.id} />
       <div>
         <div>{teamStats.kills}/</div>
         <div>{teamStats.deaths}/</div>

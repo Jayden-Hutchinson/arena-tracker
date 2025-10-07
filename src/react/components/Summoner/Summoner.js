@@ -2,6 +2,8 @@ import { DDRAGON } from "../../../api/ddragon";
 import "./Summoner.css";
 
 function Summoner({ summoner }) {
+  const gamesPlayed = summoner.matchIds.length;
+
   return (
     <div className="Summoner">
       <img
@@ -10,20 +12,22 @@ function Summoner({ summoner }) {
         alt={`Summoner Icon ${summoner.iconId}`}
       />
       <div className="summoner-info">
-        <div className="summoner-name">{summoner.gameName}</div>
-        <div className="summoner-level">Level: {summoner.level}</div>
-        <div className="games-played">
-          Games Played: {summoner.matchIds.length}
+        <div className="summoner-bio">
+          <div className="summoner-name">{summoner.gameName}</div>
+          <div className="summoner-level">level: {summoner.level}</div>
         </div>
-        <div className="placements">
-          <div>1sts:</div>
-          <div>2nds:</div>
-          <div>3rds:</div>
-          <div>4th:</div>
-          <div>5th:</div>
-          <div>6th:</div>
-          <div>7th:</div>
-          <div>8th:</div>
+        <div className="summoner-stats">
+          <div className="games-played">
+            Games: {gamesPlayed}
+            <div>1:</div>
+            <div>2:</div>
+            <div>3:</div>
+            <div>4:</div>
+            <div>5:</div>
+            <div>6:</div>
+            <div>7:</div>
+            <div>8:</div>
+          </div>
         </div>
       </div>
     </div>

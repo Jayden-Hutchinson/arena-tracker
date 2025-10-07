@@ -1,13 +1,20 @@
-.PlayerInfo {
+:root {
+  --player-padding: 20px;
+}
+
+.Player {
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+
+  padding-top: var(--player-padding);
+  padding-bottom: var(--player-padding);
+  padding-right: var(--player-padding);
 }
 
 .player-names {
   flex-direction: column;
   align-items: start;
-  width: 100px;
+  width: 200px;
 }
 
 .game-name {

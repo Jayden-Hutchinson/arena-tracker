@@ -1,19 +1,27 @@
 import { useState } from "react";
 
-import TeamInfo from "../team_info/TeamInfo.js";
-import MatchBanner from "../match_banner/MatchBanner.js";
+import { FaChevronRight } from "react-icons/fa";
+import Player from "../player/Player.js";
 
 import "./Match.css";
 
 function Match({ matchInfo }) {
-  const [expanded, setExpanded] = useState(false);
-
-  const handleClick = () => setExpanded((prev) => !prev);
+  const [open, setOpen] = useState(false);
+  const toggleOpen = () => setOpen((prev) => !prev);
+  const openClass = open ? "open" : "closed";
+  console.log(matchInfo);
 
   return (
-    <li onClick={handleClick} className="Match">
-      {matchInfo && <MatchBanner matchInfo={matchInfo} expanded={expanded} />}
-      {matchInfo.team && <TeamInfo team={matchInfo.team} expanded={expanded} />}
+    <li className={`Match ${openClass}`}>
+      <button onClick={toggleOpen} className="chevron-button">
+        <FaChevronRight className={`chevron ${openClass}`} />
+      </button>
+      <div className="players">
+        {matchInfo.team.players.map((player, index) => (
+          <Player key={index} player={player} />
+        ))}
+      </div>
+      <div></div>
     </li>
   );
 }

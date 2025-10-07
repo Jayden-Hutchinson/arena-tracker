@@ -1,36 +1,68 @@
 :root {
-  --summoner-icon-size: 150px;
+  --summoner-icon-size: 80px;
+  --summoner-icon-margin-right: 20px;
+
+  --summoner-name-font-size: 18px;
+  --summoner-name-margin-right: 1rem;
+
+  --summoner-level-font-size: 14px;
+
+  --summoner-stats-font-size: 14px;
 }
+
 .Summoner {
   justify-content: start;
 
   width: 100%;
+  padding: 1rem;
 
-  border-bottom: solid 1px grey;
+  border-bottom: solid 3px rgba(255, 255, 255, 0.3);
 }
 
 .summoner-icon {
   width: var(--summoner-icon-size);
   height: var(--summoner-icon-size);
+
+  margin-right: var(--summoner-icon-margin-right);
+
+  border-radius: 50%;
 }
 
 .summoner-info {
-  padding: 10px 20px;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: start;
+  justify-content: space-evenly;
 }
 
 .summoner-name {
-  font-size: 32px;
+  font-size: var(--summoner-name-font-size);
   font-weight: bold;
+  color: lightgrey;
+
+  margin-right: var(--summoner-name-margin-right);
 }
 
-.summoner-level,
-.games-played,
-.placements {
-  font-size: 18px;
-  margin-left: 0.5rem;
+.summoner-level {
+  font-size: var(--summoner-level-font-size);
+  color: goldenrod;
+  align-items: center;
+}
+
+.summoner-stats {
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+
+  font-size: var(--summoner-stats-font-size);
+  color: grey;
+}
+
+.summoner-stats {
+  font-size: var(--summoner-level-font-size);
+}
+
+.games-played {
+  gap: 20px;
 }
 
 .placements {

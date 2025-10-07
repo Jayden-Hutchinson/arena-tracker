@@ -1,6 +1,7 @@
 import ChampionPortrait from "../champion_portrait/ChampionPortrait";
+import Augment from "../augment/Augment";
 
-import "./PlayerInfo.css";
+import "./Player.css";
 
 class PlayerData {
   constructor({
@@ -43,28 +44,29 @@ class PlayerData {
   }
 }
 
-function PlayerInfo({ player }) {
+function Player({ player }) {
   const playerData = new PlayerData(player);
 
   return (
-    <div className="PlayerInfo">
-      <div>
-        <ChampionPortrait championName={playerData.championName} />
-        <div className="player-names">
-          <div className="game-name">{playerData.gameName}</div>
-          <div className="champion-name">{playerData.championName}</div>
-        </div>
+    <div className="Player">
+      <ChampionPortrait championName={playerData.championName} />
+      <div className="player-names">
+        <div className="game-name">{playerData.gameName}</div>
+        <div className="champion-name">{playerData.championName}</div>
       </div>
 
       <div>augments</div>
       <div>items</div>
       <div>{playerData.kda.kills}</div>
       <div>{playerData.damage}</div>
-      {/* <Augments augments={player.augments} />
-      <Items items={player.items} />
-      <Kda kda={player.kda} />
-      <Damage damage={player.damage} /> */}
+      {player.augments &&
+        player.augments.map((augment, index) => {
+          <Augment key={index} augment={augment} />;
+        })}
+      {/* <Items items={player.items} /> */}
+      {/* <Kda kda={player.kda} /> */}
+      {/* <Damage damage={player.damage} /> */}
     </div>
   );
 }
-export default PlayerInfo;
+export default Player;

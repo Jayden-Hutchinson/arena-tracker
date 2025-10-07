@@ -16,9 +16,9 @@ class TrackerInfo {
 
 function TrackerBoard() {
   const [trackers, setTrackers] = useState([]);
-  // const [accounts, setAccounts] = useState([]);
+  const [showDetails, setShowDetails] = useState(false);
 
-  const accounts = [{ gameName: "TannerennaT", tagLine: "na1" }];
+  const accounts = [{ gameName: "Ginger Comando", tagLine: "na1" }];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,17 +27,24 @@ function TrackerBoard() {
           account.gameName,
           account.tagLine
         );
-        const summoner = await ClientApi.fetchSummoner(riotAccount.puuid);
-        const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
 
-        const trackerInfo = new TrackerInfo(
-          riotAccount.gameName,
-          riotAccount.puuid,
-          riotAccount.tagLine,
-          summoner.summonerLevel,
-          summoner.profileIconId,
-          matchIds
-        );
+        let trackerInfo =
+          JSON.parse(localStorage.getItem(riotAccount.puuid)) || null;
+
+        if (!trackerInfo) {
+          const summoner = await ClientApi.fetchSummoner(riotAccount.puuid);
+          const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
+
+          trackerInfo = new TrackerInfo(
+            riotAccount.gameName,
+            riotAccount.puuid,
+            riotAccount.tagLine,
+            summoner.summonerLevel,
+            summoner.profileIconId,
+            matchIds
+          );
+          localStorage.setItem(trackerInfo.puuid, JSON.stringify(trackerInfo));
+        }
         setTrackers((prev) => [...prev, trackerInfo]);
       }
     };

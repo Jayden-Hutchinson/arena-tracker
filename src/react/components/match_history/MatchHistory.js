@@ -56,24 +56,34 @@ function MatchHistory({ puuid, matchIds }) {
 
     async function getMatchIds() {
       setLoading(true);
-      const wins = [];
-      for (const [index, id] of matchIds.entries()) {
-        setStatus(`Loading: ${index} / ${matchIds.length}`);
-        const fetchStart = Date.now();
+      const wins = JSON.parse(localStorage.getItem("wins")) || [];
+      const idsToFetch = wins.length > 0 ? wins : matchIds;
+
+      console.log(wins);
+      console.log(idsToFetch);
+
+      for (const [index, id] of idsToFetch.entries()) {
+        setStatus(`Loading: ${index} / ${idsToFetch.length}`);
+        // const fetchStart = Date.now();
         const matchData = await ClientApi.fetchMatchData(id);
-        const fetchDuration = Date.now() - fetchStart;
-        const sleepMs = 1400 - fetchDuration;
-        console.log(sleepMs);
+        // await sleep(200);
+
+        // const fetchDuration = Date.now() - fetchStart;
+        // const sleepMs = 1200 - fetchDuration;
+        // await sleep(sleepMs);
 
         const matchInfo = new MatchInfo(puuid, matchData);
 
-        if (matchInfo.getPlacement() === 1) {
-          wins.push(matchInfo);
+        if (matchInfo.getPlacement() === 1 && !wins.includes(id)) {
+          wins.push(id);
           setWins((prev) => [...prev, matchInfo]);
         }
-        await sleep(sleepMs);
+
+        setWins((prev) => [...prev, matchInfo]);
+        localStorage.setItem("wins", JSON.stringify(wins));
         setMatches((prev) => [...prev, matchInfo]);
       }
+
       setLoading(false);
       // setWins(wins);
     }
