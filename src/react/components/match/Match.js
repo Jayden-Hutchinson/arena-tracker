@@ -5,9 +5,16 @@ import Player from "../player/Player.js";
 
 import "./Match.css";
 
-function Match({ matchInfo }) {
+/**
+ * 
+ * @param {Match} match 
+ * @returns 
+ */
+function Match(match) {
   const [open, setOpen] = useState(false);
+
   const toggleOpen = () => setOpen((prev) => !prev);
+
   const openClass = open ? "open" : "closed";
 
   return (
@@ -16,11 +23,10 @@ function Match({ matchInfo }) {
         <FaChevronRight className={`chevron ${openClass}`} />
       </button>
       <div className="players">
-        {matchInfo.team.players.map((player, index) => (
+        {match.team.players.map((player, index) => (
           <Player key={index} player={player} />
         ))}
       </div>
-      <div></div>
     </li>
   );
 }

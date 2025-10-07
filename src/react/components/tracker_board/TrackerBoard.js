@@ -1,26 +1,14 @@
 import { useState, useEffect } from "react";
-import Tracker from "../tracker/Tracker";
+
 import { ClientApi } from "../../../api/clientApi";
 
+import TrackerCard from "../tracker_card/TrackerCard";
+import Summoner from "../summoner_card/SummonerCard";
+
 import "./TrackerBoard.css";
-class TrackerInfo {
-  constructor(
-    { gameName, tagLine, puuid },
-    { summonerLevel, profileIconId },
-    matchIds
-  ) {
-    console.log(gameName)
-    this.gameName = gameName;
-    this.puuid = puuid;
-    this.tagLine = tagLine;
-    this.level = summonerLevel;
-    this.iconId = profileIconId;
-    this.matchIds = matchIds;
-  }
-}
 
 function TrackerBoard() {
-  const [trackers, setTrackers] = useState([]);
+  const [summoners, setSummoners] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
 
   const accounts = [{ gameName: "Ginger Comando", tagLine: "na1" }];
@@ -33,34 +21,32 @@ function TrackerBoard() {
           account.tagLine
         );
 
-        let trackerInfo =
+        let summoner =
           JSON.parse(localStorage.getItem(riotAccount.puuid)) || null;
 
 
-        const summoner = await ClientApi.fetchSummoner(riotAccount.puuid);
-        const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
+        if (summoner === null) {
+          debugger
+          console.log("ENTERED")
+          const summonerAccount = await ClientApi.fetchSummoner(riotAccount.puuid);
+          const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
+          summoner = new Summoner(riotAccount, summonerAccount, matchIds);
+          console.log(summoner)
+        }
+        debugger
 
-        console.log(matchIds)
+        console.log(summoner)
 
-        trackerInfo = new TrackerInfo(
-          riotAccount,
-          summoner,
-          matchIds
-        );
-
-        console.log(trackerInfo)
-
-        setTrackers((prev) => [...prev, trackerInfo]);
+        setSummoners((prev) => [...prev, summoner]);
       }
     };
-
     fetchData();
   }, []);
 
   return (
     <div className="TrackerBoard">
-      {trackers.map((trackerInfo, index) => (
-        <Tracker key={index} trackerInfo={trackerInfo} />
+      {summoners.map((summoner, index) => (
+        <TrackerCard key={index} summoner={summoner} />
       ))}
     </div>
   );
