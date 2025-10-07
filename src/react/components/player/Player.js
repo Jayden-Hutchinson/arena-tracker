@@ -1,5 +1,6 @@
 import ChampionPortrait from "../champion_portrait/ChampionPortrait";
 import Augment from "../augment/Augment";
+import Item from "../items/Items";
 
 import "./Player.css";
 
@@ -47,6 +48,7 @@ class PlayerData {
 function Player({ player }) {
   const playerData = new PlayerData(player);
 
+  console.log(playerData);
   return (
     <div className="Player">
       <ChampionPortrait championName={playerData.championName} />
@@ -55,14 +57,24 @@ function Player({ player }) {
         <div className="champion-name">{playerData.championName}</div>
       </div>
 
-      <div>augments</div>
-      <div>items</div>
-      <div>{playerData.kda.kills}</div>
+      <div className="augments">
+        {playerData.augments &&
+          playerData.augments.map((augmentId, index) => {
+            return <Augment key={index} augmentId={augmentId} />;
+          })}
+      </div>
+
+      <div className="items">
+        {playerData.items &&
+          playerData.items.map((itemId, index) => {
+            return <Item key={index} itemId={itemId} />;
+          })}
+      </div>
+
+      <div>
+        {playerData.kda.kills}/{playerData.kda.deaths}/{playerData.kda.assists}
+      </div>
       <div>{playerData.damage}</div>
-      {player.augments &&
-        player.augments.map((augment, index) => {
-          <Augment key={index} augment={augment} />;
-        })}
       {/* <Items items={player.items} /> */}
       {/* <Kda kda={player.kda} /> */}
       {/* <Damage damage={player.damage} /> */}

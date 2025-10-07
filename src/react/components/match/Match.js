@@ -9,7 +9,6 @@ function Match({ matchInfo }) {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((prev) => !prev);
   const openClass = open ? "open" : "closed";
-  console.log(matchInfo);
 
   return (
     <li className={`Match ${openClass}`}>

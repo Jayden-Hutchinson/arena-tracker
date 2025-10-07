@@ -6,19 +6,19 @@ function Summoner({ summoner }) {
 
   return (
     <div className="Summoner">
-      <img
-        className="summoner-icon"
-        src={DDRAGON.SUMMONER_ICON(summoner.iconId)}
-        alt={`Summoner Icon ${summoner.iconId}`}
-      />
+      <div className="summoner-icon-container">
+        <img
+          className="summoner-icon"
+          src={DDRAGON.SUMMONER_ICON(summoner.iconId)}
+          alt={`Summoner Icon ${summoner.iconId}`}
+        />
+        <div className="summoner-level">Lv. {summoner.level}</div>
+      </div>
       <div className="summoner-info">
-        <div className="summoner-bio">
-          <div className="summoner-name">{summoner.gameName}</div>
-          <div className="summoner-level">level: {summoner.level}</div>
-        </div>
+        <div className="summoner-name">{summoner.gameName}</div>
         <div className="summoner-stats">
-          <div className="games-played">
-            Games: {gamesPlayed}
+          <div className="games-played">Games: {gamesPlayed}</div>
+          <div className="placements">
             <div>1:</div>
             <div>2:</div>
             <div>3:</div>

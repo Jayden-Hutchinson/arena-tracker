@@ -1,15 +1,21 @@
-function Items(items) {
+import { ItemContext } from "../../../App";
+import { useContext } from "react";
+
+import { DDRAGON } from "../../../api/ddragon";
+import "./Item.css";
+
+function Item({ itemId }) {
+  const items = useContext(ItemContext);
+  const itemData = items[itemId];
+
   return (
-    <div className="Items">
-      {augments.map((augment, index) => {
-        <img
-          key={index}
-          className="Augment"
-          src={augment.img}
-          alt={augment.name}
-        />;
-      })}
-    </div>
+    itemId > 0 && (
+      <img
+        className="Item"
+        src={DDRAGON.ITEM_IMAGE(itemData.image.full)}
+        alt={itemData.name}
+      />
+    )
   );
 }
-export default Items;
+export default Item;
