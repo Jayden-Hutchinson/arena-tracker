@@ -2,8 +2,13 @@ import MatchHistory from "../match_history/MatchHistory.js";
 import SummonerCard from "../summoner_card/SummonerCard.js";
 import "./TrackerCard.css";
 
-function TrackerCard(summoner) {
-  console.log(summoner.summoner)
+/**
+ * 
+ * @param {Summoner} summoner 
+ * @returns 
+ */
+function TrackerCard({ summoner }) {
+  console.log(summoner)
   return (
     summoner && (
       <div className="Tracker">

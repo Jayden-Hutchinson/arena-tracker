@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ClientApi } from "../../../api/clientApi";
 
 import TrackerCard from "../tracker_card/TrackerCard";
-import Summoner from "../summoner_card/SummonerCard";
+import Summoner from "../../../objects/Summoner.js";
 
 import "./TrackerBoard.css";
 
@@ -16,27 +16,24 @@ function TrackerBoard() {
   useEffect(() => {
     const fetchData = async () => {
       for (const account of accounts) {
-        const riotAccount = await ClientApi.fetchRiotAccount(
+        const accountDTO = await ClientApi.fetchRiotAccount(
           account.gameName,
           account.tagLine
         );
 
         let summoner =
-          JSON.parse(localStorage.getItem(riotAccount.puuid)) || null;
+          JSON.parse(localStorage.getItem(accountDTO.puuid)) || null;
 
 
         if (summoner === null) {
-          debugger
-          console.log("ENTERED")
-          const summonerAccount = await ClientApi.fetchSummoner(riotAccount.puuid);
-          const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
-          summoner = new Summoner(riotAccount, summonerAccount, matchIds);
-          console.log(summoner)
+          const summonerDTO = await ClientApi.fetchSummoner(accountDTO.puuid);
+          const matchIdList = await ClientApi.fetchMatchHistory(accountDTO.puuid);
+          summoner = new Summoner(accountDTO, summonerDTO, matchIdList);
+        } else {
+          summoner = new Summoner(summoner.riot, summoner.profile, summoner.matchIdList)
         }
-        debugger
 
         console.log(summoner)
-
         setSummoners((prev) => [...prev, summoner]);
       }
     };
