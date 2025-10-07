@@ -3,6 +3,7 @@ import Summoner from "../summoner/Summoner.js";
 import "./Tracker.css";
 
 function Tracker({ trackerInfo }) {
+  console.log(trackerInfo)
   return (
     trackerInfo && (
       <div className="Tracker">

@@ -7,7 +7,7 @@ class RateLimit {
     this.timeSpan = timeSpan;
   }
 
-  check() {}
+  check() { }
 }
 
 export class RiotApi {
@@ -23,29 +23,11 @@ export class RiotApi {
 
   static async fetch(url) {
     console.log("Riot Api Request:", url);
-    // for (const limit of this.rateLimits.entries()) {
-    //   limit.check();
-    // }
-    const res = await fetch(url, {
+    return fetch(url, {
       headers: {
         "X-Riot-Token": this.apiKey,
       },
     });
-
-    if (!res.ok) {
-      let body;
-      try {
-        body = await res.json();
-      } catch {
-        body = { message: res.statusText };
-      }
-      const err = new Error(res.statusText);
-      err.status = res.status;
-      err.body = body;
-      throw err;
-    }
-
-    return res.json();
   }
 
   static async fetchAccountByPuuid(puuid) {
@@ -80,9 +62,10 @@ export class RiotApi {
         startTime
       );
       const res = await this.fetch(url);
-      allMatchIds.push(...res);
+      const data = await res.json();
+      allMatchIds.push(...data);
 
-      if (res.length === 0) {
+      if (data.length === 0) {
         break;
       }
 

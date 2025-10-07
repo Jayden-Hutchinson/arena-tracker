@@ -24,7 +24,9 @@ class MatchInfo {
     const minutes = Math.floor(totalSeconds / 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
+
   getPlayer(puuid, info) {
+    console.log(info)
     return info.participants.find((player) => player.puuid === puuid);
   }
 

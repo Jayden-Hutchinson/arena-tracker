@@ -4,12 +4,17 @@ import { ClientApi } from "../../../api/clientApi";
 
 import "./TrackerBoard.css";
 class TrackerInfo {
-  constructor(gameName, puuid, tagLine, level, iconId, matchIds) {
+  constructor(
+    { gameName, tagLine, puuid },
+    { summonerLevel, profileIconId },
+    matchIds
+  ) {
+    console.log(gameName)
     this.gameName = gameName;
     this.puuid = puuid;
     this.tagLine = tagLine;
-    this.level = level;
-    this.iconId = iconId;
+    this.level = summonerLevel;
+    this.iconId = profileIconId;
     this.matchIds = matchIds;
   }
 }
@@ -31,20 +36,20 @@ function TrackerBoard() {
         let trackerInfo =
           JSON.parse(localStorage.getItem(riotAccount.puuid)) || null;
 
-        if (!trackerInfo) {
-          const summoner = await ClientApi.fetchSummoner(riotAccount.puuid);
-          const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
 
-          trackerInfo = new TrackerInfo(
-            riotAccount.gameName,
-            riotAccount.puuid,
-            riotAccount.tagLine,
-            summoner.summonerLevel,
-            summoner.profileIconId,
-            matchIds
-          );
-          localStorage.setItem(trackerInfo.puuid, JSON.stringify(trackerInfo));
-        }
+        const summoner = await ClientApi.fetchSummoner(riotAccount.puuid);
+        const matchIds = await ClientApi.fetchMatchHistory(riotAccount.puuid);
+
+        console.log(matchIds)
+
+        trackerInfo = new TrackerInfo(
+          riotAccount,
+          summoner,
+          matchIds
+        );
+
+        console.log(trackerInfo)
+
         setTrackers((prev) => [...prev, trackerInfo]);
       }
     };
