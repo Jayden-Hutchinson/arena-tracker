@@ -20,14 +20,14 @@ function SummonerCard({ summoner }) {
         <div className="summoner-stats">
           <div className="games-played">Games: {gamesPlayed}</div>
           <div className="placements">
-            <div>1:</div>
-            <div>2:</div>
-            <div>3:</div>
-            <div>4:</div>
-            <div>5:</div>
-            <div>6:</div>
-            <div>7:</div>
-            <div>8:</div>
+            <div>1st:</div>
+            <div>2nd:</div>
+            <div>3rd:</div>
+            <div>4th:</div>
+            <div>5th:</div>
+            <div>6th:</div>
+            <div>7th:</div>
+            <div>8th:</div>
           </div>
         </div>
       </div>
