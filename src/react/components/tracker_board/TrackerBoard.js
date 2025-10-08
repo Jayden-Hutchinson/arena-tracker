@@ -8,42 +8,40 @@ import Summoner from "../../../objects/Summoner.js";
 import "./TrackerBoard.css";
 
 function TrackerBoard() {
-  const [summoners, setSummoners] = useState([]);
-  const [showDetails, setShowDetails] = useState(false);
+  const [summoners, setSummoners] = useState({});
 
-  const accounts = [{ gameName: "Ginger Comando", tagLine: "na1" }];
+  const accounts = [{ gameName: "IVIacz", tagLine: "na1" }];
 
   useEffect(() => {
     const fetchData = async () => {
       for (const account of accounts) {
-        const accountDTO = await ClientApi.fetchRiotAccount(
+        const accountDTO = await ClientApi.fetchAccount(
           account.gameName,
           account.tagLine
         );
 
-        let summoner =
-          JSON.parse(localStorage.getItem(accountDTO.puuid)) || null;
+        const summonerDTO = await ClientApi.fetchSummoner(accountDTO.puuid);
+        const matchHistory = await ClientApi.fetchMatchHistory(
+          accountDTO.puuid
+        );
 
+        const summoner = new Summoner(accountDTO, summonerDTO, matchHistory);
+        console.log(summoner);
 
-        if (summoner === null) {
-          const summonerDTO = await ClientApi.fetchSummoner(accountDTO.puuid);
-          const matchIdList = await ClientApi.fetchMatchHistory(accountDTO.puuid);
-          summoner = new Summoner(accountDTO, summonerDTO, matchIdList);
-        } else {
-          summoner = new Summoner(summoner.riot, summoner.profile, summoner.matchIdList)
-        }
-
-        console.log(summoner)
-        setSummoners((prev) => [...prev, summoner]);
+        setSummoners((prev) => ({
+          ...prev,
+          [summoner.puuid]: summoner,
+        }));
       }
     };
     fetchData();
   }, []);
 
+  console.log(summoners);
   return (
     <div className="TrackerBoard">
-      {summoners.map((summoner, index) => (
-        <TrackerCard key={index} summoner={summoner} />
+      {Object.entries(summoners).map(([puuid, summoner]) => (
+        <TrackerCard key={puuid} summoner={summoner} />
       ))}
     </div>
   );

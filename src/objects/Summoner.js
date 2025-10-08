@@ -1,17 +1,14 @@
-
 class Summoner {
-    constructor(accountDTO, summonerDTO, matchIdList) {
-        console.log("here")
-        this.riot = accountDTO;
+  constructor(accountDto, summonerDto, matchHistory) {
+    this.puuid = accountDto.puuid;
+    this.gameName = accountDto.gameName;
+    this.tagLine = accountDto.tagLine;
 
-        this.profile = summonerDTO;
-        // this.gameName = riotAccount.gameName;
-        // this.puuid = riotAccount.puuid;
-        // this.tagLine = riotAccount.tagLine;
-        // this.level = summonerAccount.summonerLevel;
-        // this.iconId = summonerAccount.profileIconId;
-        this.matchIdList = matchIdList;
-    }
+    this.profileIconId = summonerDto.profileIconId;
+    this.summonerLevel = summonerDto.summonerLevel;
+
+    this.matchHistory = matchHistory;
+  }
 }
 
 export default Summoner;

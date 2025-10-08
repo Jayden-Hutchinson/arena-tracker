@@ -1,15 +1,16 @@
 import { DDRAGON } from "../../../api/ddragon";
 import "./SummonerCard.css";
 
-function SummonerCard(summoner) {
-  const gamesPlayed = summoner.matchIds.length;
+function SummonerCard({ summoner }) {
+  console.log(summoner);
+  const gamesPlayed = summoner.matchHistory.length;
 
   return (
     <div className="Summoner">
       <div className="summoner-icon-container">
         <img
           className="summoner-icon"
-          src={DDRAGON.SUMMONER_ICON(summoner.iconId)}
+          src={DDRAGON.SUMMONER_ICON(summoner.profileIconId)}
           alt={`Summoner Icon ${summoner.iconId}`}
         />
         <div className="summoner-level">Lv. {summoner.level}</div>

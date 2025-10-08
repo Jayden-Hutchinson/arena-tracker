@@ -7,7 +7,7 @@ class RateLimit {
     this.timeSpan = timeSpan;
   }
 
-  check() { }
+  check() {}
 }
 
 export class RiotApi {
@@ -61,13 +61,15 @@ export class RiotApi {
         queue,
         startTime
       );
+
       const res = await this.fetch(url);
       const data = await res.json();
-      allMatchIds.push(...data);
 
       if (data.length === 0) {
         break;
       }
+
+      allMatchIds.push(...data);
 
       start += count;
     }
