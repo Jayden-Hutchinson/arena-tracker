@@ -1,7 +1,7 @@
 import { DDRAGON } from "../../../api/ddragon";
-import "./SummonerCard.css";
+import "./SummonerProfile.css";
 
-function SummonerCard({ summoner }) {
+function SummonerProfile({ summoner }) {
   console.log(summoner);
   const gamesPlayed = summoner.matchHistory.length;
 
@@ -35,4 +35,4 @@ function SummonerCard({ summoner }) {
   );
 }
 
-export default SummonerCard;
+export default SummonerProfile;

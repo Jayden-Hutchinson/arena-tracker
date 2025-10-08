@@ -1,18 +1,18 @@
 import MatchHistoryCard from "../match_history/MatchHistoryCard.js";
-import SummonerCard from "../summoner_card/SummonerCard.js";
-import "./TrackerCard.css";
+import SummonerProfile from "../summoner_profile/SummonerProfile.js";
+import "./Tracker.css";
 
 /**
  *
  * @param {Summoner} summoner
  * @returns
  */
-function TrackerCard({ summoner }) {
+function Tracker({ summoner }) {
   console.log(summoner);
   return (
     summoner && (
-      <div className="TrackerCard">
-        <SummonerCard summoner={summoner} />
+      <div className="Tracker">
+        <SummonerProfile summoner={summoner} />
         <MatchHistoryCard
           puuid={summoner.puuid}
           matchHistory={summoner.matchHistory}
@@ -22,4 +22,4 @@ function TrackerCard({ summoner }) {
   );
 }
 
-export default TrackerCard;
+export default Tracker;

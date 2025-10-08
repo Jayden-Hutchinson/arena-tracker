@@ -18,12 +18,12 @@
 }
 
 .game-name {
-  font-size: 16px;
-  font-weight: 300;
-  color: lightblue;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+  color: #ffc666;
 }
 
 .champion-name {
   font-weight: 200;
-  font-size: 14px;
+  font-size: 12px;
 }

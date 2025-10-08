@@ -23,9 +23,9 @@ function MatchCard({ puuid, match }) {
 
   return (
     <li className={`Match ${openClass}`}>
-      <button onClick={toggleOpen} className="chevron-button">
-        <FaChevronRight className={`chevron ${openClass}`} />
-      </button>
+        <button onClick={toggleOpen} className="chevron-button">
+          <FaChevronRight className={`chevron ${openClass}`} />
+        </button>
       <div className="players">
         <Player key={player.puuid} player={player} />
         <Player key={teammate.puuid} player={teammate} />

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { ClientApi } from "../../../api/clientApi";
 
-import TrackerCard from "../tracker_card/TrackerCard";
+import Tracker from "../tracker/Tracker.js";
 import Summoner from "../../../objects/Summoner.js";
 
 import "./TrackerBoard.css";
@@ -10,7 +10,7 @@ import "./TrackerBoard.css";
 function TrackerBoard() {
   const [summoners, setSummoners] = useState({});
 
-  const accounts = [{ gameName: "IVIacz", tagLine: "na1" }];
+  const accounts = [{ gameName: "Ginger Comando", tagLine: "na1" }];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +41,7 @@ function TrackerBoard() {
   return (
     <div className="TrackerBoard">
       {Object.entries(summoners).map(([puuid, summoner]) => (
-        <TrackerCard key={puuid} summoner={summoner} />
+        <Tracker key={puuid} summoner={summoner} />
       ))}
     </div>
   );

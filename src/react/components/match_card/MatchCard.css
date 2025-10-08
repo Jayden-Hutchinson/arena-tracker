@@ -7,10 +7,10 @@
   flex-direction: row;
   align-items: start;
   border: 2px solid transparent;
-  border-bottom-color: black;
   box-sizing: content-box;
-  border-bottom: solid 2px rgba(255, 255, 255, 0.1);
+  background-color: #11141f;
 
+  border-radius: 10px;
   color: rgba(255, 255, 255, 0.5);
 
   transition: height var(--match-transition-time) ease;
@@ -30,9 +30,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
-  height: 102px;
+
+  width: 40px;
+  height: 100px;
+
   cursor: pointer;
+
+  margin-right: 10px;
 }
 
 .chevron-button:hover {
@@ -59,4 +63,8 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap: 5px;
+}
+
+.items {
+  gap: 10px;
 }

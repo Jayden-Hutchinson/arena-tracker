@@ -1,5 +1,5 @@
 :root {
-  --summoner-icon-size: 100px;
+  --summoner-icon-size: 80px;
   --summoner-icon-margin-right: 20px;
 
   --summoner-name-font-size: 18px;
@@ -13,8 +13,9 @@
 .Summoner {
   justify-content: start;
   width: 100%;
+  border-radius: 10px;
 
-  border-bottom: solid 5px #222942;
+  background-color: #11141f;
 }
 
 .summoner-icon-container {
@@ -26,7 +27,6 @@
 .summoner-icon {
   width: var(--summoner-icon-size);
   height: var(--summoner-icon-size);
-  box-sizing: content-box;
 }
 
 .summoner-level {

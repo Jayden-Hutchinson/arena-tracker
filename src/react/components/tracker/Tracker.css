@@ -1,4 +1,4 @@
-.TrackerCard {
+.Tracker {
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -6,8 +6,7 @@
   width: 700px;
 
   color: white;
-  border: solid 5px #222942;
-  background-color: #11141f;
+  gap: 5px;
 }
 
 .gameNameInput {
