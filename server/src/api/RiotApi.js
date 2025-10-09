@@ -21,13 +21,33 @@ export class RiotApi {
   static arenaSeasonStartTime = 1745616000;
   static arenaQueueId = 1700;
 
+  static async sleep(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
+
   static async fetch(url) {
-    console.log("Riot Api Request:", url);
-    return fetch(url, {
-      headers: {
-        "X-Riot-Token": this.apiKey,
-      },
-    });
+    while (true) {
+      console.log("Riot Api Request:", url);
+      const response = await fetch(url, {
+        headers: {
+          "X-Riot-Token": this.apiKey,
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status == 429) {
+          const retryAfter = parseInt(
+            response.headers.get("retry-after") || "1",
+            10
+          );
+          console.warn(`Rate limited — retrying after ${retryAfter}s...`);
+          await this.sleep(retryAfter);
+          continue; // retry
+        }
+      }
+
+      return response;
+    }
   }
 
   static async fetchAccountByPuuid(puuid) {
@@ -57,7 +77,7 @@ export class RiotApi {
       const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
         puuid,
         start,
-        count,
+        20,
         queue,
         startTime
       );
@@ -71,7 +91,8 @@ export class RiotApi {
 
       allMatchIds.push(...data);
 
-      start += count;
+      // start += count;
+      break;
     }
     return allMatchIds;
   }

@@ -1,0 +1,17 @@
+.Tracker {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 700px;
+
+  color: white;
+}
+
+.gameNameInput {
+  width: 250px;
+}
+
+.tagLineInput {
+  width: 80px;
+}

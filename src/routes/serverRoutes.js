@@ -1,7 +1,7 @@
 export const URL = {
   account: (gameName = null, tagLine = null) =>
     gameName || tagLine
-      ? `/account?gameName=${gameName}&tagLine=${tagLine}`
+      ? `/account?gameName=${encodeURIComponent(gameName)}&tagLine=${tagLine}`
       : "/account",
   summoner: (puuid = null) =>
     puuid ? `/summoner?puuid=${puuid}` : "/summoner",

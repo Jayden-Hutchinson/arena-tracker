@@ -1,21 +1,27 @@
+import { Player } from "objects/Player";
+
 class Match {
   constructor({ metadata, info }) {
     this.metadata = metadata;
     this.info = info;
   }
+
   getPlayer(puuid) {
+    debugger;
     const playerIndex = this.metadata.participants.indexOf(puuid);
-    return this.info.participants[playerIndex];
+    const player = this.info.participants[playerIndex];
+    console.log(player);
+    return new Player(player);
   }
 
   getTeammate(player) {
+    if (!player) return null;
     const teammate = this.info.participants.find(
       (teammate) =>
         teammate.playerSubteamId === player.playerSubteamId &&
         teammate.puuid !== player.puuid
     );
-
-    return teammate;
+    return new Player(teammate);
   }
 
   getDate(info) {
