@@ -15,7 +15,7 @@ function TrackerCard({ summoner }) {
         <SummonerCard summoner={summoner} />
         <MatchHistory
           puuid={summoner.puuid}
-          matchIds={summoner.matchIds}
+          matchIdList={summoner.matchIdList}
         />
       </div>
     )

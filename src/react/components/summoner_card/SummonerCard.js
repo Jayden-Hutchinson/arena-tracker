@@ -1,8 +1,8 @@
 import { DDRAGON } from "../../../api/ddragon";
 import "./SummonerCard.css";
 
-function SummonerCard(summoner) {
-  const gamesPlayed = summoner.matchIds.length;
+function SummonerCard({ summoner }) {
+  const gamesPlayed = summoner.matchIdList.length;
 
   return (
     <div className="Summoner">

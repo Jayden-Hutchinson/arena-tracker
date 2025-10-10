@@ -45,7 +45,7 @@ class MatchInfo {
     return this.player.placement;
   }
 }
-function MatchHistory({ puuid, matchIds }) {
+function MatchHistory({ puuid, matchIdList }) {
   const [matches, setMatches] = useState([]);
   const [wins, setWins] = useState([]);
   const [status, setStatus] = useState();
@@ -59,7 +59,7 @@ function MatchHistory({ puuid, matchIds }) {
     async function getMatchIds() {
       setLoading(true);
       const wins = JSON.parse(localStorage.getItem("wins")) || [];
-      const idsToFetch = wins.length > 0 ? wins : matchIds;
+      const idsToFetch = wins.length > 0 ? wins : matchIdList;
 
       console.log(wins);
       console.log(idsToFetch);
