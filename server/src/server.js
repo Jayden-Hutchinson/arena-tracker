@@ -12,11 +12,14 @@ const PORT = 5000;
 
 app.get(URL.account(), async (req, res) => {
   const { gameName, tagLine } = req.query;
-  const response = await RiotApi.fetchAccountByGameName(gameName, tagLine)
+  const response = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+
   if (!response.ok) {
-    console.log("ERROR")
+    console.log(response);
+    throw new Error();
   }
-  const data = await response.json()
+
+  const data = await response.json();
   return res.json(data);
 });
 

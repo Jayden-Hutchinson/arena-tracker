@@ -1,9 +1,0 @@
-.MatchHistory {
-  flex-direction: column;
-  width: 100%;
-  /* gap: 50px; */
-}
-
-.game-names {
-  flex-direction: column;
-}

@@ -1,50 +1,9 @@
 import "./MatchHistory.css";
 
-import Match from "../match/Match.js";
+import Match from "objects/Match";
 import { useEffect, useState } from "react";
 import { ClientApi } from "../../../api/clientApi.js";
 
-class MatchInfo {
-  constructor(puuid, { info }) {
-    this.player = this.getPlayer(puuid, info);
-    this.team = this.getTeam(puuid, info);
-    this.duration = this.getMatchDuration(info);
-    this.date = this.getDate(info);
-    this.placement = this.getPlacement(info);
-  }
-
-  getDate(info) {
-    const date = new Date(info.gameCreation);
-    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-  }
-
-  getMatchDuration(info) {
-    const totalSeconds = info.gameDuration;
-    const seconds = totalSeconds % 60;
-    const minutes = Math.floor(totalSeconds / 60);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  }
-
-  getPlayer(puuid, info) {
-    console.log(info)
-    return info.participants.find((player) => player.puuid === puuid);
-  }
-
-  getTeam(puuid, info) {
-    const teamMate = info.participants.find(
-      (teamMate) =>
-        teamMate.playerSubteamId === this.player.playerSubteamId &&
-        teamMate.puuid !== puuid
-    );
-
-    const team = [this.player, teamMate];
-    return { id: this.player.teamId, players: team };
-  }
-
-  getPlacement() {
-    return this.player.placement;
-  }
-}
 function MatchHistory({ puuid, matchIdList }) {
   const [matches, setMatches] = useState([]);
   const [wins, setWins] = useState([]);
@@ -74,7 +33,7 @@ function MatchHistory({ puuid, matchIdList }) {
         // const sleepMs = 1200 - fetchDuration;
         // await sleep(sleepMs);
 
-        const matchInfo = new MatchInfo(puuid, matchData);
+        const matchInfo = new Match(puuid, matchData);
 
         if (matchInfo.getPlacement() === 1 && !wins.includes(id)) {
           wins.push(id);
