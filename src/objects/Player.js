@@ -21,7 +21,6 @@ export class Player {
     placement,
     playerSubteamId
   }) {
-    console.log(championName);
     this.championName = championName;
     this.gameName = riotIdGameName;
     this.augments = [

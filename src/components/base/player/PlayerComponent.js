@@ -34,7 +34,7 @@ function PlayerComponent({ player, dipslayName = true }) {
       </div>
       {/* <Items items={player.items} /> */}
       {/* <Kda kda={player.kda} /> */}
-      <DamageDealtToChampions damage={player.totalDamageDealtToChampions} />
+      <DamageDealtToChampions damage={player.damageDealt} />
     </div>
   );
 }

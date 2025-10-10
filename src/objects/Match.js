@@ -9,12 +9,10 @@ class Match {
     getPlayer(puuid) {
         const playerIndex = this.metadata.participants.indexOf(puuid);
         const player = this.info.participants[playerIndex];
-        console.log(player);
         return new Player(player);
     }
 
     getTeammate(player) {
-        console.log(player);
         if (!player) return null;
         const teammate = this.info.participants.find(
             (teammate) =>

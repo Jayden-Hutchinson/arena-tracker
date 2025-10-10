@@ -13,6 +13,7 @@ function TrackerBody({ puuid, matchHistory }) {
     async function fetchData() {
       const matchData = await processMatchHistory(matchHistory, setStatus);
       setMatches(matchData);
+
     }
     fetchData();
   }, []);
