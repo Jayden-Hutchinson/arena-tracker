@@ -3,8 +3,9 @@ import "./MatchHistory.css";
 import Match from "objects/Match";
 import { useEffect, useState } from "react";
 import { ClientApi } from "../../../api/clientApi.js";
+import { processMatchHistory } from "utils/utils";
 
-function MatchHistory({ puuid, matchIdList }) {
+function MatchHistory({ puuid, matchHistory }) {
   const [matches, setMatches] = useState([]);
   const [wins, setWins] = useState([]);
   const [status, setStatus] = useState();
@@ -23,6 +24,7 @@ function MatchHistory({ puuid, matchIdList }) {
       console.log(wins);
       console.log(idsToFetch);
 
+      const matches = await processMatchHistory(matchHistory);
       for (const [index, id] of idsToFetch.entries()) {
         setStatus(`Loading: ${index} / ${idsToFetch.length}`);
         // const fetchStart = Date.now();

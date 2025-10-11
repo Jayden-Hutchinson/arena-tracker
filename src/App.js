@@ -13,9 +13,6 @@ export const ItemContext = createContext(null);
 function App() {
   const [augments, setAugments] = useState(null);
   const [items, setItems] = useState(null);
-  const [summoners, setSummoners] = useState({});
-
-  const accounts = [{ gameName: "TannerennaT", tagLine: "na1" }];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,21 +21,6 @@ function App() {
       setAugments(augmentData.augments);
       setItems(itemData.data);
 
-      for (const account of accounts) {
-        const accountDTO = await Client.fetchAccount(
-          account.gameName,
-          account.tagLine
-        );
-        const summonerDTO = await Client.fetchSummoner(accountDTO.puuid);
-        const matchHistory = await Client.fetchMatchHistory(accountDTO.puuid);
-
-        const summoner = new Summoner(accountDTO, summonerDTO, matchHistory);
-
-        setSummoners((prev) => ({
-          ...prev,
-          [summoner.puuid]: summoner,
-        }));
-      }
     };
     fetchData();
   }, []);
@@ -48,7 +30,7 @@ function App() {
       <ItemContext.Provider value={items}>
         <div className="App">
           <Navbar />
-          <TrackerBoard summoners={summoners} />
+          <TrackerBoard  />
         </div>
       </ItemContext.Provider>
     </AugmentContext.Provider>

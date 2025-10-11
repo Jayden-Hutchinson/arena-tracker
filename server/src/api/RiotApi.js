@@ -21,8 +21,11 @@ export class RiotApi {
   static arenaSeasonStartTime = 1745616000;
   static arenaQueueId = 1700;
 
-  static async sleep(ms) {
-    return new Promise((res) => setTimeout(res, ms));
+  static async sleep(seconds) {
+    for (let i = seconds; i > 0; i--) {
+      console.log(`Retrying in ${i}s...`);
+      await new Promise((res) => setTimeout(res, 1000));
+    }
   }
 
   static async fetch(url) {

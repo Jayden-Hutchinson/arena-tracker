@@ -5,6 +5,7 @@ import { processMatchHistory } from "utils/utils";
 import MatchCard from "components/base/match_card/MatchCard";
 
 import "./TrackerBody.css";
+
 function TrackerBody({ puuid, matchHistory }) {
   const [matches, setMatches] = useState([]);
   const [status, setStatus] = useState();
@@ -13,7 +14,6 @@ function TrackerBody({ puuid, matchHistory }) {
     async function fetchData() {
       const matchData = await processMatchHistory(matchHistory, setStatus);
       setMatches(matchData);
-
     }
     fetchData();
   }, []);

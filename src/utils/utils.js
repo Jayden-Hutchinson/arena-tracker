@@ -12,6 +12,17 @@ export async function processMatchHistory(matchHistory, setStatus) {
     const match = new Match(matchDto);
     matches.push(match);
   }
+
   setStatus(null);
   return matches;
+}
+
+export async function getSummonerData(account) {
+  const accountDto = await Client.fetchAccount(
+    account.gameName,
+    account.tagLine
+  );
+  const summonerDto = await Client.fetchSummoner(accountDto.puuid);
+  const matchHistory = await Client.fetchMatchHistory(accountDto.puuid);
+  return { accountDto, summonerDto, matchHistory };
 }
