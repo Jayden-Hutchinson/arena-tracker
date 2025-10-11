@@ -20,10 +20,10 @@ function MatchCard({ puuid, match }) {
 
   return (
     <li className={`Match ${openClass}`}>
-      <button onClick={toggleOpen} className="chevron-button">
+      {/* <button className="chevron-button">
         <FaChevronRight className={`chevron ${openClass}`} />
-      </button>
-      <div className="players">
+      </button> */}
+      <div onClick={toggleOpen} className="players">
         {player && teammate && (
           <>
             <ScoreCard key={player.puuid} display={open} player={player} />

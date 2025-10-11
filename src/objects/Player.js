@@ -2,12 +2,12 @@ export class Player {
   constructor({
     championName,
     riotIdGameName,
-    playerAugment1,
-    playerAugment2,
-    playerAugment3,
-    playerAugment4,
-    playerAugment5,
-    playerAugment6,
+    playerAugment1 = 0,
+    playerAugment2 = 0,
+    playerAugment3 = 0,
+    playerAugment4 = 0,
+    playerAugment5 = 0,
+    playerAugment6 = 0,
     item0,
     item1,
     item2,
@@ -19,7 +19,7 @@ export class Player {
     assists,
     totalDamageDealtToChampions,
     placement,
-    playerSubteamId
+    playerSubteamId,
   }) {
     this.championName = championName;
     this.gameName = riotIdGameName;
@@ -37,6 +37,6 @@ export class Player {
     this.assists = assists;
     this.damageDealt = totalDamageDealtToChampions;
     this.placement = placement;
-    this.playerSubteamId = playerSubteamId
+    this.playerSubteamId = playerSubteamId;
   }
 }

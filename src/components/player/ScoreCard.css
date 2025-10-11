@@ -6,9 +6,7 @@
   justify-content: space-between;
   align-items: center;
 
-  padding-top: var(--player-padding);
-  padding-bottom: var(--player-padding);
-  padding-right: var(--player-padding);
+  padding: var(--player-padding);
 }
 
 .player-names {
@@ -19,11 +17,16 @@
 
 .game-name {
   font-size: 14px;
-  margin-bottom: 0.5rem;
-  color: #ffc666;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  color: #ffc848af;
 }
 
 .champion-name {
-  font-weight: 200;
-  font-size: 12px;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.kda {
+  font-size: 14px;
 }

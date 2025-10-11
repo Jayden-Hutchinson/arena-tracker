@@ -6,19 +6,31 @@
 .Match {
   flex-direction: row;
   align-items: start;
-  border: 2px solid transparent;
   box-sizing: content-box;
-  background-color: #11141f;
+
 
   color: rgba(255, 255, 255, 0.5);
+  background-color: #11141f;
+  border-top: 1px solid rgb(24, 28, 39);
+  border-right: 1px solid rgb(24, 28, 39);
+  border-radius: 5px;
 
   transition: height var(--match-transition-time) ease;
   overflow: hidden;
   pointer-events: hover;
+  cursor: pointer;
+}
+
+.Match:hover {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 206, 81, 0.127),
+    transparent
+  );
 }
 
 .Match.open {
-  height: 204px;
+  height: 220px;
 }
 
 .Match.closed {
@@ -34,8 +46,6 @@
   height: 100px;
 
   cursor: pointer;
-
-  margin-right: 10px;
 }
 
 .chevron-button:hover {
@@ -61,9 +71,5 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 5px;
-}
-
-.items {
   gap: 10px;
 }

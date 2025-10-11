@@ -1,10 +1,10 @@
 .TrackerSearch {
-  width: 100%;
+  width: 800px;
   height: 100px;
   justify-content: center;
   align-items: center;
   gap: 5px;
-  background-color: rgb(2, 4, 17);
+  background-color: rgb(13, 15, 29);
 }
 
 .search-button {

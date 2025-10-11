@@ -1,6 +1,23 @@
 .Augment {
-  width: 25px;
+  position: relative;
   background-color: black;
-  border: solid 1px grey;
   border-radius: 50%;
+}
+
+.Augment:hover .description {
+  opacity: 1;
+}
+
+.augment-icon {
+  width: 30px;
+  border: solid 1px rgba(136, 136, 136, 0.263);
+  border-radius: 50%;
+}
+
+.description {
+  position: absolute;
+  bottom: 500%;
+  left: 50%;
+  transform: translate(-50%);
+  opacity: 0;
 }

@@ -10,14 +10,14 @@ function Item({ itemId }) {
   const items = useContext(ItemContext);
   const itemData = items[itemId];
 
-  return (
-    itemId > 0 && (
-      <img
-        className="Item"
-        src={DDRAGON.ITEM_IMAGE(itemData.image.full)}
-        alt={itemData.name}
-      />
-    )
+  return itemId > 0 ? (
+    <img
+      className="Item"
+      src={DDRAGON.ITEM_IMAGE(itemData.image.full)}
+      alt={itemData.name}
+    />
+  ) : (
+    <div className="Item" />
   );
 }
 export default Item;

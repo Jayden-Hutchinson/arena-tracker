@@ -4,7 +4,6 @@ import SummonerProfile from "components/summoner_profile/SummonerProfile";
 import TrackerControls from "components/tracker_controls/TrackerControls";
 import MatchHistory from "components/match_history/MatchHistory";
 
-import { getPlacements } from "utils/utils";
 import { processMatchHistory } from "utils/utils";
 
 import "./Tracker.css";
@@ -18,7 +17,7 @@ function Tracker({ summoner }) {
   const [showDetails, setShowDetails] = useState(false);
   const [matches, setMatches] = useState([]);
   const [status, setStatus] = useState();
-  console.log(summoner)
+  console.log(summoner);
 
   useEffect(() => {
     async function getMatches() {

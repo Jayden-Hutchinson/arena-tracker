@@ -6,6 +6,7 @@ import DamageDealtToChampions from "components/damageDealtToChampions/DamageDeal
 import "./ScoreCard.css";
 
 function ScoreCard({ player, dipslayName = true }) {
+  console.log(player);
   return (
     <div className="ScoreCard">
       <ChampionPortrait championName={player.championName} />
@@ -18,7 +19,7 @@ function ScoreCard({ player, dipslayName = true }) {
       <div className="augments">
         {player.augments &&
           player.augments.map((augmentId, index) => {
-            return <Augment key={index} augmentId={augmentId} />;
+            return <Augment key={augmentId} augmentId={augmentId} />;
           })}
       </div>
 
@@ -29,7 +30,7 @@ function ScoreCard({ player, dipslayName = true }) {
           })}
       </div>
 
-      <div>
+      <div className="kda">
         {player.kills}/{player.deaths}/{player.assists}
       </div>
       {/* <Items items={player.items} /> */}

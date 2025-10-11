@@ -1,5 +1,5 @@
 :root {
-  --summoner-icon-size: 80px;
+  --summoner-icon-size: 100px;
   --summoner-icon-margin-right: 20px;
 
   --summoner-name-font-size: 18px;
@@ -23,6 +23,7 @@
 }
 
 .summoner-icon {
+  border-radius: 10px;
   width: var(--summoner-icon-size);
   height: var(--summoner-icon-size);
 }
