@@ -17,7 +17,7 @@ export class Client {
       console.log("Server responded with:", data);
       return data;
     } catch (err) {
-      console.log("ERROR");
+      console.log(err);
     }
   }
 

@@ -1,8 +1,7 @@
-import { DDRAGON } from "../../../../api/ddragon";
+import { DDRAGON } from "../../api/ddragon";
 import "./SummonerProfile.css";
 
 function SummonerProfile({ summoner }) {
-  console.log(summoner);
   const gamesPlayed = summoner.matchHistory.length;
 
   return (

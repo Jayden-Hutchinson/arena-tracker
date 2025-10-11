@@ -1,13 +1,13 @@
-import ChampionPortrait from "components/parts/champion_portrait/ChampionPortrait";
-import Augment from "components/parts/augment/Augment";
-import Item from "components/parts/item/Item";
-import DamageDealtToChampions from "components/parts/damageDealtToChampions/DamageDealtToChampions";
+import ChampionPortrait from "components/champion_portrait/ChampionPortrait";
+import Augment from "components/augment/Augment";
+import Item from "components/item/Item";
+import DamageDealtToChampions from "components/damageDealtToChampions/DamageDealtToChampions";
 
-import "./PlayerComponent.css";
+import "./ScoreCard.css";
 
-function PlayerComponent({ player, dipslayName = true }) {
+function ScoreCard({ player, dipslayName = true }) {
   return (
-    <div className="PlayerComponent">
+    <div className="ScoreCard">
       <ChampionPortrait championName={player.championName} />
       <div className="player-names">
         {dipslayName && <div className="game-name">{player.gameName}</div>}
@@ -38,4 +38,4 @@ function PlayerComponent({ player, dipslayName = true }) {
     </div>
   );
 }
-export default PlayerComponent;
+export default ScoreCard;

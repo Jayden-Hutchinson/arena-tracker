@@ -1,5 +1,5 @@
 class Summoner {
-  constructor({ accountDto, summonerDto, matchHistory }) {
+  constructor(accountDto, summonerDto, matchHistory) {
     console.log(accountDto, summonerDto, matchHistory);
     this.puuid = accountDto.puuid;
     this.gameName = accountDto.gameName;

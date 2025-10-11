@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 
-import PlayerComponent from "components/base/player/PlayerComponent";
-import { Player } from "objects/Player";
+import ScoreCard from "components/player/ScoreCard";
 
 import "./MatchCard.css";
 
@@ -27,12 +26,8 @@ function MatchCard({ puuid, match }) {
       <div className="players">
         {player && teammate && (
           <>
-            <PlayerComponent
-              key={player.puuid}
-              display={open}
-              player={player}
-            />
-            <PlayerComponent key={teammate.puuid} player={teammate} />
+            <ScoreCard key={player.puuid} display={open} player={player} />
+            <ScoreCard key={teammate.puuid} player={teammate} />
           </>
         )}
       </div>

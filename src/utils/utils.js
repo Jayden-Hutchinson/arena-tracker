@@ -1,5 +1,6 @@
-import Match from "objects/Match";
 import { Client } from "api/client";
+
+import Match from "objects/Match";
 
 export async function processMatchHistory(matchHistory, setStatus) {
   const savedWins = JSON.parse(localStorage.getItem("wins")) || [];
@@ -17,12 +18,22 @@ export async function processMatchHistory(matchHistory, setStatus) {
   return matches;
 }
 
+export function getPlacements(matches, puuid) {
+  const placements = {};
+
+  matches.map((match, index) => {
+    const player = match.getPlayer(puuid);
+    const key = player.placement;
+
+    if (placements[key] == undefined) {
+      placements[key] = [];
+    }
+
+    placements[key].push(match);
+  });
+
+  return placements;
+}
+
 export async function getSummonerData(account) {
-  const accountDto = await Client.fetchAccount(
-    account.gameName,
-    account.tagLine
-  );
-  const summonerDto = await Client.fetchSummoner(accountDto.puuid);
-  const matchHistory = await Client.fetchMatchHistory(accountDto.puuid);
-  return { accountDto, summonerDto, matchHistory };
 }

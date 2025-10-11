@@ -3,9 +3,8 @@ import "./App.css";
 import { createContext, useEffect, useState } from "react";
 
 import { Client } from "api/client.js";
-import Navbar from "components/base/navbar/Navbar.js";
-import TrackerBoard from "components/base/tracker_board/TrackerBoard";
-import Summoner from "objects/Summoner";
+import Navbar from "components/navbar/Navbar.js";
+import TrackerBoard from "components/tracker_board/TrackerBoard";
 
 export const AugmentContext = createContext(null);
 export const ItemContext = createContext(null);
@@ -20,7 +19,6 @@ function App() {
       const itemData = await Client.fetchItemData();
       setAugments(augmentData.augments);
       setItems(itemData.data);
-
     };
     fetchData();
   }, []);
@@ -30,7 +28,7 @@ function App() {
       <ItemContext.Provider value={items}>
         <div className="App">
           <Navbar />
-          <TrackerBoard  />
+          <TrackerBoard />
         </div>
       </ItemContext.Provider>
     </AugmentContext.Provider>
