@@ -1,32 +1,12 @@
 :root {
-  --player-padding: 20px;
+  --player-padding: 10px;
 }
 
 .ScoreCard {
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 3fr 2fr 2fr 1fr 1fr;
+  place-items: center;
 
   padding: var(--player-padding);
-}
-
-.player-names {
-  flex-direction: column;
-  align-items: start;
-  width: 150px;
-}
-
-.game-name {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 0.2rem;
-  color: #ffc848af;
-}
-
-.champion-name {
-  font-weight: 300;
-  font-size: 14px;
-}
-
-.kda {
-  font-size: 14px;
 }

@@ -32,9 +32,13 @@ export class Player {
       playerAugment6,
     ];
     this.items = [item0, item1, item2, item3, item4, item5];
-    this.kills = kills;
-    this.deaths = deaths;
-    this.assists = assists;
+
+    this.kda = {
+      kills: kills,
+      deaths: deaths,
+      assists: assists,
+    };
+
     this.damageDealt = totalDamageDealtToChampions;
     this.placement = placement;
     this.playerSubteamId = playerSubteamId;

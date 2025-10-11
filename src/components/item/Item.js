@@ -11,11 +11,14 @@ function Item({ itemId }) {
   const itemData = items[itemId];
 
   return itemId > 0 ? (
-    <img
-      className="Item"
-      src={DDRAGON.ITEM_IMAGE(itemData.image.full)}
-      alt={itemData.name}
-    />
+    <>
+      <img
+        className="Item"
+        src={DDRAGON.ITEM_IMAGE(itemData.image.full)}
+        alt={itemData.name}
+      />
+      <div className="description"></div>
+    </>
   ) : (
     <div className="Item" />
   );

@@ -29,11 +29,11 @@
 }
 
 .Match.open {
-  height: 220px;
+  height: 190px;
 }
 
 .Match.closed {
-  height: 102px;
+  height: 95px;
 }
 
 .chevron-button {
@@ -65,12 +65,3 @@
   width: 100%;
 }
 
-.augments,
-.items {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-}
-
-.augments {
-}

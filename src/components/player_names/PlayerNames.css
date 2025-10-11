@@ -1,0 +1,17 @@
+.PlayerNames {
+  flex-direction: column;
+  align-items: start;
+  width: 150px;
+}
+
+.game-name {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  color: #ffc848af;
+}
+
+.champion-name {
+  font-weight: 300;
+  font-size: 14px;
+}

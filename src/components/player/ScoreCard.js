@@ -1,41 +1,27 @@
 import ChampionPortrait from "components/champion_portrait/ChampionPortrait";
-import Augment from "components/augment/Augment";
-import Item from "components/item/Item";
-import DamageDealtToChampions from "components/damageDealtToChampions/DamageDealtToChampions";
+import PlayerNames from "components/player_names/PlayerNames";
+import Augments from "components/augments/Augments";
+import Items from "components/items/Items";
+import Kda from "components/kda/Kda";
+import DamageDealt from "components/damage_dealt/DamageDealt";
 
 import "./ScoreCard.css";
 
-function ScoreCard({ player, dipslayName = true }) {
+function ScoreCard({ player, showDetails = true }) {
   console.log(player);
   return (
     <div className="ScoreCard">
-      <ChampionPortrait championName={player.championName} />
-      <div className="player-names">
-        {dipslayName && <div className="game-name">{player.gameName}</div>}
-
-        <div className="champion-name">{player.championName}</div>
+      <div>
+        <ChampionPortrait championName={player.championName} />
+        <PlayerNames
+          gameName={player.gameName}
+          championName={player.championName}
+        />
       </div>
-
-      <div className="augments">
-        {player.augments &&
-          player.augments.map((augmentId, index) => {
-            return <Augment key={augmentId} augmentId={augmentId} />;
-          })}
-      </div>
-
-      <div className="items">
-        {player.items &&
-          player.items.map((itemId, index) => {
-            return <Item key={index} itemId={itemId} />;
-          })}
-      </div>
-
-      <div className="kda">
-        {player.kills}/{player.deaths}/{player.assists}
-      </div>
-      {/* <Items items={player.items} /> */}
-      {/* <Kda kda={player.kda} /> */}
-      <DamageDealtToChampions damage={player.damageDealt} />
+      <Augments augments={player.augments} />
+      <Items items={player.items} />
+      <Kda kda={player.kda} />
+      <DamageDealt damage={player.damageDealt} />
     </div>
   );
 }

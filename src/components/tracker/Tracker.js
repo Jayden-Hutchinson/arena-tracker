@@ -35,7 +35,7 @@ function Tracker({ summoner }) {
       <div className="Tracker">
         <SummonerProfile summoner={summoner} />
         <TrackerControls setShowDetails={setShowDetails} />
-        {matches && <MatchHistory puuid={summoner.puuid} matches={matches} />}
+        <MatchHistory puuid={summoner.puuid} matches={matches} />
       </div>
     )
   );

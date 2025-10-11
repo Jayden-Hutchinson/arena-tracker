@@ -35,20 +35,23 @@ function TrackerSearch({ callback }) {
 
   return (
     <form onSubmit={handleSubmit} className="TrackerSearch">
-      <input
-        className="gameNameInput"
-        name="gameName"
-        type="text"
-        onChange={handleChange}
-        placeholder="Summoner name"
-      />
-      <input
-        className="tagLineInput"
-        name="tagLine"
-        type="text"
-        onChange={handleChange}
-        placeholder="#tag"
-      />
+      <label>Add Tracker</label>
+      <div>
+        <input
+          className="gameNameInput"
+          name="gameName"
+          type="text"
+          onChange={handleChange}
+          placeholder="Summoner name"
+        />
+        <input
+          className="tagLineInput"
+          name="tagLine"
+          type="text"
+          onChange={handleChange}
+          placeholder="#tag"
+        />
+      </div>
       <button className="search-button" type="submit">
         Search
       </button>

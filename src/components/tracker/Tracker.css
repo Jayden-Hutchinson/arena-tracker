@@ -5,10 +5,10 @@
 
   width: 800px;
 
-  padding: 50px;
+  padding: 20px;
 
   color: white;
-  background-color: rgb(13, 15, 29);
+  background-color: rgb(40, 43, 59);
 
   border-radius: 20px;
   border-top: 1px solid rgb(24, 28, 39);
@@ -22,3 +22,4 @@
 .tagLineInput {
   width: 80px;
 }
+
