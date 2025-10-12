@@ -8,6 +8,7 @@ import { processMatchHistory } from "utils/utils";
 
 import "./Tracker.css";
 import { DDRAGON } from "api/ddragon";
+import DataManager from "objects/DataManager";
 
 /**
  *
@@ -22,16 +23,20 @@ function Tracker({ summoner }) {
 
   useEffect(() => {
     async function getMatches() {
-      const matches = await processMatchHistory(
+      const matches = await DataManager.getMatches(
         summoner.matchHistory,
         setStatus
       );
+
+      const wins = await DataManager.processWins(summoner.puuid, matches);
+
+      console.log(matches);
+      console.log(wins);
       setMatches(matches);
 
       const champions = await fetch(
         "https://ddragon.leagueoflegends.com/cdn/15.19.1/data/en_US/champion.json"
       ).then((res) => res.json());
-      console.log(champions.data);
       setChampions(champions.data);
     }
     getMatches();

@@ -1,4 +1,6 @@
 import Summoner from "objects/Summoner";
+import Match from "./Match";
+
 import { Client } from "api/client";
 
 class DataManager {
@@ -22,6 +24,34 @@ class DataManager {
     }
 
     return summoner;
+  }
+  static async getMatches(matchHistory, setStatus) {
+    const savedWins = JSON.parse(localStorage.getItem("wins")) || [];
+    const idsToFetch = savedWins.length > 0 ? savedWins : matchHistory;
+    const matches = [];
+
+    for (const [index, matchId] of idsToFetch.entries()) {
+      setStatus(`loading ${index + 1} of ${idsToFetch.length}`);
+      const matchDto = await Client.fetchMatchData(matchId);
+      const match = new Match(matchDto);
+      matches.push(match);
+    }
+
+    setStatus(null);
+    return matches;
+  }
+
+  static async processWins(puuid, matches) {
+    console.log(puuid, matches);
+    const wins = [];
+    for (const match of matches) {
+      const player = match.getPlayer(puuid);
+      if (player.placement === 1) {
+        wins.push(match);
+      }
+    }
+    console.log(wins);
+    return wins;
   }
 }
 

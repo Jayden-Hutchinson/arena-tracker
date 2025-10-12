@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { API_ROUTE } from "./ApiRoutes.js";
+import AccountDto from "./AccountDto.js";
 
 class RateLimit {
   constructor(numRequests, timeSpan) {
@@ -30,12 +31,12 @@ export class RiotApi {
 
   static async fetch(url) {
     while (true) {
-      console.log("Riot Api Request:", url);
       const response = await fetch(url, {
         headers: {
           "X-Riot-Token": this.apiKey,
         },
       });
+      console.log("RiotApi Response:", response.status, response.url);
 
       if (!response.ok) {
         if (response.status == 429) {
@@ -48,7 +49,6 @@ export class RiotApi {
           continue; // retry
         }
       }
-
       return response;
     }
   }
@@ -60,6 +60,12 @@ export class RiotApi {
 
   static async fetchAccountByGameName(gameName, tagLine) {
     const url = API_ROUTE.RIOT.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
+    const response = await this.fetch(url);
+    const data = await response.json();
+    console.log(data);
+    const account = new AccountDto(data);
+    console.log(account);
+
     return this.fetch(url);
   }
 
@@ -80,7 +86,7 @@ export class RiotApi {
       const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
         puuid,
         start,
-        5,
+        20,
         queue,
         startTime
       );
