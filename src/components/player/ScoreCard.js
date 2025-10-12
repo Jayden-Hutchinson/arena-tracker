@@ -8,7 +8,6 @@ import DamageDealt from "components/damage_dealt/DamageDealt";
 import "./ScoreCard.css";
 
 function ScoreCard({ player, showDetails = true }) {
-  console.log(player);
   return (
     <div className="ScoreCard">
       <div>

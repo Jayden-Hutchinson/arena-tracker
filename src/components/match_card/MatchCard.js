@@ -1,15 +1,9 @@
 import { useState } from "react";
-import { FaChevronRight } from "react-icons/fa";
 
 import ScoreCard from "components/player/ScoreCard";
 
 import "./MatchCard.css";
 
-/**
- *
- * @param {Match} match
- * @returns
- */
 function MatchCard({ puuid, match }) {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((prev) => !prev);
@@ -20,9 +14,6 @@ function MatchCard({ puuid, match }) {
 
   return (
     <li className={`Match ${openClass}`}>
-      {/* <button className="chevron-button">
-        <FaChevronRight className={`chevron ${openClass}`} />
-      </button> */}
       <div onClick={toggleOpen} className="players">
         {player && teammate && (
           <>

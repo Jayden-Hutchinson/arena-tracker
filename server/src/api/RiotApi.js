@@ -80,7 +80,7 @@ export class RiotApi {
       const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
         puuid,
         start,
-        20,
+        5,
         queue,
         startTime
       );

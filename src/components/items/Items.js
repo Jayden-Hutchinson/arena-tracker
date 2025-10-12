@@ -5,8 +5,8 @@ function Items({ items }) {
   return (
     <div className="Items">
       {items &&
-        items.map((itemId) => {
-          return <Item key={itemId} itemId={itemId} />;
+        items.map((itemId, index) => {
+          return <Item key={`${index}${itemId}`} itemId={itemId} />;
         })}
     </div>
   );

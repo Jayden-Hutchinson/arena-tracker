@@ -7,6 +7,7 @@ import MatchHistory from "components/match_history/MatchHistory";
 import { processMatchHistory } from "utils/utils";
 
 import "./Tracker.css";
+import { DDRAGON } from "api/ddragon";
 
 /**
  *
@@ -17,7 +18,7 @@ function Tracker({ summoner }) {
   const [showDetails, setShowDetails] = useState(false);
   const [matches, setMatches] = useState([]);
   const [status, setStatus] = useState();
-  console.log(summoner);
+  const [champions, setChampions] = useState();
 
   useEffect(() => {
     async function getMatches() {
@@ -26,6 +27,12 @@ function Tracker({ summoner }) {
         setStatus
       );
       setMatches(matches);
+
+      const champions = await fetch(
+        "https://ddragon.leagueoflegends.com/cdn/15.19.1/data/en_US/champion.json"
+      ).then((res) => res.json());
+      console.log(champions.data);
+      setChampions(champions.data);
     }
     getMatches();
   }, []);
@@ -36,6 +43,19 @@ function Tracker({ summoner }) {
         <SummonerProfile summoner={summoner} />
         <TrackerControls setShowDetails={setShowDetails} />
         <MatchHistory puuid={summoner.puuid} matches={matches} />
+
+        {/* <div className="champions">
+          {champions &&
+            Object.entries(champions).map(([id, champion]) => {
+              return (
+                <img
+                  className="remaining-champion"
+                  src={DDRAGON.CHAMPION_IMAGE(id)}
+                  alt={id}
+                />
+              );
+            })}
+        </div> */}
       </div>
     )
   );

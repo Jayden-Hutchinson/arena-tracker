@@ -23,3 +23,10 @@
   width: 80px;
 }
 
+.champions {
+  flex-wrap: wrap;
+}
+
+.remaining-champion {
+  width: 80px;
+}

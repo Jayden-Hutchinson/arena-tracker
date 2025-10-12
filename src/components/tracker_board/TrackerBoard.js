@@ -34,7 +34,6 @@ function TrackerBoard() {
 
       for (const account of accounts) {
         const summoner = await DataManager.getSummonerData(account);
-        console.log(summoner);
         summoners[summoner.puuid] = summoner;
       }
       setSummoners(summoners);
