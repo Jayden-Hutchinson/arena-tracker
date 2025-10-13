@@ -2,7 +2,6 @@ import { Player } from "objects/Player";
 
 class Match {
   constructor(id) {
-    this.id = id;
     this.player = null;
     this.teammate = null;
 

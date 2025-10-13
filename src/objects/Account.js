@@ -1,8 +1,8 @@
 class Account {
-  constructor(gameName, tagLIne) {
-    this.key = `${gameName}#${tagLIne}`;
+  constructor(puuid, gameName, tagLine) {
+    this.puuid = puuid;
     this.gameName = gameName;
-    this.tagLine = tagLIne;
+    this.tagLine = tagLine;
   }
 }
 

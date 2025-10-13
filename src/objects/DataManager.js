@@ -6,39 +6,48 @@ import MatchHistory from "./MatchHistory";
 import { Client } from "api/client";
 
 class DataManager {
+  static async createAccount(account) {
+
+  }
+
   static async getSummonerData(account, setStatus) {
-    let summoner = JSON.parse(localStorage.getItem(account.key));
+    let savedAccount = JSON.parse(localStorage.getItem(account.puuid));
+    console.log(savedAccount)
 
-    if (!summoner) {
+    if (!savedAccount) {
       setStatus("Creating new summoner");
-      setStatus("Fetching Account:", account.gameName, account.tagLine);
-      console.log(account);
-      const accountDto = await Client.fetchAccount(
-        account.gameName,
-        account.tagLine
-      );
-      console.log(accountDto);
-
       setStatus("Fetching Summoner:", account.puuid);
-      const summonerDto = await Client.fetchSummoner(accountDto.puuid);
+      const summonerDto = await Client.fetchSummoner(account.puuid);
       setStatus("Fetching Match History:", account.puuid);
-      const matchHistoryIds = await Client.fetchMatchHistory(accountDto.puuid);
+      const matchHistoryIds = await Client.fetchMatchHistory(account.puuid);
 
-      const matchHistory = new MatchHistory(matchHistoryIds);
-      summoner = new Summoner(accountDto, summonerDto, matchHistory);
 
-      localStorage.setItem(account.key, JSON.stringify(summoner));
+      const matchHistory = new MatchHistory();
+      for (const matchId of matchHistoryIds) {
+        const match = new Match(matchId);
+        matchHistory.add(match);
+      }
+      console.log(matchHistory)
+
+
+      account = new Summoner(account, summonerDto, matchHistoryIds);
+
+      localStorage.setItem(account.puuid, JSON.stringify(account));
+    } else {
+      account = savedAccount
     }
 
-    return summoner;
+    return account;
   }
 
   static async getMatchHistoryData(puuid, matchHistory, setStatus) {
     const savedWins = JSON.parse(localStorage.getItem("wins")) || [];
-    const idsToFetch = savedWins.length > 0 ? savedWins : matchHistory.ids;
+    console.log(matchHistory)
+    const idsToFetch = savedWins.length > 0 ? savedWins : Object.entries(matchHistory);
 
     const matches = [];
-    for (const [index, matchId] of idsToFetch.entries()) {
+    console.log(idsToFetch)
+    for (const [index, [matchId, matchData]] of idsToFetch.entries()) {
       setStatus(`loading ${index + 1} of ${idsToFetch.length}`);
 
       const matchDto = await Client.fetchMatchData(matchId);

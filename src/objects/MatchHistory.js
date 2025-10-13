@@ -1,7 +1,11 @@
 class MatchHistory {
-  constructor(matchHistoryId) {
-    this.ids = matchHistoryId;
-    this.data = null;
+  constructor() {
+    this.matches = {};
+  }
+
+  add(match) {
+    console.log(match)
+    this.matches[match.id] = match
   }
 }
 
