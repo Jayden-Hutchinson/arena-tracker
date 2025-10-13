@@ -17,39 +17,46 @@ import DataManager from "objects/DataManager";
  */
 function Tracker({ summoner }) {
   const [showDetails, setShowDetails] = useState(false);
-  const [matches, setMatches] = useState([]);
+  const [matchHistory, setMatchHistory] = useState([]);
   const [status, setStatus] = useState();
   const [champions, setChampions] = useState();
 
   useEffect(() => {
     async function getMatches() {
-      const matches = await DataManager.getMatches(
+      const matches = await DataManager.getMatchHistoryData(
+        summoner.puuid,
         summoner.matchHistory,
         setStatus
       );
+      summoner.matchHistory.data = matches;
+      console.log(summoner);
 
-      const wins = await DataManager.processWins(summoner.puuid, matches);
+      localStorage.setItem(
+        `${summoner.gameName}#${summoner.tagLine}`,
+        JSON.stringify(summoner)
+      );
 
-      console.log(matches);
-      console.log(wins);
-      setMatches(matches);
+      // const wins = await DataManager.processWins(summoner.puuid, matches);
+
+      setMatchHistory(summoner.matchHistory);
 
       const champions = await fetch(
         "https://ddragon.leagueoflegends.com/cdn/15.19.1/data/en_US/champion.json"
       ).then((res) => res.json());
       setChampions(champions.data);
     }
+
     getMatches();
   }, []);
 
-  return (
-    summoner && (
-      <div className="Tracker">
-        <SummonerProfile summoner={summoner} />
-        <TrackerControls setShowDetails={setShowDetails} />
-        <MatchHistory puuid={summoner.puuid} matches={matches} />
+  return matchHistory ? (
+    <div className="Tracker">
+      <SummonerProfile summoner={summoner} />
+      <TrackerControls setShowDetails={setShowDetails} />
+      <MatchHistory puuid={summoner.puuid} matchHistory={matchHistory} />
+      {status}
 
-        {/* <div className="champions">
+      {/* <div className="champions">
           {champions &&
             Object.entries(champions).map(([id, champion]) => {
               return (
@@ -61,8 +68,9 @@ function Tracker({ summoner }) {
               );
             })}
         </div> */}
-      </div>
-    )
+    </div>
+  ) : (
+    <div>{status}</div>
   );
 }
 

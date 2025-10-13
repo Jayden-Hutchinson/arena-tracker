@@ -2,7 +2,8 @@ import MatchCard from "components/match_card/MatchCard";
 
 import "./MatchHistory.css";
 
-function MatchHistory({ puuid, matches }) {
+function MatchHistory({ puuid, matchHistory }) {
+  console.log(matchHistory);
   return (
     <ul className="MatchHistory">
       <div className="list-items">
@@ -13,9 +14,9 @@ function MatchHistory({ puuid, matches }) {
         <div>Damage</div>
       </div>
 
-      {matches &&
-        matches.map((match, index) => {
-          return <MatchCard key={index} puuid={puuid} match={match} />;
+      {matchHistory.data &&
+        matchHistory.data.map((match, index) => {
+          return <MatchCard key={match.id} matchData={match} />;
         })}
     </ul>
   );

@@ -9,10 +9,11 @@ import "./TrackerBoard.css";
 
 function TrackerBoard() {
   const [summoners, setSummoners] = useState({});
+  const [status, setStatus] = useState();
 
   localStorage.setItem(
     "accounts",
-    JSON.stringify([{ gameName: "TannerennaT", tagLine: "na1" }])
+    JSON.stringify([{ gameName: "TannerennaT", tagLine: "NA1" }])
   );
 
   const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
@@ -33,10 +34,9 @@ function TrackerBoard() {
       }
 
       for (const account of accounts) {
-        const summoner = await DataManager.getSummonerData(account);
+        const summoner = await DataManager.getSummonerData(account, setStatus);
         summoners[summoner.puuid] = summoner;
         console.log(summoner);
-
       }
       setSummoners(summoners);
     };
@@ -45,6 +45,7 @@ function TrackerBoard() {
 
   return (
     <div className="TrackerBoard">
+      {status}
       {summoners &&
         Object.entries(summoners).map(([puuid, summoner]) => (
           <Tracker key={puuid} summoner={summoner} />

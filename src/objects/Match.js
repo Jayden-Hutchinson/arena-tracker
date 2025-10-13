@@ -1,23 +1,27 @@
 import { Player } from "objects/Player";
 
 class Match {
-  constructor({ metadata, info }) {
-    this.metadata = metadata;
-    this.info = info;
+  constructor(id) {
+    this.id = id;
+    this.player = null;
+    this.teammate = null;
+
+    // this.metadata = metadata;
+    // this.info = info;
   }
 
-  getPlayer(puuid) {
-    const playerIndex = this.metadata.participants.indexOf(puuid);
-    const player = this.info.participants[playerIndex];
+  getPlayer(puuid, participantIds, participantData) {
+    const playerIndex = participantIds.indexOf(puuid);
+    const player = participantData[playerIndex];
     return new Player(player);
   }
 
-  getTeammate(player) {
-    const teammate = this.info.participants.find(
+  getTeammate(puuid, playerSubteamId, participantData) {
+    const teammate = participantData.find(
       (teammate) =>
-        teammate.playerSubteamId === player.playerSubteamId &&
-        teammate.puuid !== player.puuid
+        teammate.puuid !== puuid && teammate.playerSubteamId === playerSubteamId
     );
+    console.log(teammate);
     return new Player(teammate);
   }
 

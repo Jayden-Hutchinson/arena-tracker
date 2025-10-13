@@ -4,21 +4,26 @@ import ScoreCard from "components/player/ScoreCard";
 
 import "./MatchCard.css";
 
-function MatchCard({ puuid, match }) {
+function MatchCard({  matchData }) {
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((prev) => !prev);
   const openClass = open ? "open" : "closed";
 
-  const player = match.getPlayer(puuid);
-  const teammate = match.getTeammate(player);
-
+  console.log(matchData);
   return (
     <li className={`Match ${openClass}`}>
       <div onClick={toggleOpen} className="players">
-        {player && teammate && (
+        {matchData && (
           <>
-            <ScoreCard key={player.puuid} display={open} player={player} />
-            <ScoreCard key={teammate.puuid} player={teammate} />
+            <ScoreCard
+              key={matchData.player.puuid}
+              display={open}
+              player={matchData.player}
+            />
+            <ScoreCard
+              key={matchData.teammate.puuid}
+              player={matchData.teammate}
+            />
           </>
         )}
       </div>
