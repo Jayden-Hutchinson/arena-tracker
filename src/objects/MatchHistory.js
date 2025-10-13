@@ -4,7 +4,6 @@ class MatchHistory {
   }
 
   add(match) {
-    console.log(match)
     this.matches[match.id] = match
   }
 }

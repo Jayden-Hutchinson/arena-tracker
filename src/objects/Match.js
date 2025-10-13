@@ -20,7 +20,6 @@ class Match {
       (teammate) =>
         teammate.puuid !== puuid && teammate.playerSubteamId === playerSubteamId
     );
-    console.log(teammate);
     return new Player(teammate);
   }
 

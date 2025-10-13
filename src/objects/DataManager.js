@@ -5,14 +5,15 @@ import MatchHistory from "./MatchHistory";
 
 import { Client } from "api/client";
 
-class DataManager {
-  static async createAccount(account) {
+const KEY = {
+  ACCOUNTS: "Accounts",
+};
 
-  }
+class DataManager {
+  static async createAccount(account) {}
 
   static async getSummonerData(account, setStatus) {
     let savedAccount = JSON.parse(localStorage.getItem(account.puuid));
-    console.log(savedAccount)
 
     if (!savedAccount) {
       setStatus("Creating new summoner");
@@ -21,37 +22,36 @@ class DataManager {
       setStatus("Fetching Match History:", account.puuid);
       const matchHistoryIds = await Client.fetchMatchHistory(account.puuid);
 
-
       const matchHistory = new MatchHistory();
       for (const matchId of matchHistoryIds) {
         const match = new Match(matchId);
         matchHistory.add(match);
       }
-      console.log(matchHistory)
-
 
       account = new Summoner(account, summonerDto, matchHistoryIds);
 
       localStorage.setItem(account.puuid, JSON.stringify(account));
     } else {
-      account = savedAccount
+      account = savedAccount;
     }
 
     return account;
   }
 
+  static getAccounts() {
+    return JSON.parse(localStorage.getItem(KEY.ACCOUNTS)) || [];
+  }
+
   static async getMatchHistoryData(puuid, matchHistory, setStatus) {
     const savedWins = JSON.parse(localStorage.getItem("wins")) || [];
-    console.log(matchHistory)
-    const idsToFetch = savedWins.length > 0 ? savedWins : Object.entries(matchHistory);
+    const idsToFetch =
+      savedWins.length > 0 ? savedWins : Object.entries(matchHistory);
 
     const matches = [];
-    console.log(idsToFetch)
     for (const [index, [matchId, matchData]] of idsToFetch.entries()) {
       setStatus(`loading ${index + 1} of ${idsToFetch.length}`);
 
       const matchDto = await Client.fetchMatchData(matchId);
-      console.log(matchDto);
 
       const match = new Match(matchDto.metadata.matchId);
       match.player = match.getPlayer(
@@ -74,8 +74,6 @@ class DataManager {
   }
 
   static async processWins(puuid, matchHistoryIds) {
-    console.log(puuid, matchHistoryIds);
-
     const wins = [];
     for (const match of matchHistoryIds) {
       const player = match.getPlayer(puuid);
@@ -84,7 +82,6 @@ class DataManager {
       }
     }
 
-    console.log(wins);
     return wins;
   }
 }

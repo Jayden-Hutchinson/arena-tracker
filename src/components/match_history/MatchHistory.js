@@ -3,7 +3,6 @@ import MatchCard from "components/match_card/MatchCard";
 import "./MatchHistory.css";
 
 function MatchHistory({ puuid, matchHistory }) {
-  console.log(matchHistory);
   return (
     <ul className="MatchHistory">
       <div className="list-items">

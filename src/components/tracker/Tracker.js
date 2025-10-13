@@ -15,30 +15,35 @@ import DataManager from "objects/DataManager";
  * @param {Summoner} summoner
  * @returns
  */
-function Tracker({ summoner }) {
+function Tracker({ account }) {
   const [showDetails, setShowDetails] = useState(false);
   const [matchHistory, setMatchHistory] = useState([]);
   const [status, setStatus] = useState();
   const [champions, setChampions] = useState();
+  const [summoner, setSummoner] = useState();
 
   useEffect(() => {
     async function getMatches() {
+      const summoner = await DataManager.getSummonerData(account, setStatus);
+      console.log(summoner);
+      setSummoner(summoner);
+
       const matches = await DataManager.getMatchHistoryData(
         summoner.puuid,
         summoner.matchHistory,
         setStatus
       );
       summoner.matchHistory.data = matches;
-      console.log(summoner);
+      console.log(account);
 
       localStorage.setItem(
-        `${summoner.gameName}#${summoner.tagLine}`,
-        JSON.stringify(summoner)
+        `${account.gameName}#${account.tagLine}`,
+        JSON.stringify(account)
       );
 
       // const wins = await DataManager.processWins(summoner.puuid, matches);
 
-      setMatchHistory(summoner.matchHistory);
+      setMatchHistory(account.matchHistory);
 
       const champions = await fetch(
         "https://ddragon.leagueoflegends.com/cdn/15.19.1/data/en_US/champion.json"
@@ -51,9 +56,9 @@ function Tracker({ summoner }) {
 
   return matchHistory ? (
     <div className="Tracker">
-      <SummonerProfile summoner={summoner} />
+      {summoner && <SummonerProfile summoner={summoner} />}
       <TrackerControls setShowDetails={setShowDetails} />
-      <MatchHistory puuid={summoner.puuid} matchHistory={matchHistory} />
+      <MatchHistory puuid={account.puuid} matchHistory={matchHistory} />
       {status}
 
       {/* <div className="champions">
