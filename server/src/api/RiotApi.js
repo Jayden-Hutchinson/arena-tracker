@@ -86,7 +86,7 @@ export class RiotApi {
       const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
         puuid,
         start,
-        5,
+        count,
         queue,
         startTime
       );
@@ -100,7 +100,7 @@ export class RiotApi {
 
       allMatchIds.push(...data);
 
-      // start += count;
+      start += count;
       break;
     }
     return allMatchIds;

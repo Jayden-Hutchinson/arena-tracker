@@ -4,6 +4,7 @@ import Tracker from "components/tracker/Tracker";
 import TrackerSearch from "components/tracker_search/TrackerSearch";
 
 import DataManager from "objects/DataManager";
+import Account from "objects/Account";
 
 import "./TrackerBoard.css";
 
@@ -13,7 +14,7 @@ function TrackerBoard() {
 
   localStorage.setItem(
     "accounts",
-    JSON.stringify([{ gameName: "TannerennaT", tagLine: "NA1" }])
+    JSON.stringify([new Account("TannerennaT", "NA1")])
   );
 
   const accounts = JSON.parse(localStorage.getItem("accounts")) || [];
@@ -27,12 +28,11 @@ function TrackerBoard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const summoners = {};
       if (!accounts) {
-        console.log("no saved accounts");
         return;
       }
 
+      const summoners = {};
       for (const account of accounts) {
         const summoner = await DataManager.getSummonerData(account, setStatus);
         summoners[summoner.puuid] = summoner;

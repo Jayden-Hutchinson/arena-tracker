@@ -7,16 +7,17 @@ import { Client } from "api/client";
 
 class DataManager {
   static async getSummonerData(account, setStatus) {
-    const key = `${account.gameName}#${account.tagLine}`;
-    let summoner = JSON.parse(localStorage.getItem(key));
+    let summoner = JSON.parse(localStorage.getItem(account.key));
 
     if (!summoner) {
       setStatus("Creating new summoner");
       setStatus("Fetching Account:", account.gameName, account.tagLine);
+      console.log(account);
       const accountDto = await Client.fetchAccount(
         account.gameName,
         account.tagLine
       );
+      console.log(accountDto);
 
       setStatus("Fetching Summoner:", account.puuid);
       const summonerDto = await Client.fetchSummoner(accountDto.puuid);
@@ -26,7 +27,7 @@ class DataManager {
       const matchHistory = new MatchHistory(matchHistoryIds);
       summoner = new Summoner(accountDto, summonerDto, matchHistory);
 
-      localStorage.setItem(key, JSON.stringify(summoner));
+      localStorage.setItem(account.key, JSON.stringify(summoner));
     }
 
     return summoner;
