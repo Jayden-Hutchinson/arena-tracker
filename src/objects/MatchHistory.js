@@ -1,6 +1,6 @@
 class MatchHistory {
-  constructor() {
-    this.all = [];
+  constructor(matchIds) {
+    this.all = matchIds;
   }
 }
 

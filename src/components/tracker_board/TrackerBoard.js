@@ -1,38 +1,36 @@
-import Tracker from "components/tracker/Tracker";
-import TrackerSearch from "components/tracker_search/TrackerSearch";
+import { useEffect, useState } from "react";
+import { Client } from "api/client";
+
+import StorageManager from "objects/StorageManager";
+import Summoner from "objects/Summoner";
 import Account from "objects/Account";
 
+import Tracker from "components/tracker/Tracker";
+import TrackerSearch from "components/tracker_search/TrackerSearch";
+
 import "./TrackerBoard.css";
-import StorageManager from "objects/StorageManager";
-import { useEffect, useState } from "react";
 
 function TrackerBoard() {
   const [summoners, setSummoners] = useState([]);
 
-  // FOR TESTING
-  localStorage.setItem(
-    "Accounts",
-    JSON.stringify([
-      new Account(
-        "bhCte-xYzDzNtuF7Qx6DsjHdLPI9zJpJkg-77kL4V4w6Jxcg2FKtg__UpBfW2rtM-fkyEAK1FDMXfA",
-        "TannerennaT",
-        "NA1"
-      ),
-    ])
-  );
+  StorageManager.saveDummyAccount();
+  const accounts = StorageManager.getAccounts();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const accounts = await StorageManager.getAccounts();
-      const summoners = await StorageManager.getSummonerData(accounts);
-
+    const fetchSummoners = async () => {
+      const summoners = [];
+      for (const account of accounts) {
+        const summonerDto = await Client.fetchSummoner(account.puuid);
+        const matchHistory = await Client.fetchMatchHistory(account.puuid);
+        const summoner = new Summoner(account, summonerDto, matchHistory);
+        summoners.push(summoner);
+      }
       setSummoners(summoners);
     };
 
-    fetchData();
+    fetchSummoners();
   }, []);
 
-  console.log(summoners);
   return (
     <div className="TrackerBoard">
       {summoners &&

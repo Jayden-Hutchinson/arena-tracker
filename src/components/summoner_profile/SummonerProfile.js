@@ -10,7 +10,7 @@ function SummonerProfile({ summoner }) {
         <img
           className="summoner-icon"
           src={DDRAGON.SUMMONER_ICON(summoner.profileIconId)}
-          alt={`Summoner Icon ${summoner.iconId}`}
+          alt={`Summoner Icon ${summoner.profileIconId}`}
         />
         <div className="summoner-level">Lv. {summoner.level}</div>
       </div>

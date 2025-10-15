@@ -19,29 +19,17 @@ class StorageManager {
     return accounts;
   }
 
-  static async createAccount(account) {}
-
-  static async getSummonerData(accounts, setStatus) {
-    const summoners = [];
-    for (const account of accounts) {
-      // setStatus("Creating new summoner");
-      // setStatus("Fetching Summoner:", account.puuid);
-      const summonerDto = await Client.fetchSummoner(account.puuid);
-
-      // setStatus("Fetching Match History:", account.puuid);
-      const matchIds = await Client.fetchMatchHistory(account.puuid);
-
-      const matchHistory = new MatchHistory();
-      for (const matchId of matchIds) {
-        matchHistory.all.push(matchId);
-      }
-
-      const summoner = new Summoner(account, summonerDto, matchHistory);
-
-      summoners.push(summoner);
-    }
-
-    return summoners;
+  static saveDummyAccount() {
+    localStorage.setItem(
+      "Accounts",
+      JSON.stringify([
+        new Account(
+          "bhCte-xYzDzNtuF7Qx6DsjHdLPI9zJpJkg-77kL4V4w6Jxcg2FKtg__UpBfW2rtM-fkyEAK1FDMXfA",
+          "TannerennaT",
+          "NA1"
+        ),
+      ])
+    );
   }
 
   static async getMatchHistoryData(puuid, matchHistory, setStatus) {
