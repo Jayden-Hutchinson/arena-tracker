@@ -4,42 +4,44 @@ import Match from "./Match";
 import MatchHistory from "./MatchHistory";
 
 import { Client } from "api/client";
+import Account from "./Account";
 
 const KEY = {
   ACCOUNTS: "Accounts",
 };
 
-class DataManager {
-  static async createAccount(account) {}
-
-  static async getSummonerData(account, setStatus) {
-    let savedAccount = JSON.parse(localStorage.getItem(account.puuid));
-
-    if (!savedAccount) {
-      setStatus("Creating new summoner");
-      setStatus("Fetching Summoner:", account.puuid);
-      const summonerDto = await Client.fetchSummoner(account.puuid);
-      setStatus("Fetching Match History:", account.puuid);
-      const matchHistoryIds = await Client.fetchMatchHistory(account.puuid);
-
-      const matchHistory = new MatchHistory();
-      for (const matchId of matchHistoryIds) {
-        const match = new Match(matchId);
-        matchHistory.add(match);
-      }
-
-      account = new Summoner(account, summonerDto, matchHistoryIds);
-
-      localStorage.setItem(account.puuid, JSON.stringify(account));
-    } else {
-      account = savedAccount;
-    }
-
-    return account;
+class StorageManager {
+  static getAccounts() {
+    const json = JSON.parse(localStorage.getItem(KEY.ACCOUNTS)) || [];
+    const accounts = json.map(
+      (account) => new Account(account.puuid, account.gameName, account.tagLine)
+    );
+    return accounts;
   }
 
-  static getAccounts() {
-    return JSON.parse(localStorage.getItem(KEY.ACCOUNTS)) || [];
+  static async createAccount(account) {}
+
+  static async getSummonerData(accounts, setStatus) {
+    const summoners = [];
+    for (const account of accounts) {
+      // setStatus("Creating new summoner");
+      // setStatus("Fetching Summoner:", account.puuid);
+      const summonerDto = await Client.fetchSummoner(account.puuid);
+
+      // setStatus("Fetching Match History:", account.puuid);
+      const matchIds = await Client.fetchMatchHistory(account.puuid);
+
+      const matchHistory = new MatchHistory();
+      for (const matchId of matchIds) {
+        matchHistory.all.push(matchId);
+      }
+
+      const summoner = new Summoner(account, summonerDto, matchHistory);
+
+      summoners.push(summoner);
+    }
+
+    return summoners;
   }
 
   static async getMatchHistoryData(puuid, matchHistory, setStatus) {
@@ -49,7 +51,7 @@ class DataManager {
 
     const matches = [];
     for (const [index, [matchId, matchData]] of idsToFetch.entries()) {
-      setStatus(`loading ${index + 1} of ${idsToFetch.length}`);
+      // setStatus(`loading ${index + 1} of ${idsToFetch.length}`);
 
       const matchDto = await Client.fetchMatchData(matchId);
 
@@ -69,7 +71,7 @@ class DataManager {
       matches.push(match);
     }
 
-    setStatus(null);
+    // setStatus(null);
     return matches;
   }
 
@@ -86,4 +88,4 @@ class DataManager {
   }
 }
 
-export default DataManager;
+export default StorageManager;

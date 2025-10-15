@@ -2,7 +2,8 @@ import MatchCard from "components/match_card/MatchCard";
 
 import "./MatchHistory.css";
 
-function MatchHistory({ puuid, matchHistory }) {
+function MatchHistory(summoner) {
+  debugger;
   return (
     <ul className="MatchHistory">
       <div className="list-items">
@@ -13,8 +14,8 @@ function MatchHistory({ puuid, matchHistory }) {
         <div>Damage</div>
       </div>
 
-      {matchHistory.data &&
-        matchHistory.data.map((match, index) => {
+      {summoner.matchHistory.data &&
+        summoner.matchHistory.data.map((match) => {
           return <MatchCard key={match.id} matchData={match} />;
         })}
     </ul>

@@ -2,7 +2,7 @@ import { DDRAGON } from "../../api/ddragon";
 import "./SummonerProfile.css";
 
 function SummonerProfile({ summoner }) {
-  const gamesPlayed = summoner.matchHistory.length;
+  const gamesPlayed = summoner.matchHistory.all.length;
 
   return (
     <div className="Summoner">

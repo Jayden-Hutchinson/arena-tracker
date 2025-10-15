@@ -1,10 +1,6 @@
 class MatchHistory {
   constructor() {
-    this.matches = {};
-  }
-
-  add(match) {
-    this.matches[match.id] = match
+    this.all = [];
   }
 }
 
