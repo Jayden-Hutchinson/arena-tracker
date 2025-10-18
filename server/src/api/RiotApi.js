@@ -79,7 +79,7 @@ export class RiotApi {
   static async fetchMatchesByPuuid(
     puuid,
     start = 0,
-    count = 10,
+    count = 5,
     queue = this.arenaQueueId,
     startTime = this.arenaSeasonStartTime,
   ) {

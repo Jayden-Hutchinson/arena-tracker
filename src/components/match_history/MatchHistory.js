@@ -27,7 +27,7 @@ function MatchHistory({ puuid, matchHistory }) {
 
   return (
     <ul className="relative flex w-full flex-col gap-1">
-      <div className="top-15 sticky z-10 grid w-full grid-flow-col grid-cols-[3fr_2fr_2fr_1fr_1fr] rounded-lg bg-slate-950 p-2.5 text-[12px] text-gray-300">
+      <div className="top-15 sticky z-10 grid w-full grid-flow-col grid-cols-[3fr_2fr_2fr_1fr_1fr] rounded-lg bg-gray-950 p-2.5 text-[12px] text-gray-300">
         <div>Champion</div>
         <div>Augments</div>
         <div>Items</div>

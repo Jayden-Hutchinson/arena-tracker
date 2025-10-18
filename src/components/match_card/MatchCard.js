@@ -12,7 +12,7 @@ function MatchCard({ puuid, match }) {
   const player = match.getPlayer(puuid);
 
   return (
-    <li className="flex flex-row rounded-md bg-gray-900">
+    <li className="flex flex-row rounded-md bg-gray-950">
       <div className="players">
         {match && (
           <>

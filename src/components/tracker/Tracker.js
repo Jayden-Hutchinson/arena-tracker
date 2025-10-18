@@ -10,7 +10,7 @@ import MatchHistory from "components/match_history/MatchHistory";
 function Tracker({ summoner }) {
   console.log(summoner);
   return (
-    <div className="flex w-[800px] flex-col items-center justify-center rounded-lg bg-slate-800 p-5 text-white">
+    <div className="flex w-[800px] flex-col items-center justify-center rounded-lg bg-gray-900 p-5 text-white">
       {summoner && (
         <>
           <SummonerProfile summoner={summoner} />

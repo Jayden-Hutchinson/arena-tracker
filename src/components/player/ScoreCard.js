@@ -12,7 +12,9 @@ function ScoreCard({ player, showDetails = true }) {
     <div className="ScoreCard">
       <div className="flex items-center justify-start">
         <ChampionPortrait championName={player.championName} />
-        <div className="w-[150px]">{player.championName}</div>
+        <div className="w-[150px] text-sm text-gray-400">
+          {player.championName}
+        </div>
         {/* <PlayerNames
           gameName={player.gameName}
           championName={player.championName}
