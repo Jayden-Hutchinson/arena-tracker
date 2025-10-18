@@ -7,7 +7,8 @@ class Summoner {
     this.profileIconId = summonerDto.profileIconId;
     this.summonerLevel = summonerDto.summonerLevel;
 
-    this.matchHistory = matchHistory;
+    this.matchHistory = { all: matchHistory };
+    console.log(this.matchHistory.all);
   }
 }
 

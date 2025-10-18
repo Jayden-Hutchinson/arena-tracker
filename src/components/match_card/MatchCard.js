@@ -1,29 +1,23 @@
-import { useState } from "react";
-
 import ScoreCard from "components/player/ScoreCard";
 
 import "./MatchCard.css";
 
-function MatchCard({  matchData }) {
-  const [open, setOpen] = useState(false);
-  const toggleOpen = () => setOpen((prev) => !prev);
-  const openClass = open ? "open" : "closed";
+function MatchCard({ puuid, match }) {
+  // For when I add expanding functionality
+  // const [open, setOpen] = useState(false);
+  // const toggleOpen = () => setOpen((prev) => !prev);
+  // const openClass = open ? "open" : "closed";
+  // const teammate = match.getTeammate(puuid, player.playerSubteamId);
 
-  console.log(matchData);
+  const player = match.getPlayer(puuid);
+
   return (
-    <li className={`Match ${openClass}`}>
-      <div onClick={toggleOpen} className="players">
-        {matchData && (
+    <li className="flex flex-row rounded-md bg-gray-900">
+      <div className="players">
+        {match && (
           <>
-            <ScoreCard
-              key={matchData.player.puuid}
-              display={open}
-              player={matchData.player}
-            />
-            <ScoreCard
-              key={matchData.teammate.puuid}
-              player={matchData.teammate}
-            />
+            <ScoreCard key={player.puuid} player={player} />
+            {/* <ScoreCard key={teammate.puuid} player={teammate} /> */}
           </>
         )}
       </div>

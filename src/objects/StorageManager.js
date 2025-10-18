@@ -1,7 +1,5 @@
-import Summoner from "objects/Summoner";
 
 import Match from "./Match";
-import MatchHistory from "./MatchHistory";
 
 import { Client } from "api/client";
 import Account from "./Account";

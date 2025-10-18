@@ -13,7 +13,6 @@ let itemsCache = null;
 export class Client {
   static async fetchServerJson(url) {
     const response = await fetch(url);
-    console.log(response);
     if (!response.ok) {
       console.log("Error", response.status, response);
       return null;

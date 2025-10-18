@@ -23,32 +23,42 @@ const ENDPOINT = {
   },
 };
 
-export const API_ROUTE = {
+export const API = {
   RIOT: {
-    ACCOUNT: {
-      BY_RIOT_ID: (gameName, tagLine) =>
-        `${ENDPOINT.RIOT.ACCOUNTS}/by-riot-id/${gameName}/${tagLine}`,
-      BY_PUUID: (puuid) => `${ENDPOINT.RIOT.ACCOUNTS}/by-puuid/${puuid}`,
+    ERROR_STATUS: {
+      RATE_LIMIT: 429,
+      UNAUTHORIZED: 401,
     },
-    SUMMONER: {
-      BY_PUUID: (puuid) => `${ENDPOINT.RIOT.SUMMONERS}/by-puuid/${puuid}`,
-    },
-    MATCH: {
-      BY_PUUID: (
-        puuid,
-        start = null,
-        count = null,
-        queue = null,
-        startTime = null
-      ) => {
-        const url = new URL(`${ENDPOINT.RIOT.MATCHES}/by-puuid/${puuid}/ids?`);
-        if (start != null) url.searchParams.append("start", start);
-        if (count != null) url.searchParams.append("count", count);
-        if (queue != null) url.searchParams.append("queue", queue);
-        if (startTime != null) url.searchParams.append("startTime", startTime);
-        return url.href;
+
+    PATH: {
+      ACCOUNT: {
+        BY_RIOT_ID: (gameName, tagLine) =>
+          `${ENDPOINT.RIOT.ACCOUNTS}/by-riot-id/${gameName}/${tagLine}`,
+        BY_PUUID: (puuid) => `${ENDPOINT.RIOT.ACCOUNTS}/by-puuid/${puuid}`,
       },
-      BY_ID: (matchId) => `${ENDPOINT.RIOT.MATCHES}/${matchId}`,
+      SUMMONER: {
+        BY_PUUID: (puuid) => `${ENDPOINT.RIOT.SUMMONERS}/by-puuid/${puuid}`,
+      },
+      MATCH: {
+        BY_PUUID: (
+          puuid,
+          start = null,
+          count = null,
+          queue = null,
+          startTime = null
+        ) => {
+          const url = new URL(
+            `${ENDPOINT.RIOT.MATCHES}/by-puuid/${puuid}/ids?`
+          );
+          if (start != null) url.searchParams.append("start", start);
+          if (count != null) url.searchParams.append("count", count);
+          if (queue != null) url.searchParams.append("queue", queue);
+          if (startTime != null)
+            url.searchParams.append("startTime", startTime);
+          return url.href;
+        },
+        BY_ID: (matchId) => `${ENDPOINT.RIOT.MATCHES}/${matchId}`,
+      },
     },
   },
 

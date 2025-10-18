@@ -3,12 +3,10 @@ import { Client } from "api/client";
 
 import StorageManager from "objects/StorageManager";
 import Summoner from "objects/Summoner";
-import Account from "objects/Account";
 
 import Tracker from "components/tracker/Tracker";
 import TrackerSearch from "components/tracker_search/TrackerSearch";
 
-import "./TrackerBoard.css";
 
 function TrackerBoard() {
   const [summoners, setSummoners] = useState([]);
@@ -22,6 +20,7 @@ function TrackerBoard() {
       for (const account of accounts) {
         const summonerDto = await Client.fetchSummoner(account.puuid);
         const matchHistory = await Client.fetchMatchHistory(account.puuid);
+        console.log(matchHistory);
         const summoner = new Summoner(account, summonerDto, matchHistory);
         summoners.push(summoner);
       }
@@ -32,7 +31,7 @@ function TrackerBoard() {
   }, []);
 
   return (
-    <div className="TrackerBoard">
+    <div className="mt-20 pt-10">
       {summoners &&
         summoners.map((summoner) => {
           return <Tracker key={summoner.puuid} summoner={summoner} />;

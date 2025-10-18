@@ -3,7 +3,6 @@ class MatchDTO {
     this.info = info;
     this.metadata = metadata;
   }
-
 }
 
 export default MatchDTO;

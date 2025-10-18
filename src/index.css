@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @import "tailwindcss"; */
+
 @font-face {
   font-family: "Lexend";
   src: url("./assets/fonts/Lexend/Lexend-VariableFont_wght.ttf");
@@ -28,6 +33,6 @@ button {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

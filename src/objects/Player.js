@@ -1,7 +1,7 @@
 export class Player {
   constructor({
-    championName,
     riotIdGameName,
+    championName,
     playerAugment1,
     playerAugment2,
     playerAugment3,

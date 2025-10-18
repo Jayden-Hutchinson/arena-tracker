@@ -10,13 +10,15 @@ import "./ScoreCard.css";
 function ScoreCard({ player, showDetails = true }) {
   return (
     <div className="ScoreCard">
-      <div>
+      <div className="flex items-center justify-start">
         <ChampionPortrait championName={player.championName} />
-        <PlayerNames
+        <div className="w-[150px]">{player.championName}</div>
+        {/* <PlayerNames
           gameName={player.gameName}
           championName={player.championName}
-        />
+        /> */}
       </div>
+      {/* <Champion championName={player.championName} /> */}
       <Augments augments={player.augments} />
       <Items items={player.items} />
       <Kda kda={player.kda} />

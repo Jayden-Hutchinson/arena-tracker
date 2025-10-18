@@ -1,11 +1,6 @@
-import { useState, useEffect } from "react";
-
 import SummonerProfile from "components/summoner_profile/SummonerProfile";
 import TrackerControls from "components/tracker_controls/TrackerControls";
 import MatchHistory from "components/match_history/MatchHistory";
-
-import "./Tracker.css";
-import { Client } from "api/client";
 
 /**
  *
@@ -13,23 +8,10 @@ import { Client } from "api/client";
  * @returns
  */
 function Tracker({ summoner }) {
-  const [matchHistory, setMatchHistory] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      const matchHistory = [];
-      for (const matchId of summoner.matchHistory.all) {
-        const matchDto = await Client.fetchMatchData(matchId);
-        matchHistory.push(matchDto);
-      }
-      setMatchHistory(matchHistory);
-    };
-    fetchData();
-  });
-  console.log(matchHistory);
-
+  console.log(summoner);
   return (
-    <div className="Tracker">
-      {matchHistory && (
+    <div className="flex w-[800px] flex-col items-center justify-center rounded-lg bg-slate-800 p-5 text-white">
+      {summoner && (
         <>
           <SummonerProfile summoner={summoner} />
           <TrackerControls />
@@ -39,19 +21,6 @@ function Tracker({ summoner }) {
           />
         </>
       )}
-
-      {/* <div className="champions">
-          {champions &&
-            Object.entries(champions).map(([id, champion]) => {
-              return (
-                <img
-                  className="remaining-champion"
-                  src={DDRAGON.CHAMPION_IMAGE(id)}
-                  alt={id}
-                />
-              );
-            })}
-        </div> */}
     </div>
   );
 }

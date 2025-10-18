@@ -1,6 +1,7 @@
 import "dotenv/config";
-import { API_ROUTE } from "./ApiRoutes.js";
-import AccountDto from "./AccountDto.js";
+import { API } from "./ApiRoutes.js";
+
+const BASE_TEN = 10;
 
 class RateLimit {
   constructor(numRequests, timeSpan) {
@@ -22,13 +23,6 @@ export class RiotApi {
   static arenaSeasonStartTime = 1745616000;
   static arenaQueueId = 1700;
 
-  static async sleep(seconds) {
-    for (let i = seconds; i > 0; i--) {
-      console.log(`Retrying in ${i}s...`);
-      await new Promise((res) => setTimeout(res, 1000));
-    }
-  }
-
   static async fetch(url) {
     while (true) {
       const response = await fetch(url, {
@@ -36,59 +30,67 @@ export class RiotApi {
           "X-Riot-Token": this.apiKey,
         },
       });
-      console.log("RiotApi Response:", response.status, response.url);
 
-      if (!response.ok) {
-        if (response.status == 429) {
+      // Return if there is a successful request
+      if (response.ok) {
+        return response;
+      }
+
+      // Handle rate limit
+      switch (response.status) {
+        case API.RIOT.ERROR_STATUS.RATE_LIMIT:
           const retryAfter = parseInt(
             response.headers.get("retry-after") || "1",
-            10
+            BASE_TEN,
           );
           console.warn(`Rate limited — retrying after ${retryAfter}s...`);
-          await this.sleep(retryAfter);
-          continue; // retry
-        }
+          await new Promise((res) => setTimeout(res, retryAfter * 1000));
+          continue;
+
+        case API.RIOT.ERROR_STATUS.UNAUTHORIZED:
+          console.log(response);
+          const err = new Error("Unauthorized: Invalid API Key");
+          err.status = response.status;
+          throw err;
       }
-      return response;
+
+      const err = new Error("UNCAUGHT ERROR");
+      err.status = response.status;
+      throw err;
     }
   }
 
   static async fetchAccountByPuuid(puuid) {
-    const url = API_ROUTE.RIOT.ACCOUNT.BY_PUUID(puuid);
+    const url = API.RIOT.PATH.ACCOUNT.BY_PUUID(puuid);
     return this.fetch(url);
   }
 
   static async fetchAccountByGameName(gameName, tagLine) {
-    const url = API_ROUTE.RIOT.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
+    const url = API.RIOT.PATH.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
     const response = await this.fetch(url);
-    const data = await response.json();
-    console.log(data);
-    const account = new AccountDto(data);
-    console.log(account);
-
-    return this.fetch(url);
+    return response;
   }
 
   static async fetchSummonerByPuuid(puuid) {
-    const url = API_ROUTE.RIOT.SUMMONER.BY_PUUID(puuid);
+    const url = API.RIOT.PATH.SUMMONER.BY_PUUID(puuid);
     return this.fetch(url);
   }
 
   static async fetchMatchesByPuuid(
     puuid,
     start = 0,
-    count = 100,
+    count = 10,
     queue = this.arenaQueueId,
-    startTime = this.arenaSeasonStartTime
+    startTime = this.arenaSeasonStartTime,
   ) {
     let allMatchIds = [];
     while (true) {
-      const url = API_ROUTE.RIOT.MATCH.BY_PUUID(
+      const url = API.RIOT.PATH.MATCH.BY_PUUID(
         puuid,
         start,
         count,
         queue,
-        startTime
+        startTime,
       );
 
       const res = await this.fetch(url);
@@ -100,14 +102,15 @@ export class RiotApi {
 
       allMatchIds.push(...data);
 
-      start += count;
+      // start += count;
+      console.log("RIOT API LOOP");
       break;
     }
     return allMatchIds;
   }
 
   static async fetchMatchById(matchId) {
-    const url = API_ROUTE.RIOT.MATCH.BY_ID(matchId);
+    const url = API.RIOT.PATH.MATCH.BY_ID(matchId);
     return this.fetch(url);
   }
 }
