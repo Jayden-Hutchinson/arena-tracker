@@ -4,9 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        tracker: {
-          DEFAULT: "rgba(27, 24, 65, 1)",
-        },
+        tracker: "rgba(26, 28, 44, 1)",
       },
     },
   },
