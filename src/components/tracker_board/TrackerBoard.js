@@ -7,7 +7,6 @@ import Summoner from "objects/Summoner";
 import Tracker from "components/tracker/Tracker";
 import TrackerSearch from "components/tracker_search/TrackerSearch";
 
-
 function TrackerBoard() {
   const [summoners, setSummoners] = useState([]);
 
@@ -20,7 +19,7 @@ function TrackerBoard() {
       for (const account of accounts) {
         const summonerDto = await Client.fetchSummoner(account.puuid);
         const matchHistory = await Client.fetchMatchHistory(account.puuid);
-        console.log(matchHistory);
+
         const summoner = new Summoner(account, summonerDto, matchHistory);
         summoners.push(summoner);
       }

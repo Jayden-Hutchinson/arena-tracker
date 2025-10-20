@@ -1,5 +1,7 @@
 import { Player } from "objects/Player";
 
+const FIRST = 1;
+
 class Match {
   constructor({ metadata, info }) {
     this.metadata = metadata;
@@ -13,7 +15,7 @@ class Match {
   }
 
   getTeammate(puuid, playerSubteamId) {
-    console.log(puuid, playerSubteamId)
+    console.log(puuid, playerSubteamId);
     const teammate = this.info.participants.find(
       (teammate) =>
         teammate.puuid !== puuid &&
@@ -33,6 +35,17 @@ class Match {
     const seconds = totalSeconds % 60;
     const minutes = Math.floor(totalSeconds / 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }
+
+  /**
+   *
+   * Check if the game is a win by player puuid
+   *
+   * @param {string} puuid
+   */
+  isFirst(puuid) {
+    const player = this.getPlayer(puuid);
+    return player.placement === FIRST;
   }
 }
 

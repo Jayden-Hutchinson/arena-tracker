@@ -6,24 +6,37 @@ import MatchCard from "components/match_card/MatchCard";
 
 import Match from "objects/Match";
 
-const EMPTY = [];
-
-function MatchHistory({ puuid, matchHistory }) {
+function MatchHistoryComponent({ puuid, matchHistory }) {
   const [matches, setMatches] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
-      const matches = EMPTY;
+      const allMatches = [];
+      const firstMatches = [];
+
       for (const matchId of matchHistory.all) {
         const matchDto = await Client.fetchMatchData(matchId);
-        if (matchDto) {
-          matches.push(new Match(matchDto));
+
+        if (!matchDto) {
+          console.log("Match Not Found");
+          continue;
         }
+
+        const match = new Match(matchDto);
+        const isFirst = match.isFirst(puuid);
+
+        if (isFirst) {
+          matchHistory.first.push(match.id);
+          firstMatches.push(match);
+        }
+
+        allMatches.push(match);
       }
-      setMatches(matches);
+      console.log(firstMatches);
+      setMatches(firstMatches);
     };
     fetchData();
-  });
+  }, []);
 
   return (
     <ul className="relative flex w-full flex-col gap-1">
@@ -49,4 +62,4 @@ function MatchHistory({ puuid, matchHistory }) {
   );
 }
 
-export default MatchHistory;
+export default MatchHistoryComponent;

@@ -1,6 +1,6 @@
 import SummonerProfile from "components/summoner_profile/SummonerProfile";
 import TrackerControls from "components/tracker_controls/TrackerControls";
-import MatchHistory from "components/match_history/MatchHistory";
+import MatchHistoryComponent from "components/match_history/MatchHistoryComponent";
 
 /**
  *
@@ -15,7 +15,7 @@ function Tracker({ summoner }) {
         <>
           <SummonerProfile summoner={summoner} />
           <TrackerControls />
-          <MatchHistory
+          <MatchHistoryComponent
             puuid={summoner.puuid}
             matchHistory={summoner.matchHistory}
           />

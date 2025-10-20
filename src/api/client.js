@@ -6,6 +6,7 @@ import { DDRAGON } from "api/ddragon";
 import AccountDTO from "objects/riot_api/AccountDTO.js";
 import MatchDTO from "objects/riot_api/MatchDTO.js";
 import SummonerDTO from "objects/riot_api/SummonerDTO.js";
+import MatchHistory from "objects/MatchHistory";
 
 let augmentsCache = null;
 let itemsCache = null;
@@ -19,7 +20,7 @@ export class Client {
     }
 
     const data = await response.json();
-    console.log("Success", response.status, response.ok, data);
+    console.log("Success", response.status, url, data);
     return data;
   }
 
@@ -38,7 +39,7 @@ export class Client {
   static async fetchMatchHistory(puuid) {
     const url = URL.matches(puuid);
     const json = await this.fetchServerJson(url);
-    return json;
+    return new MatchHistory(json);
   }
 
   static async fetchMatchData(matchId) {
