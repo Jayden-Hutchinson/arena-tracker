@@ -14,6 +14,8 @@ let itemsCache = null;
 export class Client {
   static async fetchServerJson(url) {
     const response = await fetch(url);
+    console.log("Server Response:", response);
+
     if (!response.ok) {
       console.log("Error", response.status, response);
       return null;
@@ -25,27 +27,27 @@ export class Client {
   }
 
   static async fetchAccount(gameName, tagLine) {
-    const url = URL.account(gameName, tagLine);
-    const res = await this.fetchServerJson(url);
-    return new AccountDTO(res);
+    const url = URL.ACCOUNT_BY_GAME_NAME(gameName, tagLine);
+    const json = await this.fetchServerJson(url);
+    return new AccountDTO(json);
   }
 
   static async fetchSummoner(puuid) {
-    const url = URL.summoner(puuid);
+    const url = URL.SUMMONER_BY_PUUID(puuid);
     const json = await this.fetchServerJson(url);
     return new SummonerDTO(json);
   }
 
   static async fetchMatchHistory(puuid) {
-    const url = URL.matches(puuid);
+    const url = URL.MATCH_HISTORY_BY_PUUID(puuid);
     const json = await this.fetchServerJson(url);
     return new MatchHistory(json);
   }
 
   static async fetchMatchData(matchId) {
-    const url = URL.match(matchId);
-    const res = await this.fetchServerJson(url);
-    return new MatchDTO(res);
+    const url = URL.MATCH_DATA_BY_ID(matchId);
+    const json = await this.fetchServerJson(url);
+    return new MatchDTO(json);
   }
 
   static async fetchAugmentData() {
