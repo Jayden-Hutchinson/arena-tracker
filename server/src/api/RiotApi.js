@@ -2,24 +2,9 @@ import "dotenv/config";
 import { API } from "./ApiRoutes.js";
 
 const BASE_TEN = 10;
-
-class RateLimit {
-  constructor(numRequests, timeSpan) {
-    this.numRequests = numRequests;
-    this.timeSpan = timeSpan;
-  }
-
-  check() {}
-}
+const RIOT_API_KEY = process.env.RIOT_API_KEY;
 
 export class RiotApi {
-  static apiKey = process.env.RIOT_API_KEY;
-
-  static rateLimits = {
-    perSecond: new RateLimit(20, 1000),
-    perTwoMinutes: new RateLimit(100, 12000),
-  };
-
   static arenaSeasonStartTime = 1745616000;
   static arenaQueueId = 1700;
 
@@ -27,17 +12,18 @@ export class RiotApi {
     while (true) {
       const response = await fetch(url, {
         headers: {
-          "X-Riot-Token": this.apiKey,
+          "X-Riot-Token": RIOT_API_KEY,
         },
       });
 
       // Return if there is a successful request
       if (response.ok) {
-        return response;
+        return response.json();
       }
 
       // Handle rate limit
       switch (response.status) {
+
         case API.RIOT.ERROR_STATUS.RATE_LIMIT:
           const retryAfter = parseInt(
             response.headers.get("retry-after") || "1",
@@ -54,34 +40,35 @@ export class RiotApi {
           throw err;
       }
 
-      const err = new Error("UNCAUGHT ERROR");
+      const err = new Error(`Uncaught Riot Api Error when fetching ${response.url}`);
       err.status = response.status;
+      err.message = response.statusText
       throw err;
     }
   }
 
   static async fetchAccountByPuuid(puuid) {
     const url = API.RIOT.PATH.ACCOUNT.BY_PUUID(puuid);
-    return this.fetch(url);
+    return RiotApi.fetch(url);
   }
 
   static async fetchAccountByGameName(gameName, tagLine) {
     const url = API.RIOT.PATH.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
-    const response = await this.fetch(url);
+    const response = await RiotApi.fetch(url);
     return response;
   }
 
   static async fetchSummonerByPuuid(puuid) {
     const url = API.RIOT.PATH.SUMMONER.BY_PUUID(puuid);
-    return this.fetch(url);
+    return RiotApi.fetch(url);
   }
 
   static async fetchMatchesByPuuid(
     puuid,
     start = 0,
     count = 50,
-    queue = this.arenaQueueId,
-    startTime = this.arenaSeasonStartTime,
+    queue = RiotApi.arenaQueueId,
+    startTime = RiotApi.arenaSeasonStartTime,
   ) {
     let allMatchIds = [];
     while (true) {
@@ -93,7 +80,7 @@ export class RiotApi {
         startTime,
       );
 
-      const res = await this.fetch(url);
+      const res = await RiotApi.fetch(url);
       const data = await res.json();
 
       if (data.length === 0) {
@@ -103,7 +90,6 @@ export class RiotApi {
       allMatchIds.push(...data);
 
       // start += count;
-      console.log("RIOT API LOOP");
       break;
     }
     return allMatchIds;
@@ -111,6 +97,6 @@ export class RiotApi {
 
   static async fetchMatchById(matchId) {
     const url = API.RIOT.PATH.MATCH.BY_ID(matchId);
-    return this.fetch(url);
+    return RiotApi.fetch(url);
   }
 }

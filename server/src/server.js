@@ -37,22 +37,39 @@ async function sleep(seconds) {
   }
 }
 
-app.get(URL.account(), async (req, res) => {
+const handleRequest = (fetchHandler, getArgs) => async (req, res) => {
   try {
-    const { gameName, tagLine } = req.query;
-    const response = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+    console.log("HANDLE REQUEST")
+    const args = getArgs(req);
+    const response = await fetchHandler(...args)
+    console.log(response)
+    res.json(response)
 
-    const data = await response.json();
-    res.json(data);
-  } catch (err) {}
-});
+  } catch (err) {
+    console.log("Server:", err)
+  }
+}
+
+app.get(URL.account(), handleRequest(
+  RiotApi.fetchAccountByGameName,
+  req => [req.query.gameName, req.query.tagLine])
+)
+
+// app.get(URL.account(), async (req, res) => {
+//   try {
+//     const { gameName, tagLine } = req.query;
+//     const response = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+
+//     const data = await response.json();
+//     res.json(data);
+//   } catch (err) { }
+// });
 
 app.get(URL.summoner(), async (req, res) => {
   try {
     const { puuid } = req.query;
     const response = await RiotApi.fetchSummonerByPuuid(puuid);
-    const data = await response.json();
-    res.json(data);
+    res.json(response);
   } catch (err) {
     res.json(err);
   }
@@ -73,9 +90,8 @@ app.get(URL.match(), async (req, res) => {
   try {
     const { matchId } = req.query;
     const response = await RiotApi.fetchMatchById(matchId);
-    const data = await response.json();
-    res.json(data);
-  } catch (err) {}
+    res.json(response);
+  } catch (err) { }
 });
 
 app.listen(PORT, () => {
