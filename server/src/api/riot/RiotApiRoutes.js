@@ -14,7 +14,7 @@ const METHOD = {
     BY_PUUID: "by-puuid",
 }
 
-const ROUTE = {
+export const ROUTE = {
     ACCOUNT: {
         BY_ID: (gameName, tagLine) =>
             `${ENDPOINT.ACCOUNTS}/${METHOD.BY_ID}/${gameName}/${tagLine}`,

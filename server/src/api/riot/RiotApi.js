@@ -1,13 +1,7 @@
-import "dotenv/config";
-import { API } from "../ApiRoutes.js";
-
-const BASE_TEN = 10;
-const RIOT_API_KEY = process.env.RIOT_API_KEY;
+import { ROUTE } from "./RiotApiRoutes.js";
+import { CONFIG } from "./RiotApiConfig.js"
 
 export class RiotApi {
-  static arenaSeasonStartTime = 1745616000;
-  static arenaQueueId = 1700;
-
   static async fetch(url) {
     while (true) {
       const response = await fetch(url, {
@@ -25,7 +19,7 @@ export class RiotApi {
       // Handle rate limit
       switch (response.status) {
 
-        case API.RIOT.ERROR_STATUS.RATE_LIMIT:
+        case CONFIG.ERROR_STATUS.RATE_LIMIT:
           const retryAfter = parseInt(
             response.headers.get("retry-after") || "1",
             BASE_TEN,
@@ -34,7 +28,7 @@ export class RiotApi {
           await new Promise((res) => setTimeout(res, retryAfter * 1000));
           continue;
 
-        case API.RIOT.ERROR_STATUS.UNAUTHORIZED:
+        case CONFIG.ERROR_STATUS.UNAUTHORIZED:
           console.log(response);
           const err = new Error("Unauthorized: Invalid API Key");
           err.status = response.status;
@@ -49,18 +43,18 @@ export class RiotApi {
   }
 
   static async fetchAccountByPuuid(puuid) {
-    const url = API.RIOT.PATH.ACCOUNT.BY_PUUID(puuid);
+    const url = ROUTE.RIOT.PATH.ACCOUNT.BY_PUUID(puuid);
     return RiotApi.fetch(url);
   }
 
   static async fetchAccountByGameName(gameName, tagLine) {
-    const url = API.RIOT.PATH.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
+    const url = ROUTE.RIOT.PATH.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
     const response = await RiotApi.fetch(url);
     return response;
   }
 
   static async fetchSummonerByPuuid(puuid) {
-    const url = API.RIOT.PATH.SUMMONER.BY_PUUID(puuid);
+    const url = ROUTE.RIOT.PATH.SUMMONER.BY_PUUID(puuid);
     return RiotApi.fetch(url);
   }
 
@@ -68,12 +62,12 @@ export class RiotApi {
     puuid,
     start = 0,
     count = 50,
-    queue = RiotApi.arenaQueueId,
-    startTime = RiotApi.arenaSeasonStartTime,
+    queue = CONFIG.ARENA_QUEUE_ID,
+    startTime = CONFIG.ARENA_SEASON_START
   ) {
     let allMatchIds = [];
     while (true) {
-      const url = API.RIOT.PATH.MATCH.BY_PUUID(
+      const url = ROUTE.RIOT.PATH.MATCH.BY_PUUID(
         puuid,
         start,
         count,
@@ -97,7 +91,7 @@ export class RiotApi {
   }
 
   static async fetchMatchById(matchId) {
-    const url = API.RIOT.PATH.MATCH.BY_ID(matchId);
+    const url = ROUTE.RIOT.PATH.MATCH.BY_ID(matchId);
     return RiotApi.fetch(url);
   }
 }

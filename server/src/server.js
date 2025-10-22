@@ -2,43 +2,32 @@ import "dotenv/config";
 import express from "express";
 
 import { URL } from "../../client/src/routes/serverRoutes.js";
-import { PATH } from "../../shared/routes.js"
 import { RiotApi } from "./api/riot/RiotApi.js";
+import { PATH } from "./routes.js"
 
 const app = express();
 
+
 app.use(express.static("public"));
 
-const PORT = 5000;
+const RIOT_API_KEY = process.env.RIOT_API_KEY;
+const PORT = process.env.PORT;
 
-const handleRequest = (fetchHandler, getArgs) => async (req, res) => {
-  try {
-    const args = getArgs(req);
-    const response = await fetchHandler(...args)
-    console.log(response)
-    res.json(response)
+function fetchRiotApi(url) {
 
-  } catch (err) {
-    console.log("Server:", err)
-  }
 }
 
-app.get(URL.account(), handleRequest(
-  RiotApi.fetchAccountByGameName,
-  req => [req.query.gameName, req.query.tagLine])
-)
+app.get(URL.account(), async (req, res) => {
+  try {
+    const { gameName, tagLine } = req.query;
+    const response = await RiotApi.fetchAccountByGameName(gameName, tagLine);
 
-// app.get(URL.account(), async (req, res) => {
-//   try {
-//     const { gameName, tagLine } = req.query;
-//     const response = await RiotApi.fetchAccountByGameName(gameName, tagLine);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) { }
+});
 
-//     const data = await response.json();
-//     res.json(data);
-//   } catch (err) { }
-// });
-
-app.get(URL.summoner(), async (req, res) => {
+app.get(PATH.SUMMONER, async (req, res) => {
   try {
     const { puuid } = req.query;
     const response = await RiotApi.fetchSummonerByPuuid(puuid);
@@ -48,7 +37,7 @@ app.get(URL.summoner(), async (req, res) => {
   }
 });
 
-app.get(URL.matches(), async (req, res) => {
+app.get(PATH.MATCH_HISTORY, async (req, res) => {
   try {
     const { puuid } = req.query;
     const response = await RiotApi.fetchMatchesByPuuid(puuid);
@@ -59,7 +48,7 @@ app.get(URL.matches(), async (req, res) => {
   }
 });
 
-app.get(URL.match(), async (req, res) => {
+app.get(PATH.MATCH, async (req, res) => {
   try {
     const { matchId } = req.query;
     const response = await RiotApi.fetchMatchById(matchId);
