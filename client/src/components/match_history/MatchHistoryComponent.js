@@ -15,7 +15,7 @@ function MatchHistoryComponent({ puuid, matchHistory }) {
       const firstMatches = [];
 
       for (const matchId of matchHistory.all) {
-        const matchDto = await Client.fetchMatchData(matchId);
+        const matchDto = await Client.fetchMatchDataById(matchId);
 
         if (!matchDto) {
           console.log("Match Not Found");

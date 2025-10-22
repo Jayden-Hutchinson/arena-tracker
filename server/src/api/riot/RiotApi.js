@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { API } from "./ApiRoutes.js";
+import { API } from "../ApiRoutes.js";
 
 const BASE_TEN = 10;
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
@@ -20,6 +20,7 @@ export class RiotApi {
       if (response.ok) {
         return response.json();
       }
+      console.log(response)
 
       // Handle rate limit
       switch (response.status) {

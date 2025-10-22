@@ -11,14 +11,17 @@ function TrackerBoard() {
   const [summoners, setSummoners] = useState([]);
 
   StorageManager.saveDummyAccount();
-  const accounts = StorageManager.getAccounts();
+  const accounts = [{ gameName: "TannerennaT", tagLine: "NA1" }]
+  // const accounts = StorageManager.getAccounts();
 
   useEffect(() => {
     const fetchSummoners = async () => {
       const summoners = [];
       for (const account of accounts) {
-        const summonerDto = await Client.fetchSummoner(account.puuid);
-        const matchHistory = await Client.fetchMatchHistory(account.puuid);
+        const accountDto = await Client.fetchRiotAccountByGameName(account.gameName, account.tagLine)
+        console.log(accountDto)
+        const summonerDto = await Client.fetchRiotSummonerByPuuid(account.puuid);
+        const matchHistory = await Client.fetchRiotMatchHistoryByPuuid(account.puuid);
 
         const summoner = new Summoner(account, summonerDto, matchHistory);
         summoners.push(summoner);

@@ -20,7 +20,7 @@ function TrackerSearch({ callback }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const account = await Client.fetchAccount(
+    const account = await Client.fetchRiotAccountByGameName(
       formData.gameName,
       formData.tagLine
     );

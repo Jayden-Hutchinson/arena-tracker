@@ -15,8 +15,8 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const augmentData = await Client.fetchAugmentData();
-      const itemData = await Client.fetchItemData();
+      const augmentData = await Client.fetchCDragonAugmentData();
+      const itemData = await Client.fetchDDragonItemData();
       setAugments(augmentData.augments);
       setItems(itemData.data);
     };

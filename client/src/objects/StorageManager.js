@@ -39,7 +39,7 @@ class StorageManager {
     for (const [index, [matchId, matchData]] of idsToFetch.entries()) {
       // setStatus(`loading ${index + 1} of ${idsToFetch.length}`);
 
-      const matchDto = await Client.fetchMatchData(matchId);
+      const matchDto = await Client.fetchMatchDataById(matchId);
 
       const match = new Match(matchDto.metadata.matchId);
       match.player = match.getPlayer(

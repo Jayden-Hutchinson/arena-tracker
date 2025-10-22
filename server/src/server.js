@@ -1,28 +1,9 @@
 import "dotenv/config";
 import express from "express";
 
-import { URL } from "../../src/routes/serverRoutes.js";
-import { RiotApi } from "./api/RiotApi.js";
-// while (true) {
-//   if (!response.ok) {
-//     switch (response.status) {
-//       case 429:
-//         const retryAfter = parseInt(
-//           response.headers.get("retry-after") || "1",
-//           BASE_TEN
-//         );
-//         console.warn(`Rate limited — retrying after ${retryAfter}s...`);
-//         await this.sleep(retryAfter);
-//         continue; // retry
-
-//       case 401:
-//         console.log(response.status, response.statusText);
-//         break;
-//     }
-//   }
-
-//   return response;
-// }
+import { URL } from "../../client/src/routes/serverRoutes.js";
+import { PATH } from "../../shared/routes.js"
+import { RiotApi } from "./api/riot/RiotApi.js";
 
 const app = express();
 
@@ -30,16 +11,8 @@ app.use(express.static("public"));
 
 const PORT = 5000;
 
-async function sleep(seconds) {
-  for (let i = seconds; i > 0; i--) {
-    console.log(`Retrying in ${i}s...`);
-    await new Promise((res) => setTimeout(res, 1000));
-  }
-}
-
 const handleRequest = (fetchHandler, getArgs) => async (req, res) => {
   try {
-    console.log("HANDLE REQUEST")
     const args = getArgs(req);
     const response = await fetchHandler(...args)
     console.log(response)
