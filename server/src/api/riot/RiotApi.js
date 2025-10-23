@@ -1,25 +1,23 @@
-import { ROUTE } from "./RiotApiRoutes.js";
-import { CONFIG } from "./RiotApiConfig.js"
-
 export class RiotApi {
-  static async fetch(url) {
+  static async fetch(apiKey, url) {
     while (true) {
       const response = await fetch(url, {
         headers: {
-          "X-Riot-Token": RIOT_API_KEY,
+          "X-Riot-Token": apiKey,
         },
       });
+      // return response;
 
       // Return if there is a successful request
       if (response.ok) {
         return response.json();
       }
-      console.log(response)
+
+      console.log(response);
 
       // Handle rate limit
       switch (response.status) {
-
-        case CONFIG.ERROR_STATUS.RATE_LIMIT:
+        case RIOT_API_CONFIG.ERROR_STATUS.RATE_LIMIT:
           const retryAfter = parseInt(
             response.headers.get("retry-after") || "1",
             BASE_TEN,
@@ -28,33 +26,35 @@ export class RiotApi {
           await new Promise((res) => setTimeout(res, retryAfter * 1000));
           continue;
 
-        case CONFIG.ERROR_STATUS.UNAUTHORIZED:
+        case RIOT_API_CONFIG.ERROR_STATUS.UNAUTHORIZED:
           console.log(response);
           const err = new Error("Unauthorized: Invalid API Key");
           err.status = response.status;
           throw err;
       }
 
-      const err = new Error(`Uncaught Riot Api Error when fetching ${response.url}`);
+      const err = new Error(
+        `Uncaught Riot Api Error when fetching ${response.url}`,
+      );
       err.status = response.status;
-      err.message = response.statusText
+      err.message = response.statusText;
       throw err;
     }
   }
 
   static async fetchAccountByPuuid(puuid) {
-    const url = ROUTE.RIOT.PATH.ACCOUNT.BY_PUUID(puuid);
+    const url = RIOT_API_ROUTE.RIOT.PATH.ACCOUNT.BY_PUUID(puuid);
     return RiotApi.fetch(url);
   }
 
   static async fetchAccountByGameName(gameName, tagLine) {
-    const url = ROUTE.RIOT.PATH.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
+    const url = RIOT_API_ROUTE.RIOT.PATH.ACCOUNT.BY_RIOT_ID(gameName, tagLine);
     const response = await RiotApi.fetch(url);
     return response;
   }
 
   static async fetchSummonerByPuuid(puuid) {
-    const url = ROUTE.RIOT.PATH.SUMMONER.BY_PUUID(puuid);
+    const url = RIOT_API_ROUTE.RIOT.PATH.SUMMONER.BY_PUUID(puuid);
     return RiotApi.fetch(url);
   }
 
@@ -62,12 +62,12 @@ export class RiotApi {
     puuid,
     start = 0,
     count = 50,
-    queue = CONFIG.ARENA_QUEUE_ID,
-    startTime = CONFIG.ARENA_SEASON_START
+    queue = RIOT_API_CONFIG.ARENA_QUEUE_ID,
+    startTime = RIOT_API_CONFIG.ARENA_SEASON_START,
   ) {
     let allMatchIds = [];
     while (true) {
-      const url = ROUTE.RIOT.PATH.MATCH.BY_PUUID(
+      const url = RIOT_API_ROUTE.RIOT.PATH.MATCH.BY_PUUID(
         puuid,
         start,
         count,
@@ -91,7 +91,7 @@ export class RiotApi {
   }
 
   static async fetchMatchById(matchId) {
-    const url = ROUTE.RIOT.PATH.MATCH.BY_ID(matchId);
+    const url = RIOT_API_ROUTE.RIOT.PATH.MATCH.BY_ID(matchId);
     return RiotApi.fetch(url);
   }
 }

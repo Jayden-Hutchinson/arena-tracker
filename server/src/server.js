@@ -1,30 +1,35 @@
-import "dotenv/config";
-import express from "express";
+require("dotenv/config");
+const express = require("express");
 
-import { URL } from "../../client/src/routes/serverRoutes.js";
-import { RiotApi } from "./api/riot/RiotApi.js";
-import { PATH } from "./routes.js"
-
-const app = express();
-
-
-app.use(express.static("public"));
+const { URL } = require("../../client/src/routes/serverRoutes");
+const { RiotApi } = require("./api/riot/RiotApi");
+const { PATH } = require("./routes");
+const { RIOT_API_ROUTE } = require("./api/riot/RiotApiRoutes");
+const { RIOT_API_CONFIG } = require("./api/riot/RiotApiConfig");
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 const PORT = process.env.PORT;
 
-function fetchRiotApi(url) {
-
+async function fetchRiotApi(url) {
+  const response = RiotApi.fetch(RIOT_API_KEY, url);
+  console.log("Fetch RiotApi", url, response);
+  return response;
 }
 
-app.get(URL.account(), async (req, res) => {
+const app = express();
+app.use(express.static("public"));
+
+app.get(PATH.ACCOUNT, async (req, res) => {
   try {
     const { gameName, tagLine } = req.query;
-    const response = await RiotApi.fetchAccountByGameName(gameName, tagLine);
-
+    const url = RIOT_API_ROUTE.ACCOUNT.BY_GAME_NAME(gameName, tagLine);
+    const response = await fetchRiotApi(url);
+    console.log(response);
     const data = await response.json();
     res.json(data);
-  } catch (err) { }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.get(PATH.SUMMONER, async (req, res) => {
@@ -53,7 +58,7 @@ app.get(PATH.MATCH, async (req, res) => {
     const { matchId } = req.query;
     const response = await RiotApi.fetchMatchById(matchId);
     res.json(response);
-  } catch (err) { }
+  } catch (err) {}
 });
 
 app.listen(PORT, () => {

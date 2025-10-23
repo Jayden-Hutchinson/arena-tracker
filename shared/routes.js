@@ -1,4 +1,4 @@
-
-export const PATH = {
-    RIOT_ACCOUNT: "/riot/account"
-}
+const PATH = {
+  RIOT_ACCOUNT: "/riot/account",
+};
+module.exports = { PATH };
