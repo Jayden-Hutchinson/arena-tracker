@@ -15,7 +15,7 @@ const RIOT_API_ROUTE = {
   MATCH_BY_ID: (matchId) =>
     `${BASE_URL.REGIONAL}/lol/match/v5/matches/${matchId}`,
 
-  MATCH_BY_PUUID: (puuid, start, count, queue, startTime) => {
+  MATCHES_BY_PUUID: (puuid, start, count, queue, startTime) => {
     const url = new URL(
       `${BASE_URL.REGIONAL}/lol/match/v5/matches/by-puuid/${puuid}/ids?`
     );
@@ -26,4 +26,5 @@ const RIOT_API_ROUTE = {
     return url.href;
   },
 };
+
 module.exports = { RIOT_API_ROUTE };

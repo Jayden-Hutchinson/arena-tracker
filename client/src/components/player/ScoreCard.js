@@ -1,5 +1,5 @@
 import ChampionPortrait from "components/champion_portrait/ChampionPortrait";
-import PlayerNames from "components/player_names/PlayerNames";
+// import PlayerNames from "components/player_names/PlayerNames";
 import Augments from "components/augments/Augments";
 import Items from "components/items/Items";
 import Kda from "components/kda/Kda";

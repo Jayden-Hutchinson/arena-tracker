@@ -8,7 +8,6 @@ import MatchHistoryComponent from "components/match_history/MatchHistoryComponen
  * @returns
  */
 function Tracker({ summoner }) {
-  console.log(summoner);
   return (
     <div className="flex w-[800px] flex-col items-center justify-center rounded-lg bg-tracker p-5 text-white">
       {summoner && (

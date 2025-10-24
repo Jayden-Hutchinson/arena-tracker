@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Client } from "api/client";
+import { ClientApi } from "api/clientApi";
 import "./TrackerSearch.css";
 
 function TrackerSearch({ callback }) {
@@ -20,9 +20,9 @@ function TrackerSearch({ callback }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const account = await Client.fetchRiotAccountByGameName(
+    const account = await ClientApi.fetchRiotAccountByGameName(
       formData.gameName,
-      formData.tagLine
+      formData.tagLine,
     );
 
     if (account) {

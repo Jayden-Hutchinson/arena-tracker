@@ -4,5 +4,5 @@
   },
   "include": [
     "src"
-  ]
+, "../server/src/api/cdragon/cdragon.js", "../server/src/api/ddragon/ddragon.js"  ]
 }

@@ -1,6 +1,5 @@
 import Augment from "components/augment/Augment";
 import "./Augments.css";
-import { useId } from "react";
 
 function Augments({ augments }) {
   return (

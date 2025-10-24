@@ -1,36 +1,40 @@
 import { useEffect, useState } from "react";
-import { Client } from "api/client";
+import { ClientApi } from "api/clientApi";
 
-import StorageManager from "objects/StorageManager";
 import Summoner from "objects/Summoner";
 
 import Tracker from "components/tracker/Tracker";
-import TrackerSearch from "components/tracker_search/TrackerSearch";
+// import TrackerSearch from "components/tracker_search/TrackerSearch";
 
 function TrackerBoard() {
   const [summoners, setSummoners] = useState([]);
-
-  StorageManager.saveDummyAccount();
-  const accounts = [{ gameName: "TannerennaT", tagLine: "NA1" }]
-  // const accounts = StorageManager.getAccounts();
+  const accounts = [{ gameName: "TannerennaT", tagLine: "NA1" }];
 
   useEffect(() => {
     const fetchSummoners = async () => {
       const summoners = [];
       for (const account of accounts) {
-        const accountDto = await Client.fetchRiotAccountByGameName(account.gameName, account.tagLine)
-        console.log(accountDto)
-        const summonerDto = await Client.fetchRiotSummonerByPuuid(account.puuid);
-        const matchHistory = await Client.fetchRiotMatchHistoryByPuuid(account.puuid);
+        const accountDto = await ClientApi.fetchRiotAccountByGameName(
+          account.gameName,
+          account.tagLine,
+        );
 
-        const summoner = new Summoner(account, summonerDto, matchHistory);
+        const summonerDto = await ClientApi.fetchRiotSummonerByPuuid(
+          accountDto.puuid,
+        );
+
+        const matchHistory = await ClientApi.fetchRiotMatchHistoryByPuuid(
+          accountDto.puuid,
+        );
+
+        const summoner = new Summoner(accountDto, summonerDto, matchHistory);
         summoners.push(summoner);
       }
       setSummoners(summoners);
     };
 
     fetchSummoners();
-  }, []);
+  });
 
   return (
     <div className="mt-20 pt-10">

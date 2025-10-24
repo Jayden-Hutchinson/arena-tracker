@@ -1,14 +1,13 @@
-import { DDRAGON } from "api/ddragon";
-
 import "./ChampionPortrait.css";
 
 function ChampionPortrait({ championName }) {
   return (
-    <img
-      className=" ChampionPortrait"
-      src={DDRAGON.CHAMPION_IMAGE(championName)}
-      alt={championName}
-    />
+    <div>{championName}</div>
+    // <img
+    //   className="ChampionPortrait"
+    //   src={DDRAGON.CHAMPION_IMAGE(championName)}
+    //   alt={championName}
+    // />
   );
 }
 

@@ -1,14 +1,11 @@
+export const SERVER_ROUTES = {
+  ACCOUNT_BY_GAME_NAME: (gameName, tagLine) =>
+    `/api/account/ids?gameName=${gameName}&tagLine=${tagLine}`,
+  ACCOUNT_BY_PUUID: (puuid) => `/api/account/ids?puuid=${puuid}`,
+  SUMMONER_BY_PUUID: (puuid) => `/api/summoner/ids?puuid=${puuid}`,
+  MATCH_HISTORY_BY_PUUID: (puuid) => `/api/match-history/ids?puuid=${puuid}`,
+  MATCH_BY_ID: (matchId) => `/api/match/ids?matchId=${matchId}`,
 
-export const URL = {
-  account: (gameName = null, tagLine = null) =>
-    gameName || tagLine
-      ? `/account?gameName=${encodeURIComponent(gameName)}&tagLine=${tagLine}`
-      : "/account",
-  summoner: (puuid = null) =>
-    puuid ? `/summoner?puuid=${puuid}` : "/summoner",
-
-  matches: (puuid = null) =>
-    puuid ? `/account/history?puuid=${puuid}` : "/account/history",
-  match: (id = null) => (id ? `/match/data?matchId=${id}` : "/match/data"),
-  data: (item = null) => (item ? `/data/json${item}` : "/data/json"),
+  ITEM_DATA: `/api/items`,
+  AUGMENT_DATA: `/api/augments`,
 };

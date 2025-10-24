@@ -1,7 +1,6 @@
-import { Client } from "api/client";
+import { ClientApi } from "api/clientApi";
 
 import Match from "objects/Match";
-
 
 export function getPlacements(matches, puuid) {
   const placements = {};
@@ -20,5 +19,4 @@ export function getPlacements(matches, puuid) {
   return placements;
 }
 
-export async function getSummonerData(account) {
-}
+export async function getSummonerData(account) {}

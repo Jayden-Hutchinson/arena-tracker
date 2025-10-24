@@ -1,22 +1,21 @@
-import { DDRAGON } from "../../api/ddragon";
-
 function SummonerProfile({ summoner }) {
-  console.log("PROFILE:", summoner);
+  console.log(`SummonerProfile`, summoner);
   const gamesPlayed = summoner.matchHistory.all.length;
 
   return (
-    <div className="flex justify-start w-full rounded-lg p4">
+    <div className="p4 flex w-full justify-start rounded-lg">
       {/* Summoner Icon */}
-      <img
-        className="w-[100px] h-[100px] mr-5 rounded-lg"
-        src={DDRAGON.SUMMONER_ICON(summoner.profileIconId)}
+      {/* <img
+        className="mr-5 h-[100px] w-[100px] rounded-lg"
+        src=""
         alt={`Summoner Icon ${summoner.profileIconId}`}
-      />
+      /> */}
+      <div>{summoner.profileIconId}</div>
 
       {/* Game Name & Summoner Level */}
-      <div className="flex flex-col justify-evenly items-start">
+      <div className="flex flex-col items-start justify-evenly">
         <div>
-          <div className="text-[18px] font-bold mr-3 text-gray-300">
+          <div className="mr-3 text-[18px] font-bold text-gray-300">
             {summoner.gameName}
           </div>
           <div className="text-[12px] text-yellow-400">

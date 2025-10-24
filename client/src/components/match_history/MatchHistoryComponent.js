@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Client } from "api/client";
+import { ClientApi } from "api/clientApi";
 
 import MatchCard from "components/match_card/MatchCard";
 
@@ -15,7 +15,7 @@ function MatchHistoryComponent({ puuid, matchHistory }) {
       const firstMatches = [];
 
       for (const matchId of matchHistory.all) {
-        const matchDto = await Client.fetchMatchDataById(matchId);
+        const matchDto = await ClientApi.fetchMatchDataById(matchId);
 
         if (!matchDto) {
           console.log("Match Not Found");
@@ -36,7 +36,7 @@ function MatchHistoryComponent({ puuid, matchHistory }) {
       setMatches(firstMatches);
     };
     fetchData();
-  }, []);
+  });
 
   return (
     <ul className="relative flex w-full flex-col gap-1">
