@@ -3,14 +3,14 @@ import { SERVER_ROUTES } from "routes/serverRoutes.js";
 export class ClientApi {
   static async fetchServerJson(url) {
     const response = await fetch(url);
+    const data = await response.json();
 
-    if (!response.ok) {
-      console.log("Error", response.status, response);
-      return;
+    if (data.status) {
+      console.log("Error", data.status.status_code, url, data.status.message);
+      return null;
     }
 
-    const data = await response.json();
-    console.log("Client:", response.status, url, data);
+    console.log("Client:", response.status, data);
     return data;
   }
 

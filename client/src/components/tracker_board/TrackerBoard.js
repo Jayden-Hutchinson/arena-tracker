@@ -19,16 +19,32 @@ function TrackerBoard() {
           account.tagLine,
         );
 
+        if (!accountDto) {
+          console.log("No Account Found")
+          return
+        }
+
         const summonerDto = await ClientApi.fetchRiotSummonerByPuuid(
           accountDto.puuid,
         );
+
+        if (!summonerDto) {
+          console.log("No Summoner Found")
+          return
+        }
 
         const matchHistory = await ClientApi.fetchRiotMatchHistoryByPuuid(
           accountDto.puuid,
         );
 
+        if (!matchHistory) {
+          console.log("No Match History Found")
+          return
+        }
+
         const summoner = new Summoner(accountDto, summonerDto, matchHistory);
         summoners.push(summoner);
+        console.log("Summoner Added:", summoner)
       }
       setSummoners(summoners);
     };

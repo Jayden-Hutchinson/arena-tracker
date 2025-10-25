@@ -4,6 +4,7 @@ const express = require("express");
 const { RiotApi } = require("./api/riot/RiotApi");
 const { PATH } = require("./routes");
 const { RIOT_API_ROUTE } = require("./api/riot/RiotApiRoutes");
+const { SummonerDto } = require("./api/riot/RiotApiObjects");
 
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 const PORT = process.env.PORT;
@@ -31,7 +32,8 @@ app.get(PATH.SUMMONER, async (req, res) => {
     const url = RIOT_API_ROUTE.SUMMONER_BY_PUUID(puuid);
     const response = await RiotApi.fetch(RIOT_API_KEY, url);
     const data = await response.json();
-    res.json(data);
+    const summonerDto = new SummonerDto(data)
+    res.json(summonerDto);
   } catch (err) {
     res.json(err);
   }
@@ -55,7 +57,7 @@ app.get(PATH.MATCH, async (req, res) => {
     const { matchId } = req.query;
     const response = await RiotApi.fetchMatchById(matchId);
     res.json(response);
-  } catch (err) {}
+  } catch (err) { }
 });
 
 // app.get(PATH.ITEMS)
