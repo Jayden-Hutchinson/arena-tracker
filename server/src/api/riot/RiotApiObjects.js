@@ -7,9 +7,10 @@ export class AccountDto {
 }
 
 export class SummonerDto {
-  constructor({ profileIconId, summonerLevel }) {
+  constructor({ profileIconId, summonerLevel, revisionDate }) {
     this.profileIconId = profileIconId;
     this.summonerLevel = summonerLevel;
+    this.revisionDate = revisionDate
   }
 }
 

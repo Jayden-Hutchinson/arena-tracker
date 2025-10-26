@@ -24,6 +24,7 @@ function TrackerBoard() {
         );
 
         summoners.push(summoner);
+        console.log("Summoner Added:", summoner)
       }
       setSummoners(summoners);
     };
