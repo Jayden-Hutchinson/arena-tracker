@@ -1,5 +1,5 @@
 function SummonerProfile({ summoner }) {
-  console.log(`SummonerProfile`, summoner);
+  console.log(summoner);
   const gamesPlayed = summoner.matchHistory.all.length;
 
   return (

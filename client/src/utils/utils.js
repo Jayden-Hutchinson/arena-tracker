@@ -1,7 +1,5 @@
 import { ClientApi } from "api/clientApi";
 
-import Match from "objects/Match";
-
 export function getPlacements(matches, puuid) {
   const placements = {};
 
@@ -9,7 +7,7 @@ export function getPlacements(matches, puuid) {
     const player = match.getPlayer(puuid);
     const key = player.placement;
 
-    if (placements[key] == undefined) {
+    if (placements[key] === undefined) {
       placements[key] = [];
     }
 
@@ -19,4 +17,18 @@ export function getPlacements(matches, puuid) {
   return placements;
 }
 
-export async function getSummonerData(account) {}
+export async function getSummonerData(gameName, tagLine) {
+  const accountDto = await ClientApi.fetchRiotAccountByGameName(
+    gameName,
+    tagLine,
+  );
+
+  const summonerDto = await ClientApi.fetchRiotSummonerByPuuid(
+    accountDto.puuid,
+  );
+
+  const matchHistory = await ClientApi.fetchRiotMatchHistoryByPuuid(
+    accountDto.puuid,
+  );
+  return { accountDto, summonerDto, matchHistory };
+}

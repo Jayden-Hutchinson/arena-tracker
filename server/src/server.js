@@ -8,6 +8,18 @@ const { RIOT_API_ROUTE } = require("./api/riot/RiotApiRoutes");
 const RIOT_API_KEY = process.env.RIOT_API_KEY;
 const PORT = process.env.PORT;
 
+async function fetchRiotApi(url, res) {
+  const response = await RiotApi.fetch(RIOT_API_KEY, url);
+
+  const data = await response.json();
+
+  if (response.ok) {
+    res.json(data);
+  }
+
+  res.status(response.status).json(data.status.message);
+}
+
 const app = express();
 app.use(express.static("public"));
 
@@ -15,9 +27,14 @@ app.get(PATH.ACCOUNT, async (req, res) => {
   try {
     const { gameName, tagLine } = req.query;
     const url = RIOT_API_ROUTE.ACCOUNT_BY_GAME_NAME(gameName, tagLine);
-    const response = await RiotApi.fetch(RIOT_API_KEY, url);
-    const data = await response.json();
-    res.json(data);
+    await fetchRiotApi(url, res);
+    // const response = await RiotApi.fetch(RIOT_API_KEY, url);
+    // console.log(response);
+    // if (response.ok) {
+    //   const data = await response.json();
+    //   res.json(data);
+    // }
+    // res.status(response.status).end();
   } catch (err) {
     console.log(err);
   }

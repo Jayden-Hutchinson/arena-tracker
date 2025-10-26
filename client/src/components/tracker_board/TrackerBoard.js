@@ -1,33 +1,28 @@
 import { useEffect, useState } from "react";
-import { ClientApi } from "api/clientApi";
 
 import Summoner from "objects/Summoner";
 
 import Tracker from "components/tracker/Tracker";
+import { getSummonerData } from "utils/utils";
 // import TrackerSearch from "components/tracker_search/TrackerSearch";
 
 function TrackerBoard() {
   const [summoners, setSummoners] = useState([]);
+
   const accounts = [{ gameName: "TannerennaT", tagLine: "NA1" }];
 
   useEffect(() => {
     const fetchSummoners = async () => {
       const summoners = [];
       for (const account of accounts) {
-        const accountDto = await ClientApi.fetchRiotAccountByGameName(
-          account.gameName,
-          account.tagLine,
+        const data = await getSummonerData(account.gameName, account.tagLine);
+
+        const summoner = new Summoner(
+          data.accountDto,
+          data.summonerDto,
+          data.matchHistory,
         );
 
-        const summonerDto = await ClientApi.fetchRiotSummonerByPuuid(
-          accountDto.puuid,
-        );
-
-        const matchHistory = await ClientApi.fetchRiotMatchHistoryByPuuid(
-          accountDto.puuid,
-        );
-
-        const summoner = new Summoner(accountDto, summonerDto, matchHistory);
         summoners.push(summoner);
       }
       setSummoners(summoners);

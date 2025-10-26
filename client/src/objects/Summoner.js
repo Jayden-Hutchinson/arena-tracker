@@ -1,11 +1,10 @@
+import MatchHistory from "./MatchHistory";
+
 class Summoner {
   constructor(accountDto, summonerDto, matchHistory) {
-    this.puuid = accountDto.puuid;
-    this.gameName = accountDto.gameName;
-    this.tagLine = accountDto.tagLine;
-    this.profileIconId = summonerDto.profileIconId;
-    this.summonerLevel = summonerDto.summonerLevel;
-    this.matchHistory = matchHistory;
+    this.account = accountDto;
+    this.info = summonerDto;
+    this.matchHistory = new MatchHistory(matchHistory);
   }
 }
 
