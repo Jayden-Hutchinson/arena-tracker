@@ -58,7 +58,7 @@ class Server {
         const response = await RiotApi.fetch(url);
         return res.json(response);
       } catch (error) {
-        log(`Error fetching riot api: ${error}`);
+        log(`Error ${error}`);
       }
     });
 
@@ -71,7 +71,7 @@ class Server {
         const response = await RiotApi.fetch(url);
         return res.json(response);
       } catch (error) {
-        log(`Error: ${error}`);
+        log(`Error ${error}`);
       }
     });
 
@@ -84,7 +84,7 @@ class Server {
         const response = await RiotApi.fetch(url);
         return res.json(response);
       } catch (error) {
-        log(`Error: ${error}`);
+        log(`Error ${error}`);
       }
     });
   }
