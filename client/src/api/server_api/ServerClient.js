@@ -1,3 +1,4 @@
+import Match from "../../objects/Match";
 import RiotAccount from "./RiotAccount";
 
 import ServerApi from "./ServerApi";
@@ -43,8 +44,8 @@ class ServerClient {
   static async fetchMatch(matchId) {
     try {
       const url = ServerApi.getMatchByIdUrl(matchId);
-      const match = await fetch(url).then((res) => res.json());
-      return match;
+      const data = await fetch(url).then((res) => res.json());
+      return new Match(data);
     } catch (err) {
       return err;
     }

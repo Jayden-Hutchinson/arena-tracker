@@ -1,24 +1,34 @@
 import { useEffect } from "react";
-import Tracker from "./components/tracker/Tracker";
-import TrackerForm from "./components/tracker/TrackerForm";
-import ServerClient from "./api/server_api/ServerClient";
 import { useState } from "react";
 
-function App() {
+import Tracker from "./components/tracker/Tracker";
+import TrackerForm from "./components/tracker/TrackerForm";
 
+import ServerClient from "./api/server_api/ServerClient";
+
+import Save from "./objects/Save";
+
+function App() {
   const [riotAccounts, setRiotAccounts] = useState([]);
-  localStorage.setItem("Trackers", JSON.stringify([{ gameName: "Ginger Comando", tagLine: "na1" }, { gameName: "TannerennaT", tagLine: "na1" }]))
+  localStorage.setItem(
+    "Trackers",
+    JSON.stringify([
+      { gameName: "Ginger Comando", tagLine: "na1" },
+      { gameName: "TannerennaT", tagLine: "na1" },
+    ])
+  );
 
   const trackers = JSON.parse(localStorage.getItem("Trackers"));
 
   useEffect(() => {
     const fetchAccounts = async () => {
-      // Map to promises
       const promises = trackers.map(({ gameName, tagLine }) =>
         ServerClient.fetchRiotAccount(gameName, tagLine)
       );
 
       const riotAccounts = await Promise.all(promises);
+
+      riotAccounts.map(Save.riotAccount);
 
       setRiotAccounts(riotAccounts);
     };

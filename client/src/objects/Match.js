@@ -1,9 +1,12 @@
 class Match {
-  constructor(data) {
-    Object.assign(this, data);
+  constructor({ info, metadata }) {
+    Object.assign(this, { info, metadata });
   }
 
-  getPlayer(puuid) {}
+  getPlayer(puuid) {
+    const playerIndex = this.metadata.participants.indexOf(puuid);
+    return this.info.participants[playerIndex];
+  }
 }
 
 export default Match;
