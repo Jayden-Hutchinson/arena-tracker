@@ -23,17 +23,17 @@ const TrackerForm = () => {
         placeholder="Game Name"
         value={gameName}
         onChange={(e) => setGameName(e.target.value)}
-        className="border p-1"
+        className="p-1 bg-neutral-900"
       />
       <input
         type="text"
         placeholder="Tag Line"
         value={tagLine}
         onChange={(e) => setTagLine(e.target.value)}
-        className="border p-1"
+        className="p-1 bg-neutral-900"
       />
-      <button type="submit" className="bg-blue-500 text-white px-3 rounded">
-        Add Tracker
+      <button type="submit" className="bg-gray-950 border-2 border-gray-900 text-gray-200 px-3">
+        search
       </button>
     </form>
   );
