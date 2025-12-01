@@ -5,7 +5,10 @@ import ServerClient from "./api/server_api/ServerClient";
 import { useState } from "react";
 
 function App() {
+
   const [riotAccounts, setRiotAccounts] = useState([]);
+  localStorage.setItem("Trackers", JSON.stringify([{ gameName: "Ginger Comando", tagLine: "na1" }, { gameName: "TannerennaT", tagLine: "na1" }]))
+
   const trackers = JSON.parse(localStorage.getItem("Trackers"));
 
   useEffect(() => {
