@@ -20,7 +20,12 @@ const SERVER_BASE_URL = "/arena-tracker/api";
 */
 const ACCOUNT_BY_GAME_NAME_URL = `${SERVER_BASE_URL}/riot/account/by-riot-id/`;
 const ACCOUNT_BY_PUUID_URL = `${SERVER_BASE_URL}/riot/account/by-puuid/`;
+
+/*
+ MATCHES
+*/
 const MATCHES_BY_PUUID_URL = `${SERVER_BASE_URL}/riot/account/matches/by-puuid`;
+const MATCH_BY_ID_URL = `${SERVER_BASE_URL}/riot/match/`;
 
 class Server {
   constructor() {
@@ -81,6 +86,20 @@ class Server {
 
       try {
         const url = RiotApi.getMatchesByPuuidUrl(ids);
+        const response = await RiotApi.fetch(url);
+        return res.json(response);
+      } catch (error) {
+        log(`Error ${error}`);
+      }
+    });
+
+    this.app.get(MATCH_BY_ID_URL, async (req, res) => {
+      log(`GET ${MATCH_BY_ID_URL}`);
+      const { matchId } = req.query;
+
+      try {
+        const url = RiotApi.getMatchByIdUrl(matchId);
+        console.log(url);
         const response = await RiotApi.fetch(url);
         return res.json(response);
       } catch (error) {

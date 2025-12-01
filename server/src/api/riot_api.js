@@ -57,14 +57,19 @@ class RiotApi {
     return url.toString();
   }
 
+  static getMatchByIdUrl(matchId) {
+    const encodedMatchId = encodeURIComponent(matchId);
+    return `${RiotApi.REGION_URL}/lol/match/v5/matches/${encodedMatchId}`;
+  }
+
   static async fetch(url) {
     const header = { headers: { "X-Riot-Token": this.API_KEY } };
     const response = await fetch(url, header);
     const data = await response.json();
 
     if (!response.ok) {
-      log(`Error (${response.status}): ${data.status.message}`);
-      return data.status
+      log(`Error (${response.status}): ${data.status.message}\n${url}`);
+      return data.status;
     }
 
     return data;
