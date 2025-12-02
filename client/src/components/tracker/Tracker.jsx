@@ -6,9 +6,12 @@ function Tracker(riotAccount) {
   const [matches, setMatches] = useState(null);
   const [loadMessage, setLoadMessage] = useState("");
 
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  // Augment URL
+  // https://ddragon.leagueoflegends.com/cdn/<VERSION>/data/en_US/augments.json
 
   useEffect(() => {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     const fetchData = async () => {
       const matchIds = await ServerClient.fetchMatches(riotAccount.puuid);
 
@@ -41,16 +44,16 @@ function Tracker(riotAccount) {
   }, []);
 
   return (
-    <div className="flex flex-col min-w-xl bg-gray-950 border-2 border-gray-700 rounded">
+    <div className="flex flex-col min-w-xl w-2xl bg-gray-950 rounded">
       {/* HEADER */}
-      <div className="flex w-full gap-8 items-center p-5 border-b-2 border-gray-900">
+      <div className="flex w-full gap-8 items-center border-b-2 border-gray-900">
         <div className="relative flex justify-center">
           <img
-            className="bg-neutral-800 border-2 border-gray-700 size-20 rounded"
+            className="bg-neutral-800 size-30 rounded-tl"
             src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${riotAccount.profileIconId}.jpg`}
             alt={`Icon ${riotAccount.profileIconId}`}
           />
-          <div className="absolute -bottom-2 text-xs text-amber-400 bg-gray-950 px-1 rounded-lg border-2 border-gray-700">
+          <div className="absolute py-1 px-2 bottom-0 right-0 text-xs text-amber-400 bg-gray-950 rounded-tl">
             {riotAccount.summonerLevel ? riotAccount.summonerLevel : "000"}
           </div>
         </div>
@@ -68,23 +71,30 @@ function Tracker(riotAccount) {
         {matches ? (
           matches.map((match) => {
             console.log(match);
-            const player = match.getPlayer(puuid);
+            const player = match.getPlayer(riotAccount.puuid);
             console.log(player);
 
             return (
-              <div className="flex justify-between w-full text-gray-400 p-5 items-center h-22 border-b-2 border-gray-900">
+              <div className="flex justify-between h-fit w-full pr-5 text-gray-400 items-center py-2 border-b-2 border-gray-900">
                 <img
-                  src=""
+                  className="size-18 rounded"
+                  src={`https://ddragon.leagueoflegends.com/cdn/15.23.1/img/champion/${player.championName}.png`}
                   alt="champion portrait"
-                  className="size-18 border-2 border-gray-700 rounded"
                 />
                 <div className="w-25">{player.championName}</div>
 
                 <div className="grid grid-cols-3 grid-rows-2">
-                  {Array.from({ length: 6 }).map((_, i) => (
+                  {[
+                    player.playerAugment1,
+                    player.playerAugment2,
+                    player.playerAugment3,
+                    player.playerAugment4,
+                    player.playerAugment5,
+                    player.playerAugment6,
+                  ].map((augmentId, i) => (
                     <img
                       key={i}
-                      src=""
+                      src={`https://ddragon.leagueoflegends.com/cdn/15.23.1/img/augment/${augmentId}.png`}
                       alt="augment"
                       className="size-7 border border-gray-700 rounded-full"
                     />
@@ -92,18 +102,30 @@ function Tracker(riotAccount) {
                 </div>
 
                 <div className="grid grid-cols-3 grid-rows-2">
-                  {Array.from({ length: 6 }).map((_, i) => (
+                  {[
+                    player.item0,
+                    player.item1,
+                    player.item2,
+                    player.item3,
+                    player.item4,
+                    player.item5,
+                  ].map((itemId, i) => (
                     <img
-                      key={i}
-                      src=""
-                      alt="item"
                       className="size-8 border border-gray-700 rounded-xs"
+                      key={i}
+                      src={`https://ddragon.leagueoflegends.com/cdn/15.23.1/img/item/${itemId}.png`}
+                      alt="item"
                     />
                   ))}
                 </div>
 
-                <div>k/d/a</div>
-                <div>damage</div>
+                <div className="flex w-25 justify-center">
+                  <div>{player.kills}/</div>
+                  <div>{player.deaths}/</div>
+                  <div>{player.assists}</div>
+                </div>
+
+                <div>{player.totalDamageDealtToChampions}</div>
               </div>
             );
           })
