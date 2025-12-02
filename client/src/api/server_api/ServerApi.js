@@ -15,7 +15,7 @@ class ServerApi {
     endTime,
     queue,
     start,
-    count,
+    count = 3,
   }) {
     const url = new URL(`riot/account/matches/by-puuid/`, `${this.BASE_URL}/`);
 

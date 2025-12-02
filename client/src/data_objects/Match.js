@@ -1,3 +1,5 @@
+import Player from "./Player";
+
 class Match {
   constructor({ info, metadata }) {
     Object.assign(this, { info, metadata });
@@ -5,7 +7,8 @@ class Match {
 
   getPlayer(puuid) {
     const playerIndex = this.metadata.participants.indexOf(puuid);
-    return this.info.participants[playerIndex];
+    const playerData = this.info.participants[playerIndex];
+    return new Player(playerData);
   }
 }
 

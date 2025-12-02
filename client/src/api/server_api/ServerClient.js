@@ -1,4 +1,4 @@
-import Match from "../../objects/Match";
+import Match from "../../data_objects/Match";
 import RiotAccount from "./RiotAccount";
 
 import ServerApi from "./ServerApi";

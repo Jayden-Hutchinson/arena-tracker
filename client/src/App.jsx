@@ -6,8 +6,8 @@ import TrackerForm from "./components/tracker/TrackerForm";
 
 import ServerClient from "./api/server_api/ServerClient";
 
-import Save from "./objects/Save";
-import Load from "./objects/Load";
+import Save from "./utils/Save";
+import Load from "./utils/Load";
 
 function App() {
   const [riotAccounts, setRiotAccounts] = useState([]);
