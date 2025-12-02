@@ -5,7 +5,13 @@ class Save {
 
     const key = `${gameName}#${tagLine}`;
     localStorage.setItem(key, JSON.stringify(riotAccount));
-    console.info(`${key} Saved.`, riotAccount);
+  }
+
+  static trackedRiotAccounts(trackedRiotAccounts) {
+    localStorage.setItem(
+      "TrackedRiotAccounts",
+      JSON.stringify(trackedRiotAccounts)
+    );
   }
 }
 export default Save;

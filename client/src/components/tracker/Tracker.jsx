@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import ServerClient from "../../api/server_api/ServerClient";
 
-function Tracker(props) {
-  const { puuid, profileIconId, summonerLevel, gameName, tagLine } = props;
-
+function Tracker(riotAccount) {
+  console.log("Tracker riot account", riotAccount);
   const [matches, setMatches] = useState(null);
   const [loadMessage, setLoadMessage] = useState("");
 
@@ -11,10 +10,11 @@ function Tracker(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const matchIds = await ServerClient.fetchMatches(puuid);
+      const matchIds = await ServerClient.fetchMatches(riotAccount.puuid);
+
       if (matchIds.message) {
         setLoadMessage(matchIds.message);
-        console.log(matchIds.message);
+        console.error(matchIds.message);
         return;
       }
 
@@ -38,7 +38,7 @@ function Tracker(props) {
     };
 
     fetchData();
-  }, [puuid]);
+  }, []);
 
   return (
     <div className="flex flex-col min-w-xl bg-gray-950 border-2 border-gray-700 rounded">
@@ -47,18 +47,18 @@ function Tracker(props) {
         <div className="relative flex justify-center">
           <img
             className="bg-neutral-800 border-2 border-gray-700 size-20 rounded"
-            src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${profileIconId}.jpg`}
-            alt={`Icon ${profileIconId}`}
+            src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${riotAccount.profileIconId}.jpg`}
+            alt={`Icon ${riotAccount.profileIconId}`}
           />
           <div className="absolute -bottom-2 text-xs text-amber-400 bg-gray-950 px-1 rounded-lg border-2 border-gray-700">
-            {summonerLevel ? summonerLevel : "000"}
+            {riotAccount.summonerLevel ? riotAccount.summonerLevel : "000"}
           </div>
         </div>
 
         <div className="flex gap-2">
-          <div className="text-xl text-blue-300">{gameName}</div>
+          <div className="text-xl text-blue-300">{riotAccount.gameName}</div>
           <div className="flex items-center text-sm text-neutral-500">
-            {tagLine ? `#${tagLine}` : null}
+            {riotAccount.tagLine ? `#${riotAccount.tagLine}` : null}
           </div>
         </div>
       </div>
