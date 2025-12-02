@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "deploy": "gh workflow run deploy.yml"
+  }
+}

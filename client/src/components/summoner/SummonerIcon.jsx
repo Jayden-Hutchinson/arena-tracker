@@ -2,7 +2,7 @@ function SummonerIcon({ id, level }) {
   return (
     <div className="relative flex">
       <img
-        className="bg-neutral-800 size-30 rounded-tl"
+        className="bg-neutral-800 size-30 rounded-lg"
         src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${id}.jpg`}
         alt={`Icon ${id}`}
       />

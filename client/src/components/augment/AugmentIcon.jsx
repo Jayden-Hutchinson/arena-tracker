@@ -1,5 +1,4 @@
-function AugmentIcon(id) {
-  console.log(id);
+function AugmentIcon({ id }) {
   return (
     <>
       <img
