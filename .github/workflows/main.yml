@@ -1,0 +1,56 @@
+name: Deploy to GlowHost
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------- FRONTEND BUILD ----------
+      - name: Install frontend deps
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      # ---------- BACKEND PREP ----------
+      - name: Install backend deps
+        run: |
+          cd server
+          npm install --production
+
+      # ---------- SYNC FRONTEND ----------
+      - name: Deploy frontend to GlowHost
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.GH_HOST }}
+          username: ${{ secrets.GH_USER }}
+          key: ${{ secrets.GH_DEPLOY_KEY }}
+          source: "client/dist/*"
+          target: "public_html/"
+
+      # ---------- SYNC BACKEND ----------
+      - name: Deploy backend to GlowHost
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.GH_HOST }}
+          username: ${{ secrets.GH_USER }}
+          key: ${{ secrets.GH_DEPLOY_KEY }}
+          source: "server/*"
+          target: "backend/"
+
+      # ---------- RESTART NODE SERVER ----------
+      - name: Restart Node app on GlowHost
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.GH_HOST }}
+          username: ${{ secrets.GH_USER }}
+          key: ${{ secrets.GH_DEPLOY_KEY }}
+          script: |
+            cd backend
+            /opt/cpanel/ea-nodejs16/bin/npm install --production
+            /opt/cpanel/ea-nodejs16/bin/node ../app.js
