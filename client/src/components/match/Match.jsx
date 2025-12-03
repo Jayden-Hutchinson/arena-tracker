@@ -12,17 +12,11 @@ function Match({ puuid, match }) {
   const date = match.getDate();
 
   return (
-    <>
-      <div className="flex justify-between h-fit w-full pr-5 border-t border-gray-800 pt-2 text-gray-400 items-center">
+    <div className="bg-black/30 rounded p-3 w-full">
+      <div className="flex justify-between h-fit text-gray-400 items-center">
         <ChampionIcon championName={player.championName} />
         <div>
           <ChampionName championName={player.championName} />
-          <div className="flex w-full font-bold gap-1 text-xs text-gray-600">
-            <div>Q:{player.spell1Casts}</div>
-            <div>W:{player.spell2Casts}</div>
-            <div>E:{player.spell3Casts}</div>
-            <div>R:{player.spell4Casts}</div>
-          </div>
         </div>
         {/* TO DO  */}
         {/* <Augments />
@@ -50,15 +44,15 @@ function Match({ puuid, match }) {
           <div>{player.assists}</div>
         </div>
 
-        <div className="text-amber-500 text-sm font-bold">
+        <div className="text-amber-500/60 text-sm font-bold">
           {player.totalDamageDealtToChampions}
         </div>
       </div>
-      <div className="w-full text-xs flex justify-between text-gray-600 px-1 pb-2">
+      <div className="w-full text-xs flex justify-between text-gray-600">
         <div>{duration}</div>
         <div>{date}</div>
       </div>
-    </>
+    </div>
   );
 }
 
