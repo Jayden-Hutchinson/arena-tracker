@@ -1,4 +1,4 @@
-import TrackedRiotAccountsController from "../../controllers/TrackedRiotAccountsController";
+import { storageController } from "../../controllers/StorageController";
 import SummonerIconSmall from "./SummonerIconSmall";
 import SummonerName from "./SummonerName";
 
@@ -6,7 +6,15 @@ function SummonerPreview(riotAccount) {
   const { gameName, tagLine, profileIconId, summonerLevel } = riotAccount;
 
   const handleSave = () => {
-    TrackedRiotAccountsController.saveRiotAccount(riotAccount);
+    const saveState = {};
+    saveState[riotAccount.puuid] = riotAccount;
+
+    const riotAccounts = storageController.saveRiotAccount(riotAccount);
+    if (!riotAccounts) {
+      return;
+    }
+
+    storageController.setRiotAccounts(riotAccounts);
   };
 
   return (

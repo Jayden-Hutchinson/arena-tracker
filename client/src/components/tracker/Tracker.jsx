@@ -1,13 +1,15 @@
 import Summoner from "../summoner/Summoner";
 import Matches from "../matches/Matches";
-import TrackedRiotAccountsController from "../../controllers/TrackedRiotAccountsController";
+import { storageController } from "../../controllers/StorageController";
+import { useState } from "react";
 
 function Tracker(riotAccount) {
-  console.log("Hello");
   console.log("Tracker riot account", riotAccount);
+  // const [riotAccounts, setRiotAccounts] = useState();
 
   const handleDelete = (event) => {
-    TrackedRiotAccountsController.deleteRiotAccount(riotAccount);
+    const riotAccounts = storageController.deleteRiotAccount(riotAccount);
+    storageController.setRiotAccounts(riotAccounts);
   };
 
   return (

@@ -4,20 +4,15 @@
  * Params are what is needed to make the key
  */
 class Load {
-  /**
-   * Load the riot account object saved at "{gameName}#{tagLine}"
-   * @param {string} gameName
-   * @param {string} tagLine
-   * @returns
-   */
-  static riotAccount(gameName, tagLine) {
-    const key = `${gameName}#${tagLine}`;
-    return JSON.parse(localStorage.getItem(key));
+  static _formattedLog(string) {
+    console.log(`[load] ${string}`);
   }
-
-  static trackedRiotAccounts() {
-    const trackedRiotAccounts = localStorage.getItem("TrackedRiotAccounts");
-    return JSON.parse(trackedRiotAccounts) || {};
+  static riotAccounts() {
+    const riotAccounts = localStorage.getItem("RiotAccounts");
+    const data = JSON.parse(riotAccounts) || {};
+    this._formattedLog("riot accounts");
+    console.log(data);
+    return JSON.parse(riotAccounts) || {};
   }
 }
 

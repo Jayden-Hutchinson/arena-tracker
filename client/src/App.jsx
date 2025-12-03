@@ -1,21 +1,19 @@
 import TrackerForm from "./components/tracker/TrackerForm";
 import TrackerBoard from "./components/tracker_board/TrackerBoard";
-import TrackedRiotAccountsController from "./controllers/TrackedRiotAccountsController";
+import { storageController } from "./controllers/StorageController";
 
 function App() {
-  const trackedRiotAccounts = TrackedRiotAccountsController.loadAll();
-
-  if (!trackedRiotAccounts) {
+  if (!storageController.riotAccounts) {
     console.debug("No tracked riot accounts");
   } else {
-    console.debug("Loaded saved accounts", trackedRiotAccounts);
+    console.debug("Loaded saved accounts", storageController.riotAccounts);
   }
 
   return (
     <div className="flex flex-col items-center">
       <TrackerForm />
-      {trackedRiotAccounts && (
-        <TrackerBoard trackedRiotAccounts={trackedRiotAccounts} />
+      {storageController.riotAccounts && (
+        <TrackerBoard />
       )}
     </div>
   );
