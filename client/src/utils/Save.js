@@ -1,17 +1,14 @@
 class Save {
-  static riotAccount(riotAccount) {
-    const gameName = riotAccount.gameName;
-    const tagLine = riotAccount.tagLine;
-
-    const key = `${gameName}#${tagLine}`;
-    localStorage.setItem(key, JSON.stringify(riotAccount));
+  static riotAccount(riotAccount, trackedRiotAccounts) {
+    trackedRiotAccounts[riotAccount.puuid] = riotAccount;
+    Save.trackedRiotAccounts(trackedRiotAccounts);
   }
 
   static trackedRiotAccounts(trackedRiotAccounts) {
-    localStorage.setItem(
-      "TrackedRiotAccounts",
-      JSON.stringify(trackedRiotAccounts)
-    );
+    console.log(trackedRiotAccounts);
+    const saveData = JSON.stringify(trackedRiotAccounts);
+    localStorage.setItem("TrackedRiotAccounts", saveData);
+    console.debug("Set TrackedRiotAccounts", trackedRiotAccounts);
   }
 }
 export default Save;

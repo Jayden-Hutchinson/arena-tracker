@@ -16,7 +16,8 @@ class Load {
   }
 
   static trackedRiotAccounts() {
-    return JSON.parse(localStorage.getItem("TrackedRiotAccounts"));
+    const trackedRiotAccounts = localStorage.getItem("TrackedRiotAccounts");
+    return JSON.parse(trackedRiotAccounts) || {};
   }
 }
 
