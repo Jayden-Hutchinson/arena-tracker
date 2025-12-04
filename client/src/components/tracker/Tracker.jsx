@@ -9,11 +9,11 @@ function Tracker(riotAccount) {
   };
 
   return (
-    <div className="relative flex flex-col min-w-xl w-2xl bg-cyan-950/15 border-2 border-amber-400/30 p-5 rounded-tr-lg">
+    <div className="relative flex w-2xl min-w-xl flex-col border-2 border-amber-500/30 bg-cyan-950/35 p-5">
       <Summoner {...riotAccount} />
       <Matches puuid={riotAccount.puuid} />
       <button
-        className="absolute flex items-center justify-center cursor-pointer font-bold -top-1 -right-1 size-7 rounded-full bg-neutral-900 border-2 border-amber-400/30 text-amber-300/30"
+        className="absolute top-0.5 right-0.5 flex size-8 cursor-pointer items-center justify-center text-xl font-bold text-amber-500/30 hover:text-amber-500/40"
         onClick={handleDelete}
       >
         x

@@ -30,18 +30,18 @@ function SummonerSearch() {
   };
 
   return (
-    <div className="border-3 border-amber-400/30 m-2">
+    <div className="mb-5 flex w-full justify-center border-2 border-amber-500/30 bg-cyan-950/25 p-2">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-center gap-2 p-5 w-2xl bg-cyan-950/25 border-3 border-cyan-900"
+        className="flex w-xl flex-col justify-center gap-2"
       >
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <input
             type="text"
             placeholder="Game Name"
             value={gameName}
             onChange={(e) => setGameName(e.target.value)}
-            className="w-full p-1 border-b-2 border-amber-400/30 text-neutral-400"
+            className="w-full border-b border-amber-500/30 bg-gradient-to-t from-neutral-950/20 to-transparent p-1"
           />
 
           <input
@@ -49,21 +49,20 @@ function SummonerSearch() {
             placeholder="# Tag Line"
             value={tagLine}
             onChange={(e) => setTagLine(e.target.value)}
-            className="p-1 w-40 text-neutral-400"
+            className="w-40 border-b border-amber-500/30 bg-gradient-to-t from-neutral-950/20 to-transparent p-1"
           />
 
           <button
             type="submit"
-            className="h-8 text-amber-300/80 text-sm px-5 bg-cyan-950/15 border-2 border-amber-400/50"
+            className="h-8 border-2 border-amber-500/60 bg-cyan-600/30 px-5 text-sm font-bold text-amber-400/80 hover:bg-cyan-400/20 hover:bg-gradient-to-t hover:from-amber-500/40 hover:to-cyan-600/30 active:from-amber-600/40 active:to-cyan-700/30"
           >
             Search
           </button>
         </div>
-
-        <div className="text-center" onClick={() => setRiotAccount(null)}>
-          {riotAccount ? <SummonerPreview {...riotAccount} /> : loadMessage}
-        </div>
       </form>
+      <div className="text-center" onClick={() => setRiotAccount(null)}>
+        {riotAccount ? <SummonerPreview {...riotAccount} /> : loadMessage}
+      </div>
     </div>
   );
 }

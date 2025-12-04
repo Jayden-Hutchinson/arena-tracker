@@ -11,7 +11,7 @@ function Summoner({
 }) {
   console.log(gameName);
   return (
-    <div className="flex w-full gap-8 items-center p-5">
+    <div className="flex w-full flex-col items-center justify-center gap-5">
       <SummonerIcon id={profileIconId} level={summonerLevel} />
       <SummonerName gameName={gameName} tagLine={tagLine} />
     </div>

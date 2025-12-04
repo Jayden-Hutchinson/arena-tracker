@@ -18,11 +18,15 @@ function SummonerPreview(riotAccount) {
 
   return (
     <div
-      className="flex w-full p-2 gap-5 items-center bg-black/30 rounded cursor-pointer hover:bg-black/60"
+      className="flex w-fit cursor-pointer items-center justify-center gap-5 border border-amber-500/30 bg-black/30 px-8 py-3 hover:bg-black/60"
       onClick={handleSave}
     >
       <SummonerIconSmall id={profileIconId} level={summonerLevel} />
       <SummonerNameSmall gameName={gameName} tagLine={tagLine} />
+      <div>
+        <div className="text-xs text-neutral-400">level</div>
+        <div className="text-sm text-amber-400">{summonerLevel}</div>
+      </div>
     </div>
   );
 }

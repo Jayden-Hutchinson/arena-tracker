@@ -1,10 +1,7 @@
-function SummonerName({ gameName, tagLine }) {
+function SummonerName({ gameName }) {
   return (
-    <div className="flex gap-2">
-      <div className="text-xl text-blue-300">{gameName}</div>
-      <div className="flex items-center text-sm text-neutral-500">
-        {tagLine ? `#${tagLine}` : null}
-      </div>
+    <div className="flex">
+      <div className="text-xl text-amber-400/80">{gameName}</div>
     </div>
   );
 }
