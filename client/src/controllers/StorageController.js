@@ -26,7 +26,7 @@ class StorageController {
       console.debug("Account already exists");
       return;
     }
-    this.riotAccounts[riotAccount.puuid] = riotAccount;
+    this.riotAccounts = Save.riotAccount(riotAccount, this.riotAccounts);
     return this.riotAccounts;
   }
 

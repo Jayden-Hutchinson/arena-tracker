@@ -12,23 +12,25 @@ function Matches({ puuid }) {
 
   useEffect(() => {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const fetchMatches = async () => {};
 
     const fetchMatchData = async () => {
       const matchIds = await ServerClient.fetchMatches(puuid);
+      console.log(matchIds);
+
       if (matchIds.message) {
         setLoadMessage(matchIds.message);
         console.log(matchIds.message, matchIds.status_code);
         return;
       }
 
-      const matches = [];
-      var loadCount = 0;
       for (const matchId of matchIds) {
         setLoadMessage(`loading matches ${loadCount++}/${matchIds.length}`);
         await delay(100);
 
         const match = await ServerClient.fetchMatch(matchId);
         if (match.message) {
+          console.log(match);
           setLoadMessage(match.message);
           continue;
         }
@@ -38,6 +40,7 @@ function Matches({ puuid }) {
       setMatches(matches);
     };
 
+    fetchMatches();
     fetchMatchData();
   }, []);
 

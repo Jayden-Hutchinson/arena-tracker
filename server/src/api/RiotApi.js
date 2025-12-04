@@ -69,7 +69,7 @@ class RiotApi {
 
     if (!response.ok) {
       log(`Error (${response.status}): ${data.status.message}\n${url}`);
-      return data.status;
+      return data;
     }
 
     return data;

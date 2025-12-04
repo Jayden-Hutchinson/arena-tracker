@@ -1,6 +1,6 @@
 require("dotenv/config");
 
-const { RiotApi } = require("./api/riot_api");
+const { RiotApi } = require("./api/RiotApi");
 const cors = require("cors");
 const express = require("express");
 
