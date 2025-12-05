@@ -30,7 +30,7 @@ function SummonerSearch() {
   };
 
   return (
-    <div className="mb-5 flex w-full justify-center border-2 border-amber-500/30 bg-cyan-950/25 p-2">
+    <div className="flex w-full justify-center border-2 border-amber-500/30 bg-cyan-950/25 p-2">
       <form
         onSubmit={handleSubmit}
         className="flex w-xl flex-col justify-center gap-2"
@@ -41,7 +41,7 @@ function SummonerSearch() {
             placeholder="Game Name"
             value={gameName}
             onChange={(e) => setGameName(e.target.value)}
-            className="w-full border-b border-amber-500/30 bg-gradient-to-t from-neutral-950/20 to-transparent p-1"
+            className="w-full border-b border-amber-500/30 from-neutral-950/20 to-transparent p-1"
           />
 
           <input
@@ -49,12 +49,12 @@ function SummonerSearch() {
             placeholder="# Tag Line"
             value={tagLine}
             onChange={(e) => setTagLine(e.target.value)}
-            className="w-40 border-b border-amber-500/30 bg-gradient-to-t from-neutral-950/20 to-transparent p-1"
+            className="w-40 border-b border-amber-500/30 from-neutral-950/20 to-transparent p-1"
           />
 
           <button
             type="submit"
-            className="h-8 border-2 border-amber-500/60 bg-cyan-600/30 px-5 text-sm font-bold text-amber-400/80 hover:bg-cyan-400/20 hover:bg-gradient-to-t hover:from-amber-500/40 hover:to-cyan-600/30 active:from-amber-600/40 active:to-cyan-700/30"
+            className="h-7 border-2 border-amber-500/60 bg-cyan-600/30 px-5 text-sm font-bold text-amber-400/80 hover:bg-cyan-400/20 hover:bg-gradient-to-t hover:from-amber-500/40 hover:to-cyan-600/30 active:from-amber-600/40 active:to-cyan-700/30"
           >
             Search
           </button>

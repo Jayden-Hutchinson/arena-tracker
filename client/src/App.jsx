@@ -6,7 +6,7 @@ function App() {
     console.log("hi");
   }
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex h-screen flex-col items-center">
       <SummonerSearch />
       <TrackerBoard />
       <button onClick={saveDummyAccounts}>save</button>
