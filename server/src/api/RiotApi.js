@@ -1,5 +1,6 @@
 class RiotApi {
   static API_KEY;
+
   static setApiKey(apiKey) {
     this.API_KEY = apiKey;
   }
