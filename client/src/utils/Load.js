@@ -4,15 +4,11 @@
  * Params are what is needed to make the key
  */
 class Load {
-  static _formattedLog(string) {
-    console.log(`[load] ${string}`);
-  }
   static riotAccounts() {
     const riotAccounts = localStorage.getItem("RiotAccounts");
     const data = JSON.parse(riotAccounts) || {};
-    this._formattedLog("riot accounts");
-    console.log(data);
-    return JSON.parse(riotAccounts) || {};
+    console.debug("Loaded Riot Accounts", data);
+    return data;
   }
 }
 

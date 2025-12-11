@@ -1,6 +1,7 @@
 require("dotenv/config");
 
 const { RiotApi } = require("./api/RiotApi");
+
 const cors = require("cors");
 const express = require("express");
 
@@ -51,7 +52,7 @@ class Server {
   initializeRoutes() {
     this.app.get(`${SERVER_BASE_URL}/`, async (req, res) => {
       log(`GET ${SERVER_BASE_URL}/`);
-      res.json({ message: "Server Hit" });
+      res.json({ message: "server running" });
     });
 
     this.app.get(ACCOUNT_BY_GAME_NAME_URL, async (req, res) => {

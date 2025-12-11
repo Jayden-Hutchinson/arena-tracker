@@ -1,4 +1,5 @@
 import SummonerSearch from "./components/summoner_search/SummonerSearch";
+import TopBar from "./components/top_bar/TopBar";
 import TrackerBoard from "./components/tracker_board/TrackerBoard";
 
 function App() {
@@ -6,10 +7,10 @@ function App() {
     console.log("hi");
   }
   return (
-    <div className="flex h-screen flex-col items-center">
+    <div className="flex h-screen flex-col items-center bg-cyan-950/20">
       <SummonerSearch />
       <TrackerBoard />
-      <button onClick={saveDummyAccounts}>save</button>
+      {/* <button onClick={saveDummyAccounts}>save</button> */}
     </div>
   );
 }

@@ -1,15 +1,11 @@
 import Summoner from "../summoner/Summoner";
 import Matches from "../matches/Matches";
-import { storageController } from "../../controllers/StorageController";
 
 function Tracker(riotAccount) {
-  const handleDelete = (event) => {
-    const riotAccounts = storageController.deleteRiotAccount(riotAccount);
-    storageController.setRiotAccounts(riotAccounts);
-  };
+  const handleDelete = (event) => {};
 
   return (
-    <div className="relative flex w-2xl min-w-xl flex-col border-2 border-amber-500/30 bg-cyan-950/35 p-5">
+    <div className="relative flex h-fit p-2 w-2xl flex-col border border-amber-500/30 bg-cyan-950/25">
       <Summoner {...riotAccount} />
       <Matches puuid={riotAccount.puuid} />
       <button

@@ -2,7 +2,6 @@ import SummonerIcon from "./SummonerIcon";
 import SummonerName from "./SummonerName";
 
 function Summoner({
-  puuid,
   gameName,
   tagLine,
   profileIconId,
@@ -11,10 +10,17 @@ function Summoner({
 }) {
   console.log(gameName);
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-5">
-      <SummonerIcon id={profileIconId} level={summonerLevel} />
-      <SummonerName gameName={gameName} tagLine={tagLine} />
-    </div>
+    <>
+      <div
+        id="Summoner"
+        className="relative mb-5 flex w-full flex-col items-center justify-center gap-5 pt-25"
+      >
+        <div className="absolute -top-10">
+          <SummonerIcon id={profileIconId} level={summonerLevel} />
+        </div>
+        <SummonerName gameName={gameName} tagLine={tagLine} />
+      </div>
+    </>
   );
 }
 

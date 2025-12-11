@@ -2,6 +2,7 @@ import Item from "../item/Item";
 import ChampionIcon from "../champion/ChampionIcon";
 import ChampionName from "../champion/ChampionName";
 import Augment from "../augment/Augment";
+import Placement from "../placement/Placement";
 
 function Match({ puuid, match }) {
   console.log(match);
@@ -12,11 +13,16 @@ function Match({ puuid, match }) {
   const date = match.getDate();
 
   return (
-    <div className="bg-black/30 rounded p-3 w-full">
-      <div className="flex justify-between h-fit text-gray-400 items-center">
+    <div className="w-full rounded-lg bg-black/30 p-3">
+      {/* Duration and Date */}
+      <div className="flex h-fit items-center justify-between text-gray-400">
         <ChampionIcon championName={player.championName} />
         <div>
+          <Placement placement={player.placement} />
           <ChampionName championName={player.championName} />
+          <div className="flex flex-col text-xs text-gray-600">
+            <div>{duration}</div>
+          </div>
         </div>
         {/* TO DO  */}
         {/* <Augments />
@@ -27,30 +33,26 @@ function Match({ puuid, match }) {
         {/* Augments */}
         <div className="grid grid-cols-3 grid-rows-2">
           {player.augments.map((augmentId, i) => (
-            <Augment key={augmentId} id={augmentId} />
+            <Augment key={crypto.randomUUID()} id={augmentId} />
           ))}
         </div>
 
         {/* Icons */}
         <div className="grid grid-cols-3 grid-rows-2">
           {player.items.map((itemId) => (
-            <Item key={itemId} id={itemId} />
+            <Item key={crypto.randomUUID()} id={itemId} />
           ))}
         </div>
 
-        <div className="flex w-25 text-sm justify-center">
+        <div className="flex w-25 justify-center text-sm">
           <div>{player.kills}/</div>
           <div>{player.deaths}/</div>
           <div>{player.assists}</div>
         </div>
 
-        <div className="text-amber-500/60 text-sm font-bold">
+        <div className="text-sm font-bold text-amber-500/60">
           {player.totalDamageDealtToChampions}
         </div>
-      </div>
-      <div className="w-full text-xs flex justify-between text-gray-600">
-        <div>{duration}</div>
-        <div>{date}</div>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ class RiotApi {
   }) {
     const url = new URL(
       `/lol/match/v5/matches/by-puuid/${puuid}/ids`,
-      this.REGION_URL
+      this.REGION_URL,
     );
 
     const query = {};
@@ -65,11 +65,11 @@ class RiotApi {
   static async fetch(url) {
     const header = { headers: { "X-Riot-Token": this.API_KEY } };
     const response = await fetch(url, header);
-    const data = await response.json();
 
+    const data = await response.json();
     if (!response.ok) {
+      console.log(response);
       log(`Error (${response.status}): ${data.status.message}\n${url}`);
-      return data;
     }
 
     return data;

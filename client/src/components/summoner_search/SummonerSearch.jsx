@@ -3,8 +3,8 @@ import ServerClient from "../../api/server_api/ServerClient";
 import SummonerPreview from "../summoner/SummonerPreview";
 
 function SummonerSearch() {
-  const [loadMessage, setLoadMessage] = useState("");
-  const [gameName, setGameName] = useState("TannerennaT");
+  const [loadMessage, setLoadMessage] = useState();
+  const [gameName, setGameName] = useState("Ginger Comando");
   const [tagLine, setTagLine] = useState("na1");
   const [riotAccount, setRiotAccount] = useState();
 
@@ -22,7 +22,7 @@ function SummonerSearch() {
         return;
       }
 
-      setLoadMessage(null);
+      setLoadMessage();
       setRiotAccount(riotAccount);
     } catch (error) {
       console.log("caught error", error);
@@ -30,40 +30,42 @@ function SummonerSearch() {
   };
 
   return (
-    <div className="flex w-full justify-center border-2 border-amber-500/30 bg-cyan-950/25 p-2">
-      <form
-        onSubmit={handleSubmit}
-        className="flex w-xl flex-col justify-center gap-2"
+    <form
+      id="SummonerSearch"
+      onSubmit={handleSubmit}
+      className="relative m-10 flex flex-row items-center justify-center gap-2"
+    >
+      <input
+        type="text"
+        placeholder="Game Name"
+        value={gameName}
+        onChange={(e) => setGameName(e.target.value)}
+        className="w-60 border-b border-amber-500/30 from-neutral-950/20 to-transparent p-1"
+      />
+
+      <span>{"# |"}</span>
+      <input
+        type="text"
+        placeholder="Tag Line"
+        value={tagLine}
+        onChange={(e) => setTagLine(e.target.value)}
+        className="w-25 border-b border-amber-500/30 from-neutral-950/20 to-transparent p-1"
+      />
+
+      <button
+        type="submit"
+        className="h-7 border-2 border-amber-500/60 bg-cyan-400/25 bg-linear-to-t px-5 text-sm font-bold text-amber-400/80 hover:from-amber-400/50 hover:to-cyan-600/30 active:from-amber-600/40 active:to-cyan-700/30"
       >
-        <div className="flex items-center gap-1">
-          <input
-            type="text"
-            placeholder="Game Name"
-            value={gameName}
-            onChange={(e) => setGameName(e.target.value)}
-            className="w-full border-b border-amber-500/30 from-neutral-950/20 to-transparent p-1"
-          />
+        Search
+      </button>
 
-          <input
-            type="text"
-            placeholder="# Tag Line"
-            value={tagLine}
-            onChange={(e) => setTagLine(e.target.value)}
-            className="w-40 border-b border-amber-500/30 from-neutral-950/20 to-transparent p-1"
-          />
-
-          <button
-            type="submit"
-            className="h-7 border-2 border-amber-500/60 bg-cyan-600/30 px-5 text-sm font-bold text-amber-400/80 hover:bg-cyan-400/20 hover:bg-gradient-to-t hover:from-amber-500/40 hover:to-cyan-600/30 active:from-amber-600/40 active:to-cyan-700/30"
-          >
-            Search
-          </button>
-        </div>
-      </form>
-      <div className="text-center" onClick={() => setRiotAccount(null)}>
+      <div
+        className="absolute -bottom-20 z-1 text-center"
+        onClick={() => setRiotAccount()}
+      >
         {riotAccount ? <SummonerPreview {...riotAccount} /> : loadMessage}
       </div>
-    </div>
+    </form>
   );
 }
 

@@ -1,6 +1,5 @@
 import Load from "../utils/Load";
 import Save from "../utils/Save";
-import Delete from "../utils/Delete";
 
 class StorageController {
   constructor() {
@@ -9,32 +8,46 @@ class StorageController {
   }
 
   subscribe(listener) {
+    console.log("Subscribed");
     this.listeners.push(listener);
     return () => {
       this.listeners = this.listeners.filter((l) => l !== listener);
     };
   }
 
-  setRiotAccounts(newState) {
-    console.log("setting listeners", newState);
-    this.riotAccounts = { ...this.riotAccounts, ...newState };
-    this.listeners.forEach((listener) => listener(this.riotAccounts));
+  notifyListeners() {
+    console.debug("Riot Accounts Set", this.riotAccounts);
+    this.listeners.forEach((listener) => {
+      listener(this.riotAccounts);
+    });
   }
 
   saveRiotAccount(riotAccount) {
-    if (riotAccount.puuid in this.riotAccounts) {
+    const puuid = riotAccount.puuid;
+
+    if (puuid in this.riotAccounts) {
       console.debug("Account already exists");
       return;
     }
-    this.riotAccounts = Save.riotAccount(riotAccount, this.riotAccounts);
-    return this.riotAccounts;
+
+    this.riotAccounts[puuid] = riotAccount;
+    Save.riotAccounts(this.riotAccounts);
+
+    console.debug(
+      "Riot account saved",
+      riotAccount,
+      "Saved Accounts",
+      this.riotAccounts,
+    );
+
+    this.notifyListeners();
   }
 
   deleteRiotAccount(riotAccount) {
-    this.riotAccounts = Load.riotAccounts();
-    this.riotAccounts = Delete.riotAccount(riotAccount, this.riotAccounts);
-    this.riotAccounts = Save.riotAccounts(this.riotAccounts);
-    return this.riotAccounts;
+    const puuid = riotAccount.puuid;
+    delete this.riotAccounts[puuid];
+    Save.riotAccounts(this.riotAccounts);
+    this.notifyListeners();
   }
 }
 

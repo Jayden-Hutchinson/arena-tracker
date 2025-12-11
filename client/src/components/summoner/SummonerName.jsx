@@ -1,7 +1,7 @@
 function SummonerName({ gameName }) {
   return (
-    <div className="flex">
-      <div className="text-xl text-amber-400/80">{gameName}</div>
+    <div className="flex justify-center">
+      <div className="text-xl text-cyan-200">{gameName}</div>
     </div>
   );
 }
