@@ -66,12 +66,10 @@ class RiotApi {
   static async fetch(url) {
     const header = { headers: { "X-Riot-Token": this.API_KEY } };
     const response = await fetch(url, header);
-
+    console.debug(
+      `[riotapi] Responded with (${response.status}): ${response.statusText}`,
+    );
     const data = await response.json();
-    if (!response.ok) {
-      log(`Error (${response.status}): ${data.status.message}\n${url}`);
-    }
-
     return data;
   }
 }
