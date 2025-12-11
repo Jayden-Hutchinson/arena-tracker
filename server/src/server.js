@@ -5,6 +5,8 @@ const { RiotApi } = require("./api/RiotApi");
 const cors = require("cors");
 const express = require("express");
 
+const SERVER_TAG = "[server]";
+
 /*
  ENV VARIABLES
 */
@@ -63,6 +65,11 @@ class Server {
 
   async getAccountByGameName(req, res) {
     const { gameName, tagLine } = req.query;
+    console.debug(
+      `${SERVER_TAG} Get account by game name called with`,
+      gameName,
+      tagLine,
+    );
 
     try {
       const url = RiotApi.getAccountByGameNameUrl(gameName, tagLine);
@@ -75,6 +82,7 @@ class Server {
 
   async getAccountByPuuid(req, res) {
     const { puuid } = req.query;
+    console.debug(`${SERVER_TAG} Get account by puuid called with`, puuid);
 
     try {
       const url = RiotApi.getAccountByPuuidUrl(puuid);
@@ -87,6 +95,7 @@ class Server {
 
   async getMatchesByPuuid(req, res) {
     const ids = req.query;
+    console.debug(`${SERVER_TAG} Get matches by puuid called with`, ids);
 
     try {
       const url = RiotApi.getMatchesByPuuidUrl(ids);
@@ -99,10 +108,10 @@ class Server {
 
   async getMatchById(req, res) {
     const { matchId } = req.query;
+    console.debug(`${SERVER_TAG} Get match by id called with`, matchId);
 
     try {
       const url = RiotApi.getMatchByIdUrl(matchId);
-      console.log(url);
       const response = await RiotApi.fetch(url);
       return res.json(response);
     } catch (error) {
@@ -115,6 +124,10 @@ class Server {
       log(`running on http://localhost:${SERVER_PORT}`);
     });
   }
+}
+
+function debug() {
+  console.debug(`${SERVER_TAG}`);
 }
 
 function log(string) {

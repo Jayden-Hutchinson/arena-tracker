@@ -69,7 +69,6 @@ class RiotApi {
 
     const data = await response.json();
     if (!response.ok) {
-      console.log(response);
       log(`Error (${response.status}): ${data.status.message}\n${url}`);
     }
 
